@@ -1,0 +1,23 @@
+{
+    "name": "fruitful/data",
+    "description": "",
+    "authors": [
+        {
+            "name": "Arran Jacques",
+            "email": "arranjacques@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Fruitful\\Data": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
