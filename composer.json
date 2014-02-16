@@ -13,7 +13,12 @@
     },
     "autoload": {
         "classmap": [
-            "src/migrations"
+            "src/components",
+            "src/contracts",
+            "src/controllers",
+            "src/libraries",
+            "src/migrations",
+            "src/repositories"
         ],
         "psr-0": {
             "Fruitful\\Data": "src/"
