@@ -65,6 +65,18 @@ class DataServiceProvider extends ServiceProvider
 			}
 		);
 		$this->app->bind(
+			'Fruitful\Data\Contracts\DataSetInterface',
+			function() {
+				return new \Fruitful\Data\Libraries\DataSet;
+			}
+		);
+		$this->app->bind(
+			'Fruitful\Data\Contracts\DataSetsInterface',
+			function() {
+				return new \Fruitful\Data\Libraries\DataSets;
+			}
+		);
+		$this->app->bind(
 			'Fruitful\Data\Contracts\DataSetTemplatesInterface',
 			function() {
 				return new \Fruitful\Data\Libraries\DataSetTemplates;
@@ -74,6 +86,12 @@ class DataServiceProvider extends ServiceProvider
 			'Fruitful\Data\Contracts\DataSetTemplateInterface',
 			function() {
 				return new \Fruitful\Data\Libraries\DataSetTemplate;
+			}
+		);
+		$this->app->bind(
+			'Fruitful\Data\Repositories\Contracts\DataSetsRepository',
+			function() {
+				return new \Fruitful\Data\Repositories\EloquentDataSetsRepository;
 			}
 		);
 		$this->app->bind(

@@ -21,35 +21,35 @@ interface DataSetTemplateInterface
 	public function messages();
 
 	/**
-	 * Return the Data Set Template’s ID.
+	 * Return the Data Set Template's ID.
 	 *
 	 * @return	String
 	 */
 	public function ID();
 
 	/**
-	 * Return the Data Set Template’s Name.
+	 * Return the Data Set Template's Name.
 	 *
 	 * @return	String
 	 */
 	public function name();
 
 	/**
-	 * Return the Data Set Template’s Component’s URI.
+	 * Return the Data Set Template's Component's URI.
 	 *
 	 * @return	String
 	 */
 	public function componentURI();
 
 	/**
-	 * Return the Data Set Template’s Component’s Name.
+	 * Return the Data Set Template's Component's Name.
 	 *
 	 * @return	String
 	 */
 	public function componentName();
 
 	/**
-	 * Return the Data Set Template’s Component’s template settings.
+	 * Return the Data Set Template's Component's template settings.
 	 *
 	 * @return	Array
 	 */
@@ -80,7 +80,7 @@ interface DataSetTemplateInterface
 	public function setComponent($component);
 
 	/**
-	 * Set the Data Set Template’s Component’s template settings.
+	 * Set the Data Set Template's Component's template settings.
 	 *
 	 * @param	Array
 	 * @return	Void

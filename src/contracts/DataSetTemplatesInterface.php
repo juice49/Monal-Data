@@ -4,8 +4,8 @@ namespace Fruitful\Data\Contracts;
  * Data Set Templates Interface.
  *
  * A contract for a Data Set Templates library to follow. The Data
- * Set Templates library provides general functions for working with
- * Data Set Template.
+ * Set Templates library provides helper functions for working with
+ * Data Set Templates.
  *
  * @author	Arran Jacques
  */
@@ -13,10 +13,9 @@ namespace Fruitful\Data\Contracts;
 interface DataSetTemplatesInterface
 {
 	/**
-	 * Create a new instance of a Data Set Template.
+	 * Create a new blank Data Set Temaplte model.
 	 *
-	 * @param	String
-	 * @return	Fruitful\Data\Libraries\DataSetTemplate
+	 * @return	Fruitful\Data\Contracts\DataSetTemplateInterface
 	 */
 	public function make();
 

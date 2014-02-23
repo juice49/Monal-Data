@@ -42,7 +42,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	public $name = null;
 
 	/**
-	 * An instance of the Component’s class that the Data Set Template is
+	 * An instance of the Component's class that the Data Set Template is
 	 * using.
 	 *
 	 * @var		String
@@ -78,7 +78,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	}
 
 	/**
-	 * Return the Data Set Template’s ID.
+	 * Return the Data Set Template's ID.
 	 *
 	 * @return	String
 	 */
@@ -88,7 +88,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	}
 
 	/**
-	 * Return the Data Set Template’s Name.
+	 * Return the Data Set Template's Name.
 	 *
 	 * @return	String
 	 */
@@ -98,7 +98,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	}
 
 	/**
-	 * Return the Data Set Template’s Component’s URI.
+	 * Return the Data Set Template's Component's URI.
 	 *
 	 * @return	String
 	 */
@@ -108,7 +108,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	}
 
 	/**
-	 * Return the Data Set Template’s Component’s Name.
+	 * Return the Data Set Template's Component's Name.
 	 *
 	 * @return	String
 	 */
@@ -118,7 +118,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	}
 
 	/**
-	 * Return the Data Set Template’s Component’s template settings.
+	 * Return the Data Set Template's Component's template settings.
 	 *
 	 * @return	Array
 	 */
@@ -161,7 +161,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	}
 
 	/**
-	 * Set the Data Set Template’s Component’s template settings.
+	 * Set the Data Set Template's Component's template settings.
 	 *
 	 * @param	Array
 	 * @return	Void

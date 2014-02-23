@@ -13,10 +13,9 @@ use Fruitful\Data\Contracts\DataSetTemplatesInterface;
 class DataSetTemplates implements DataSetTemplatesInterface
 {
 	/**
-	 * Create a new instance of a Data Set Template.
+	 * Create a new blank Data Set Temaplte model.
 	 *
-	 * @param	String
-	 * @return	Fruitful\Data\Libraries\DataSetTemplate
+	 * @return	Fruitful\Data\Contracts\DataSetTemplateInterface
 	 */
 	public function make()
 	{
@@ -34,7 +33,7 @@ class DataSetTemplates implements DataSetTemplatesInterface
 	 */
 	public function extractDataSetTemplatesFromInput($input)
 	{
-		$data_sets = new \Illuminate\Database\Eloquent\Collection;
+		$data_set_templates = new \Illuminate\Database\Eloquent\Collection;
 		foreach ($input as $key => $value) {
 			if (strpos($key, '-component') !== false) {
 				$data_set = array(
@@ -56,9 +55,9 @@ class DataSetTemplates implements DataSetTemplatesInterface
 				$data_set_template->setName($data_set['name']);
 				$data_set_template->setComponent($data_set['component']);
 				$data_set_template->setComponentSettings($data_set['component_settings']);
-				$data_sets->add($data_set_template);
+				$data_set_templates->add($data_set_template);
 			}
 		}
-		return $data_sets;
+		return $data_set_templates;
 	}
 }

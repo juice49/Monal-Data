@@ -4,7 +4,7 @@ namespace Fruitful\Data\Contracts;
  * Components Interface.
  *
  * A contract for a Components library to follow. The Components
- * library provides general functions for working with Components.
+ * library provides helper functions for working with Components.
  *
  * @author	Arran Jacques
  */

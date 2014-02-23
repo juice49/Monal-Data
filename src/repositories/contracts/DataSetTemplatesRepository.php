@@ -29,7 +29,7 @@ interface DataSetTemplatesRepository
 	public function retrieve($key = null);
 
 	/**
-	 * Write a Data Set Template to the repository.
+	 * Write a Data Set Template model to the repository.
 	 *
 	 * @param	Fruitful\Data\Contracts\DataSetTemplateInterface
 	 * @return	Boolean

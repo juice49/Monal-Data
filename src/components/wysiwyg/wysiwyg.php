@@ -88,7 +88,7 @@ class WYSIWYG implements ComponentInterface
 	}
 
 	/**
-	 * Construct the template settings for a WYSIWYG template.
+	 * Construct a set of template settings for a WYSIWYG template.
 	 *
 	 * @param	Array
 	 * @return	Array
@@ -125,6 +125,66 @@ class WYSIWYG implements ComponentInterface
 			$custom_settings = \View::make('components::wysiwyg.views.types.Advanced')->render();
 		}
 		return \View::make('components::wysiwyg.views.template', compact('uri', 'settings', 'options', 'custom_settings'));
+	}
+
+	/**
+	 * Check an array of implementation values validate against a set of
+	 * template settings.
+	 *
+	 * @param	Array
+	 * @param	Array
+	 * @return	Boolean
+	 */
+	public function implementationValuesValidate(array $values = array(), array $setting = array())
+	{
+		return true;
+	}
+
+	/**
+	 * Convert a set of valid component values into as simple a format as
+	 * possible for easy storage.
+	 *
+	 * @param	Array
+	 * @return	String
+	 */
+	public function stripImplementationValues(array $values = array())
+	{
+		return isset($values['wysiwyg']) ? $values['wysiwyg'] : null;
+	}
+
+	/**
+	 * Convert a set of simplified values into a more complex array of
+	 * values.
+	 *
+	 * @param	String
+	 * @return	Array
+	 */
+	public function dressImplementationValues($values)
+	{
+		return array('wysiwyg' => $values);
+	}
+
+	/**
+	 * Return an interface that lets a user use a WYSIWYG.
+	 *
+	 * @param	String
+	 * @param	Array
+	 * @param	Array
+	 * @return	Illuminate\View\View
+	 */
+	public function implementationView($uri, array $settings = array(), array $values = array())
+	{
+		$wysiwyg_settings = '';
+		if (isset($settings['type'])) {
+			if ($settings['type'] === 'Custom') {
+				if (isset($settings['custom_settings'])) {
+					$wysiwyg_settings = $settings['custom_settings'];
+				}
+			} else {
+				$wysiwyg_settings = \View::make('components::wysiwyg.views.types.' . $settings['type'])->render();
+			}
+		}
+		return \View::make('components::wysiwyg.views.implementation', compact('uri', 'settings', 'wysiwyg_settings', 'values'));
 	}
 
 	/**

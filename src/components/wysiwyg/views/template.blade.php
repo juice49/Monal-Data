@@ -7,6 +7,8 @@
 	</div>
 	<div class="js--custom_settings--{{ $uri }} control_block">
 		{{ Form::label($uri . '-custom_settings', 'Custom Settings', array('class' => 'label--block')) }}
+		<label for="{{ $uri . '-custom_settings' }}" class="label--block label--description">See <a href="http://imperavi.com/redactor/docs/settings" target="_blank">Redactor’s documentation</a> for information on available settings.
+</label>
 		{{ Form::textarea($uri . '-custom_settings', $custom_settings, array('class' => 'textarea--default')) }}
 	</div>
 </div>

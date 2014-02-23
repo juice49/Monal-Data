@@ -1,9 +1,6 @@
 @extends('../dashboard')
-@section('master-head')
-	<script src="{{ URL::to('packages/fruitful/data/js/components.js') }}"></script>
-@stop
 @section('body-header')
-	<h1 class="color--teal">Edit Data Set Template</h1>
+	<h1 class="color--teal">Edit Data Set</h1>
 @stop
 @section('body-content')
 
@@ -19,10 +16,10 @@
 	@endif
 
 	{{ Form::open() }}
-		{{ $data_set_template->view(true) }}
+		{{ $data_set->view() }}
 		<div class="form__controls form__controls--standard control_block">
 			<div class="form__controls__left">
-				<a href="{{ URL::route('admin.data-set-templates') }}" class="button button--mustard">Cancel</a>
+				<a href="{{ URL::route('admin.data-sets') }}" class="button button--mustard">Cancel</a>
 			</div>
 			<div class="form__controls__right align--right">
 				{{ Form::submit('Update', array('class' => 'button button--wasabi')) }}

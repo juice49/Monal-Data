@@ -57,7 +57,7 @@ class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTem
 	}
 
 	/**
-	 * Check the Data Set Template validates for storage.
+	 * Check the Data Set Template model validates for storage.
 	 *
 	 * @param	Fruitful\Data\Contracts\DataSetTemplateInterface
 	 * @return	Boolean
@@ -85,7 +85,8 @@ class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTem
 	}
 
 	/**
-	 * Encode a Data Set Template so it is ready to be stored in the repository.
+	 * Encode a Data Set Template model so it is ready to be stored in
+	 * the repository.
 	 *
 	 * @param	Fruitful\Data\Contracts\DataSetTemplateInterface
 	 * @return	Array
@@ -138,7 +139,7 @@ class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTem
 	}
 
 	/**
-	 * Write a Data Set Template to the repository.
+	 * Write a Data Set Template model to the repository.
 	 *
 	 * @param	Fruitful\Data\Contracts\DataSetTemplateInterface
 	 * @return	Boolean
