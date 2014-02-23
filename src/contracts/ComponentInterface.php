@@ -69,7 +69,7 @@ interface ComponentInterface
 	 * @param	Array
 	 * @return	Boolean
 	 */
-	public function implementationValuesValidate(array $values = array(), array $setting = array());
+	public function implementationValuesValidate(array $values = array(), array $settings = array());
 
 	/**
 	 * Convert a set of valid component values into as simple a format as

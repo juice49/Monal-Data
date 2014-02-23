@@ -1,18 +1,16 @@
 <?php
 namespace Fruitful\Data\Components;
 /**
- * WYSIWYG Component.
+ * Text Component.
  *
- * A WYSIWYG component to provide text editing functionality for
- * users. The class provides functions for generating WYSIWYG
- * templates, and implementations of those templates.
+ * A Text component to provide basic text input capabilities.
  *
  * @author	Arran Jacques
  */
 
 use Fruitful\Data\Contracts\ComponentInterface;
 
-class WYSIWYG implements ComponentInterface
+class Text implements ComponentInterface
 {
 	/**
 	 * Instance of class implementing MessagesInterface.
@@ -48,7 +46,7 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function uri()
 	{
-		return 'wysiwyg';
+		return 'text';
 	}
 
 	/**
@@ -58,12 +56,12 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function name()
 	{
-		return 'WYSIWYG';
+		return 'Text';
 	}
 
 	/**
 	 * Check an array of settings validate and are suitable to be used as
-	 * a template for a new implementations of the WYSIWYG component.
+	 * a template for a new implementations of the Text component.
 	 *
 	 * @param	Array
 	 * @return	Boolean
@@ -74,9 +72,14 @@ class WYSIWYG implements ComponentInterface
 			$settings,
 			array(
 				'type' => 'required',
+				'limit_length' => 'required_if:limit,1|numeric',
+				'limit_type' => 'required_if:limit,1',
 			),
 			array(
-				'type.required' => 'You need to set a Type for this WYSIWYG.'
+				'type.required' => 'You need to set a Type for this Text Component.',
+				'limit_length.required_if' => 'You need to set a Limit Length for this Text Component.',
+				'limit_length.numeric' => 'The Limit Length must be a numerical value.',
+				'limit_type.required_if' => 'You need to set a Limit Type for this Text Component.',
 			)
 		);
 		if ($validation->passes()) {
@@ -88,7 +91,7 @@ class WYSIWYG implements ComponentInterface
 	}
 
 	/**
-	 * Construct a set of template settings for a WYSIWYG template.
+	 * Construct a set of template settings for a Text template.
 	 *
 	 * @param	Array
 	 * @return	Array
@@ -97,20 +100,18 @@ class WYSIWYG implements ComponentInterface
 	{
 		$template_settings = array(
 			'type' => isset($settings['type']) ? $settings['type'] : null,
+			'limit' => isset($settings['limit']) ? $settings['limit'] : 0,
 			);
-		if ($template_settings['type'] == 'Custom') {
-			if (isset($settings['custom_settings'])) {
-				$template_settings['custom_settings'] = $settings['custom_settings'];
-			} else {
-				$template_settings['custom_settings'] = View::make('components::wysiwyg.views.types.Advanced')->render();
-			}
+		if ($template_settings['limit']) {
+			$template_settings['limit_length'] = isset($settings['limit_length']) ? $settings['limit_length'] : null;
+			$template_settings['limit_type'] = isset($settings['limit_type']) ? $settings['limit_type'] : null;
 		}
 		return $template_settings;
 	}
 
 	/**
 	 * Return an interface that a user can use to configure settings for
-	 * a new or existing WYSIWYG template.
+	 * a new or existing Text template.
 	 *
 	 * @param	String
 	 * @param	Array
@@ -118,13 +119,15 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function templateView($uri, array $settings = array())
 	{
-		$options = $this->wysiwygTypes();
-		if (isset($settings['custom_settings'])) {
-			$custom_settings = $settings['custom_settings'];
-		} else {
-			$custom_settings = \View::make('components::wysiwyg.views.types.Advanced')->render();
-		}
-		return \View::make('components::wysiwyg.views.template', compact('uri', 'settings', 'options', 'custom_settings'));
+		$types = array(
+			'block' => 'Block',
+			'single-line' => 'Single Line',
+		);
+		$limit_types = array(
+			'characters' => 'Characters',
+			'words' => 'Words',
+		);
+		return \View::make('components::text.views.template', compact('uri', 'settings', 'types', 'limit_types'));
 	}
 
 	/**
@@ -137,6 +140,37 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function implementationValuesValidate(array $values = array(), array $settings = array())
 	{
+		if (
+			isset($settings['limit']) AND
+			$settings['limit'] AND
+			isset($settings['limit_length']) AND
+			isset($settings['limit_type']) AND
+			isset($values['text'])
+		) {
+			if ($settings['limit_type'] === 'characters') {
+				if (strlen($values['text']) > $settings['limit_length']) {
+					$this->messages->add(
+						array(
+							'error' => array(
+								'The content entered must be less than ' . $settings['limit_length'] . ' characters long.'
+							)
+						)
+					);
+					return false;
+				}
+			} elseif ($settings['limit_type'] === 'words'){
+				if (str_word_count($values['text']) > $settings['limit_length']) {
+					$this->messages->add(
+						array(
+							'error' => array(
+								'The content entered must be less than ' . $settings['limit_length'] . ' words.'
+							)
+						)
+					);
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 
@@ -149,7 +183,7 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function stripImplementationValues(array $values = array())
 	{
-		return isset($values['wysiwyg']) ? $values['wysiwyg'] : null;
+		return isset($values['text']) ? $values['text'] : null;
 	}
 
 	/**
@@ -161,11 +195,11 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function dressImplementationValues($values)
 	{
-		return array('wysiwyg' => $values);
+		return array('text' => $values);
 	}
 
 	/**
-	 * Return an interface that lets a user use a WYSIWYG.
+	 * Return an interface that lets a user use a Text Component.
 	 *
 	 * @param	String
 	 * @param	Array
@@ -174,34 +208,6 @@ class WYSIWYG implements ComponentInterface
 	 */
 	public function implementationView($uri, array $settings = array(), array $values = array())
 	{
-		$wysiwyg_settings = '';
-		if (isset($settings['type'])) {
-			if ($settings['type'] === 'Custom') {
-				if (isset($settings['custom_settings'])) {
-					$wysiwyg_settings = $settings['custom_settings'];
-				}
-			} else {
-				$wysiwyg_settings = \View::make('components::wysiwyg.views.types.' . $settings['type'])->render();
-			}
-		}
-		return \View::make('components::wysiwyg.views.implementation', compact('uri', 'settings', 'wysiwyg_settings', 'values'));
-	}
-
-	/**
-	 * Return the available WYSIWYG types.
-	 *
-	 * @return	Array
-	 */
-	public function wysiwygTypes()
-	{
-		$settings = array();
-		foreach (scandir(__DIR__ . '/views/types') as $file) {
-			if (substr($file, -10) === '.blade.php') {
-				$file_start = substr_replace($file, '', -10);
-				$settings[$file_start] = $file_start;
-			}
-		}
-		$settings['Custom'] = 'Custom';
-		return $settings;
+		return \View::make('components::text.views.implementation', compact('uri', 'settings', 'values'));
 	}
 }

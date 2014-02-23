@@ -19,7 +19,10 @@ class Components implements ComponentsInterface
 	 */
 	public function available()
 	{
-		return array('wysiwyg' => 'WYSIWYG');
+		return array(
+			'text' => 'Text',
+			'wysiwyg' => 'WYSIWYG',
+		);
 	}
 
 	/**
@@ -29,7 +32,10 @@ class Components implements ComponentsInterface
 	 */
 	public function resourceMap()
 	{
-		return array('wysiwyg' => '\Fruitful\Data\Components\WYSIWYG');
+		return array(
+			'text' => '\Fruitful\Data\Components\Text',
+			'wysiwyg' => '\Fruitful\Data\Components\WYSIWYG',
+		);
 	}
 
 	/**
