@@ -49,6 +49,15 @@ class DataServiceProvider extends ServiceProvider
 				'Delete Data Set Template' => 'delete_data_set_template',
 			)
 		);
+		\Fruitful::registerPermissionSet(
+			'Data Stream Templates',
+			'data_stream_templates',
+			array(
+				'Create Data Stream Template' => 'create_data_stream_template',
+				'Edit Data Stream Template' => 'edit_data_stream_template',
+				'Delete Data Stream Template' => 'delete_data_stream_template',
+			)
+		);
 	}
 
 	/**
@@ -98,6 +107,19 @@ class DataServiceProvider extends ServiceProvider
 			'Fruitful\Data\Repositories\Contracts\DataSetTemplatesRepository',
 			function() {
 				return new \Fruitful\Data\Repositories\EloquentDataSetTemplatesRepository;
+			}
+		);
+
+		$this->app->bind(
+			'Fruitful\Data\Models\DataStreamTemplate',
+			function() {
+				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;
+			}
+		);
+		$this->app->bind(
+			'Fruitful\Data\Repositories\DataStreamTemplatesRepository',
+			function() {
+				return new \Fruitful\Data\Repositories\EloquentDataStreamTemplatesRepository;
 			}
 		);
 	}

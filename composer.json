@@ -18,6 +18,7 @@
             "src/controllers",
             "src/libraries",
             "src/migrations",
+            "src/models",
             "src/repositories"
         ],
         "psr-0": {
