@@ -1,69 +1,69 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Fruitful\Data\Models;
 /**
  * Data Set.
  *
- * Implementation of the DataSetInterface.
+ * The Fruitful System's implementation of the DataSet interface.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Contracts\DataSetInterface;
-use Fruitful\Data\Contracts\ComponentInterface;
+use Fruitful\Data\Models\DataSet;
+use Fruitful\Data\Components\ComponentInterface;
 
-class DataSet implements DataSetInterface
+class FruitfulDataSet implements DataSet
 {
 	/**
-	 * Instance of class implementing MessagesInterface.
+	 * The Data Set's messages.
 	 *
 	 * @var		 Fruitful\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
 	/**
-	 * Instance of class implementing ComponentsInterface.
+	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Contracts\ComponentsInterface
+	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
 	/**
-	 * Data Set's ID.
+	 * The Data Set's ID.
 	 *
 	 * @var		Integer
 	 */
-	public $id = null;
+	protected $id = null;
 
 	/**
-	 * Data Set's name.
+	 * The Data Set's Name.
 	 *
 	 * @var		String
 	 */
-	public $name = null;
+	protected $name = null;
 
 	/**
-	 * ID of the Data Set Template the Data Set implements.
+	 * The ID of the Data Set Template the Data Set is implementing.
 	 *
 	 * @var		Integer
 	 */
-	public $template_id = null;
+	protected $template_id = null;
 
 	/**
-	 * An instance of the Component's class that the Data Set is using.
+	 * An instance of the Component the Data Set Template is using.
 	 *
-	 * @var		Fruitful\Data\Contracts\ComponentInterface
+	 * @var		Fruitful\Data\Components\ComponentInterface
 	 */
 	protected $component = null;
 
 	/**
-	 * Data Set's component settings.
+	 * The Data Set Template's Component's settings.
 	 *
 	 * @var		Array
 	 */
 	protected $component_settings = array();
 
 	/**
-	 * Data Set's component values.
+	 * The Data Set Template's Component's values.
 	 *
 	 * @var		Array
 	 */
@@ -77,7 +77,7 @@ class DataSet implements DataSetInterface
 	public function __construct()
 	{
 		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
-		$this->components = \App::make('Fruitful\Data\Contracts\ComponentsInterface');
+		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
 	}
 
 	/**
@@ -183,9 +183,10 @@ class DataSet implements DataSetInterface
 	}
 
 	/**
-	 * Set the Template ID the Data Set implements.
+	 * Set the ID for the Data Set Template that the Data Set is
+	 * implementing.
 	 *
-	 * @param	String
+	 * @param	Integer
 	 * @return	Void
 	 */
 	public function setTemplateID($id)
@@ -227,7 +228,7 @@ class DataSet implements DataSetInterface
 	}
 
 	/**
-	 * Check if the Data Set has been given a component type.
+	 * Check if the Data Set has been set a Component type.
 	 *
 	 * @return	Boolean
 	 */
@@ -257,7 +258,7 @@ class DataSet implements DataSetInterface
 			$data_set_validates = false;
 			$this->messages->add($validation->messages()->toArray());
 		}
-		if ($this->component instanceof ComponentInterface) {
+		if ($this->hasComponent()) {
 			if ($this->component->implementationValuesValidate($this->component_values, $this->component_settings)) {
 				$component_validates = true;
 			} else {
@@ -269,8 +270,7 @@ class DataSet implements DataSetInterface
 	}
 
 	/**
-	 * Return an interface that a user can use to create or update a Data
-	 * Set.
+	 * Return the Data Set's interface.
 	 *
 	 * @param	Boolean
 	 * @return	Illuminate\View\View

@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Repositories\Contracts;
+namespace Fruitful\Data\Repositories;
 /**
  * Data Sets Repository.
  *
@@ -9,7 +9,7 @@ namespace Fruitful\Data\Repositories\Contracts;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Contracts\DataSetInterface;
+use Fruitful\Data\Models\DataSet;
 
 interface DataSetsRepository
 {
@@ -21,18 +21,33 @@ interface DataSetsRepository
 	public function messages();
 
 	/**
+	 * Return a new Data Set model.
+	 *
+	 * @return	Fruitful\Data\Models\DataSet
+	 */
+	public function newModel();
+
+	/**
+	 * Check a Data Set model validates for storage.
+	 *
+	 * @param	Fruitful\Data\Models\DataSet
+	 * @return	Boolean
+	 */
+	public function validatesForStorage(DataSet $data_set);
+
+	/**
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Contracts\DataSetInterface
+	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataSet
 	 */
 	public function retrieve($key = null);
 
 	/**
 	 * Write a Data Set model to the repository.
 	 *
-	 * @param	Fruitful\Data\Contracts\DataSetInterface
+	 * @param	Fruitful\Data\Models\DataSet
 	 * @return	Boolean
 	 */
-	public function write(DataSetInterface $data_set);
+	public function write(DataSet $data_set);
 }

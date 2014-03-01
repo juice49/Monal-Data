@@ -14,7 +14,6 @@
     "autoload": {
         "classmap": [
             "src/components",
-            "src/contracts",
             "src/controllers",
             "src/libraries",
             "src/migrations",

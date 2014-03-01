@@ -60,7 +60,7 @@
 						</table>
 						<div class="node__y--top align--right">
 							@if($system_user->hasAdminPermissions('data_set_templates', 'edit_data_set_template'))
-								<a href="{{ URL::route('admin.data-set-templates.edit', $data_set_template->id) }}" class="button button--small button--dusk">Edit</a>
+								<a href="{{ URL::route('admin.data-set-templates.edit', $data_set_template->ID()) }}" class="button button--small button--dusk">Edit</a>
 							@endif
 							@if($system_user->hasAdminPermissions('data_set_templates', 'delete_data_set_template'))
 								<span class="button button--small button--cuban_heat">Delete</span>

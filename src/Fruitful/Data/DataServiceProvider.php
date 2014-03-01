@@ -68,52 +68,51 @@ class DataServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->app->bind(
-			'Fruitful\Data\Contracts\ComponentsInterface',
+			'Fruitful\Data\Libraries\ComponentsInterface',
 			function() {
 				return new \Fruitful\Data\Libraries\Components;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Contracts\DataSetInterface',
-			function() {
-				return new \Fruitful\Data\Libraries\DataSet;
-			}
-		);
-		$this->app->bind(
-			'Fruitful\Data\Contracts\DataSetsInterface',
+			'Fruitful\Data\Libraries\DataSetsInterface',
 			function() {
 				return new \Fruitful\Data\Libraries\DataSets;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Contracts\DataSetTemplatesInterface',
+			'Fruitful\Data\Libraries\DataSetTemplatesInterface',
 			function() {
 				return new \Fruitful\Data\Libraries\DataSetTemplates;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Contracts\DataSetTemplateInterface',
+			'Fruitful\Data\Models\DataSet',
 			function() {
-				return new \Fruitful\Data\Libraries\DataSetTemplate;
+				return new \Fruitful\Data\Models\FruitfulDataSet;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Repositories\Contracts\DataSetsRepository',
+			'Fruitful\Data\Models\DataSetTemplate',
+			function() {
+				return new \Fruitful\Data\Models\FruitfulDataSetTemplate;
+			}
+		);
+		$this->app->bind(
+			'Fruitful\Data\Models\DataStreamTemplate',
+			function() {
+				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;
+			}
+		);
+		$this->app->bind(
+			'Fruitful\Data\Repositories\DataSetsRepository',
 			function() {
 				return new \Fruitful\Data\Repositories\EloquentDataSetsRepository;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Repositories\Contracts\DataSetTemplatesRepository',
+			'Fruitful\Data\Repositories\DataSetTemplatesRepository',
 			function() {
 				return new \Fruitful\Data\Repositories\EloquentDataSetTemplatesRepository;
-			}
-		);
-
-		$this->app->bind(
-			'Fruitful\Data\Models\DataStreamTemplate',
-			function() {
-				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;
 			}
 		);
 		$this->app->bind(

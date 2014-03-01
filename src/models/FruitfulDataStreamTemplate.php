@@ -10,7 +10,7 @@ namespace Fruitful\Data\Models;
  */
 
 use Fruitful\Data\Models\DataStreamTemplate;
-use Fruitful\Data\Libraries\DataSetTemplate;
+use Fruitful\Data\Models\DataSetTemplate;
 
 class FruitfulDataStreamTemplate implements DataStreamTemplate
 {
@@ -103,7 +103,7 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 	 */
 	public function setID($id)
 	{
-		$this->id = $id ? $id : null;
+		$this->id = $id;
 	}
 
 	/**
@@ -120,7 +120,7 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 	/**
 	 * Add a Data Set Template to the Data Stream Template.
 	 *
-	 * @param	Fruitful\Data\Libraries\DataSetTemplate
+	 * @param	Fruitful\Data\Models\DataSetTemplate
 	 * @return	Void
 	 */
 	public function addDataSetTemplate(DataSetTemplate $data_set_template)

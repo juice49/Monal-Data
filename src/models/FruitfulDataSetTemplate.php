@@ -1,56 +1,56 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Fruitful\Data\Models;
 /**
- * Data Set Template.
+ * Fruitful Data Set Template.
  *
- * Implementation of the DataSetTemplateInterface.
+ * The Fruitful System's implementation of the DataSetTemplate
+ * interface.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Contracts\DataSetTemplateInterface;
-use Fruitful\Data\Contracts\ComponentInterface;
+use Fruitful\Data\Models\DataSetTemplate;
+use Fruitful\Data\Components\ComponentInterface;
 
-class DataSetTemplate implements DataSetTemplateInterface
+class FruitfulDataSetTemplate implements DataSetTemplate
 {
 	/**
-	 * Instance of class implementing MessagesInterface.
+	 * The Data Set Template's messages.
 	 *
 	 * @var		 Fruitful\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
 	/**
-	 * Instance of class implementing ComponentsInterface.
+	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Contracts\ComponentsInterface
+	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
 	/**
-	 * Data Set Template's ID.
+	 * The Data Set Template's ID.
 	 *
 	 * @var		String
 	 */
-	public $id = null;
+	protected $id = null;
 
 	/**
-	 * Data Set Template's name.
+	 * The Data Set Template's Name.
 	 *
 	 * @var		String
 	 */
-	public $name = null;
+	protected $name = null;
 
 	/**
-	 * An instance of the Component's class that the Data Set Template is
-	 * using.
+	 * An instance of the Component the Data Set Template is using.
 	 *
-	 * @var		String
+	 * @var		Fruitful\Data\Components\ComponentInterface
 	 */
 	protected $component = null;
 
 	/**
-	 * Data Set Template's component settings.
+	 * The Data Set Template's Component's settings.
 	 *
 	 * @var		Array
 	 */
@@ -64,7 +64,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	public function __construct()
 	{
 		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
-		$this->components = \App::make('Fruitful\Data\Contracts\ComponentsInterface');
+		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
 	}
 
 	/**
@@ -135,7 +135,7 @@ class DataSetTemplate implements DataSetTemplateInterface
 	 */
 	public function setID($id)
 	{
-		$this->id = is_numeric($id) ? $id : null;
+		$this->id = $id;
 	}
 
 	/**
@@ -168,11 +168,21 @@ class DataSetTemplate implements DataSetTemplateInterface
 	 */
 	public function setComponentSettings(array $settings)
 	{
-		if ($this->component instanceof ComponentInterface) {
+		if ($this->hasComponent()) {
 			$this->component_settings =  $this->component->constructTemplateSettings($settings);
 		} else {
 			$this->component_settings = array();
 		}
+	}
+
+	/**
+	 * Check if the Data Set Template has been set a Component type.
+	 *
+	 * @return	Boolean
+	 */
+	public function hasComponent()
+	{
+		return ($this->component instanceof ComponentInterface) ? true : false;
 	}
 
 	/**
@@ -190,12 +200,12 @@ class DataSetTemplate implements DataSetTemplateInterface
 		$data['component'] = $this->componentURI();
 		$validation = \Validator::make($data, $validation_rules, $validation_messages);
 		if ($validation->passes()) {
-			$data_validates = true;
+			$template_validates = true;
 		} else {
-			$data_validates = false;
+			$template_validates = false;
 			$this->messages->add($validation->messages()->toArray());
 		}
-		if ($this->component instanceof ComponentInterface) {
+		if ($this->hasComponent()) {
 			if ($this->component->templateSettingsValidate($this->component_settings)) {
 				$component_validates = true;
 			} else {
@@ -203,12 +213,11 @@ class DataSetTemplate implements DataSetTemplateInterface
 				$this->messages->add($this->component->messages()->toArray());
 			}
 		}
-		return ($data_validates AND $component_validates) ? true : false;
+		return ($template_validates AND $component_validates) ? true : false;
 	}
 
 	/**
-	 * Return an interface that a user can use to configure settings for
-	 * a new or existing Data Set Template.
+	 * Return the Data Set Template's interface.
 	 *
 	 * @param	Boolean
 	 * @param	Boolean

@@ -17,7 +17,7 @@
 				url: _APP_BASEURL + 'ajax',
 				dataType: 'json',
 				data: {
-					_use: 'DataSetTemaplatesAJAXController@componentTemplate',
+					_use: 'ComponentsAJAXController@componentTemplate',
 					type: type,
 					uri: uri
 				},

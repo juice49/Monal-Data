@@ -11,46 +11,46 @@
  */
 
 use Fruitful\Core\Contracts\GatewayInterface;
-use Fruitful\Data\Contracts\DataSetsInterface;
-use Fruitful\Data\Contracts\DataSetTemplatesInterface;
-use Fruitful\Data\Contracts\ComponentsInterface;
-use Fruitful\Data\Repositories\Contracts\DataSetsRepository;
-use Fruitful\Data\Repositories\Contracts\DataSetTemplatesRepository;
+use Fruitful\Data\Libraries\DataSetsInterface;
+use Fruitful\Data\Libraries\DataSetTemplatesInterface;
+use Fruitful\Data\Libraries\ComponentsInterface;
+use Fruitful\Data\Repositories\DataSetsRepository;
+use Fruitful\Data\Repositories\DataSetTemplatesRepository;
 
 class DataSetsController extends AdminController
 {
 	/**
-	 * Instance of class implementing DataSetsInterface.
+	 * An instance of the Data Sets library. 
 	 *
-	 * @var		 Fruitful\Data\Contracts\DataSetsInterface
+	 * @var		 Fruitful\Data\Libraries\DataSetsInterface
 	 */
 	protected $data_sets;
 
 	/**
-	 * Instance of class implementing DataSetTemplatesInterface.
+	 * An instance of the Data Set Templates library. 
 	 *
-	 * @var		 Fruitful\Data\Contracts\DataSetTemplatesInterface
+	 * @var		 Fruitful\Data\Libraries\DataSetTemplatesInterface
 	 */
 	protected $data_set_templates;
 
 	/**
-	 * Instance of class implementing ComponentsInterface.
+	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Contracts\ComponentsInterface
+	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
 	/**
-	 * Instance of class implementing DataSetsRepository.
+	 * An instance the of the Data Sets Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\Contracts\DataSetsRepository
+	 * @var		 Fruitful\Data\Repositories\DataSetsRepository
 	 */
 	protected $data_sets_repo;
 
 	/**
-	 * Instance of class implementing DataSetTemplatesRepository.
+	 * An instance the of the Data Set Templates Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\Contracts\DataSetTemplatesRepository
+	 * @var		 Fruitful\Data\Repositories\DataSetTemplatesRepository
 	 */
 	protected $data_set_templates_repo;
 
@@ -140,7 +140,7 @@ class DataSetsController extends AdminController
 			return Redirect::route('admin.data-sets');
 		}
 		if ($data_set_template = $this->data_set_templates_repo->retrieve($id)) {
-			$data_set = $this->data_sets->make();
+			$data_set = $this->data_sets_repo->newModel();
 			$data_set->setTemplateID($id);
 			$data_set->setComponent($data_set_template->componentURI());
 			$data_set->setComponentSettings($data_set_template->componentSettings());
@@ -244,7 +244,7 @@ class DataSetsController extends AdminController
 				$this->system->messages->add(
 					array(
 						'success' => array(
-							'You successfully created the Data Set Template "' . $data_set_template->name . '".',
+							'You successfully created the Data Set Template "' . $data_set_template->name() . '".',
 						)
 					)
 				)->flash();
@@ -252,7 +252,7 @@ class DataSetsController extends AdminController
 			}
 			$this->system->messages->add($this->data_set_templates_repo->messages()->toArray());
 		} else {
-			$data_set_template = $this->data_set_templates->make();
+			$data_set_template = $this->data_set_templates_repo->newModel();
 		}
 		$messages = $this->system->messages->get();
 		return View::make('data::data_set_templates.create_data_set_template', compact('messages', 'data_set_template'));
@@ -278,7 +278,7 @@ class DataSetsController extends AdminController
 					$this->system->messages->add(
 						array(
 							'success' => array(
-								'You successfully updated the Data Set Template "' . $data_set_template->name . '".',
+								'You successfully updated the Data Set Template "' . $data_set_template->name() . '".',
 							)
 						)
 					)->flash();

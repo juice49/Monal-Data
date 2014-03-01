@@ -42,7 +42,7 @@
 				<a href="{{ URL::route('admin.data-stream-templates') }}" class="button button--mustard">Cancel</a>
 			</div>
 			<div class="form__controls__right align--right">
-				{{ Form::submit('Updated', array('class' => 'button button--wasabi')) }}
+				{{ Form::submit('Update', array('class' => 'button button--wasabi')) }}
 			</div>
 		</div>
 	{{ Form::close() }}

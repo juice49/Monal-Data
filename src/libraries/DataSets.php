@@ -3,36 +3,25 @@ namespace Fruitful\Data\Libraries;
 /**
  * Data Sets.
  *
- * Implementation of the DataSetsInterface.
+ * A Data Sets helper library implementing the DataSetsInterface.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Contracts\DataSetsInterface;
-use Fruitful\Data\Libraries\DataSetTemplate;
+use Fruitful\Data\Libraries\DataSetsInterface;
 
 class DataSets implements DataSetsInterface
 {
 	/**
-	 * Create a new blank Data Set model.
-	 *
-	 * @return	Fruitful\Data\Contracts\DataSetInterface
-	 */
-	public function make()
-	{
-		return \App::make('Fruitful\Data\Contracts\DataSetInterface');
-	}
-
-	/**
 	 * Sort through input data and identify values that belong to
-	 * instances of a Data Setm and Group the values together.
+	 * instances of a Data Sets and Group the values together.
 	 *
 	 * @param	Array
 	 * @return	Illuminate\Database\Eloquent\Collection
 	 */
 	public function extractDataSetValuesFromInput(array $input)
 	{
-		$data_sets = new \Illuminate\Database\Eloquent\Collection;
+		$data_sets = \App::make('Illuminate\Database\Eloquent\Collection');
 		foreach ($input as $key => $value) {
 			if (strpos($key, '-data_set') !== false) {
 				$data_set = array(

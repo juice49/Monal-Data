@@ -1,16 +1,16 @@
 <?php
-namespace Fruitful\Data\Contracts;
+namespace Fruitful\Data\Models;
 /**
  * Data Set Interface.
  *
  * A model for a Data Set. This is a contract for implementations of
- * this model to follow. The model defines the name, Component and
- * the Component’s values for the Data Set.
+ * this model to follow. The model defines the name, Component,
+ * Component settings and Component values for the Data Set.
  *
  * @author	Arran Jacques
  */
 
-interface DataSetInterface
+interface DataSet
 {
 	/**
 	 * Return the Data Set's messages.
@@ -85,9 +85,10 @@ interface DataSetInterface
 	public function setName($name);
 
 	/**
-	 * Set the Template ID the Data Set implements.
+	 * Set the ID for the Data Set Template that the Data Set is
+	 * implementing.
 	 *
-	 * @param	String
+	 * @param	Integer
 	 * @return	Void
 	 */
 	public function setTemplateID($id);
@@ -117,7 +118,7 @@ interface DataSetInterface
 	public function setComponentValues(array $values);
 
 	/**
-	 * Check if the Data Set has been given a component type.
+	 * Check if the Data Set has been set a Component type.
 	 *
 	 * @return	Boolean
 	 */
@@ -133,8 +134,7 @@ interface DataSetInterface
 	public function validates(array $validation_rules = array(), array $validation_messages = array());
 
 	/**
-	 * Return an interface that a user can use to create or update a Data
-	 * Set.
+	 * Return the Data Set's interface.
 	 *
 	 * @param	Boolean
 	 * @return	Illuminate\View\View

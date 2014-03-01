@@ -8,12 +8,12 @@ namespace Fruitful\Data\Components;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Contracts\ComponentInterface;
+use Fruitful\Data\Components\ComponentInterface;
 
 class Text implements ComponentInterface
 {
 	/**
-	 * Instance of class implementing MessagesInterface.
+	 * The Component's messages.
 	 *
 	 * @var		 Fruitful\Core\Contracts\MessagesInterface
 	 */

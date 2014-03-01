@@ -11,7 +11,7 @@ namespace Fruitful\Data\Models;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Libraries\DataSetTemplate;
+use Fruitful\Data\Models\DataSetTemplate;
 
 interface DataStreamTemplate
 {

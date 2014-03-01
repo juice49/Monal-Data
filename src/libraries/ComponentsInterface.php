@@ -1,10 +1,10 @@
 <?php
-namespace Fruitful\Data\Contracts;
+namespace Fruitful\Data\Libraries;
 /**
  * Components Interface.
  *
- * A contract for a Components library to follow. The Components
- * library provides helper functions for working with Components.
+ * A library of general/helper methods for working with Components.
+ * This is a contract for implementations of this library to follow.
  *
  * @author	Arran Jacques
  */
@@ -29,7 +29,7 @@ interface ComponentsInterface
 	 * Create a new instance of a component type.
 	 *
 	 * @param	String
-	 * @return	Fruitful\Data\Contracts\ComponentInterface
+	 * @return	Fruitful\Data\Components\ComponentInterface
 	 */
 	public function make($component_uri);
 }

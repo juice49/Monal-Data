@@ -3,47 +3,40 @@ namespace Fruitful\Data\Repositories;
 /**
  * Eloquent Data Sets Repository.
  *
- * Implementation of the DataSetsRepository using Laravel’s
- * Eloquent ORM. Provides CURD functions for the repository.
+ * The Fruitful System's implementation of the DataSetsRepository
+ * using Laravel’s Eloquent ORM.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Repositories\Contracts\DataSetsRepository;
-use Fruitful\Data\Contracts\DataSetInterface;
+use Fruitful\Data\Repositories\DataSetsRepository;
+use Fruitful\Data\Models\DataSet;
 
 class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 {
 	/**
-	 * Instance of class implementing MessagesInterface.
+	 * The repository's messages.
 	 *
 	 * @var		 Fruitful\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
 	/**
-	 * Instance of class implementing ComponentsInterface.
+	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Contracts\ComponentsInterface
+	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
 	/**
-	 * Instance of class implementing DataSetsInterface.
+	 * An instance the of the Data Set Templates Repository.
 	 *
-	 * @var		 Fruitful\Data\Contracts\DataSetsInterface
-	 */
-	protected $data_sets;
-
-	/**
-	 * Instance of class implementing DataSetTemplatesRepository.
-	 *
-	 * @var		 Fruitful\Data\Repositories\Contracts\DataSetTemplatesRepository
+	 * @var		 Fruitful\Data\Repositories\DataSetTemplatesRepository
 	 */
 	protected $data_set_templates_repo;
 
 	/**
-	 * Database table the repository uses.
+	 * The database table the repository uses.
 	 *
 	 * @var		String
 	 */
@@ -57,9 +50,8 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	public function __construct()
 	{
 		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
-		$this->components = \App::make('Fruitful\Data\Contracts\ComponentsInterface');
-		$this->data_sets = \App::make('Fruitful\Data\Contracts\DataSetsInterface');
-		$this->data_set_templates_repo = \App::make('Fruitful\Data\Repositories\Contracts\DataSetTemplatesRepository');
+		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+		$this->data_set_templates_repo = \App::make('Fruitful\Data\Repositories\DataSetTemplatesRepository');
 	}
 
 	/**
@@ -73,12 +65,22 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	}
 
 	/**
+	 * Return a new Data Set model.
+	 *
+	 * @return	Fruitful\Data\Models\DataSet
+	 */
+	public function newModel()
+	{
+		return \App::make('Fruitful\Data\Models\DataSet');
+	}
+
+	/**
 	 * Check a Data Set model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Contracts\DataSetInterface
+	 * @param	Fruitful\Data\Models\DataSet
 	 * @return	Boolean
 	 */
-	public function validatesForStorage(DataSetInterface $data_set)
+	public function validatesForStorage(DataSet $data_set)
 	{
 		$unique_exception = ($data_set->ID()) ? ',' . $data_set->ID() : null;
 		$validation_rules = array(
@@ -107,10 +109,10 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	 * Encode a Data Set model so it is ready to be stored in the
 	 * repository.
 	 *
-	 * @param	Fruitful\Data\Contracts\DataSetInterface
+	 * @param	Fruitful\Data\Models\DataSet
 	 * @return	Array
 	 */
-	protected function encodeForStorage(DataSetInterface $data_set)
+	protected function encodeForStorage(DataSet $data_set)
 	{
 		$data_set_template = $this->data_set_templates_repo->retrieve($data_set->templateID());
 		$stripped_values = $this->components->make($data_set_template->componentURI())
@@ -125,11 +127,11 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	/**
 	 * Decode a Data Set repository entry into its model class.
 	 *
-	 * @return	Fruitful\Data\Contracts\DataSetInterface
+	 * @return	Fruitful\Data\Models\DataSet
 	 */
 	protected function decodeFromStorage()
 	{
-		$data_set = $this->data_sets->make();
+		$data_set = $this->newModel();
 		$data_set->setID($this->id);
 		$data_set->setName($this->name);
 		$data_set->setTemplateID($this->template);
@@ -147,13 +149,13 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Contracts\DataSetInterface
+	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataSet
 	 */
 	public function retrieve($key = null)
 	{
 		if (!$key) {
 			$entires = self::all();
-			$data_sets = new \Illuminate\Database\Eloquent\Collection;
+			$data_sets = \App::make('Illuminate\Database\Eloquent\Collection');
 			foreach ($entires as $entry) {
 				$data_sets->add($entry->decodeFromStorage());
 			}
@@ -169,14 +171,14 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	/**
 	 * Write a Data Set model to the repository.
 	 *
-	 * @param	Fruitful\Data\Contracts\DataSetInterface
+	 * @param	Fruitful\Data\Models\DataSet
 	 * @return	Boolean
 	 */
-	public function write(DataSetInterface $data_set)
+	public function write(DataSet $data_set)
 	{
 		if ($this->validatesForStorage($data_set)) {
 			$encoded = $this->encodeForStorage($data_set);
-			if ($data_set->id) {
+			if ($data_set->ID()) {
 				if (
 					$this->where('id', '=', $data_set->ID())->update(
 						array(

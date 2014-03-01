@@ -3,12 +3,12 @@ namespace Fruitful\Data\Libraries;
 /**
  * Components.
  *
- * Implementation of the ComponentsInterface.
+ * A Components helper library implementing the ComponentsInterface.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Contracts\ComponentsInterface;
+use Fruitful\Data\Libraries\ComponentsInterface;
 
 class Components implements ComponentsInterface
 {
@@ -42,7 +42,7 @@ class Components implements ComponentsInterface
 	 * Create a new instance of a component type.
 	 *
 	 * @param	String
-	 * @return	Fruitful\Data\Contracts\ComponentInterface
+	 * @return	Fruitful\Data\Components\ComponentInterface
 	 */
 	public function make($component_uri)
 	{

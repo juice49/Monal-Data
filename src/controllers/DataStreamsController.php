@@ -11,15 +11,15 @@
  */
 
 use Fruitful\Core\Contracts\GatewayInterface;
-use Fruitful\Data\Contracts\DataSetTemplatesInterface;
+use Fruitful\Data\Libraries\DataSetTemplatesInterface;
 use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
 
 class DataStreamsController extends AdminController
 {
 	/**
-	 * Instance of class implementing DataSetTemplatesInterface.
+	 * An instance of the Data Sets library.
 	 *
-	 * @var		 Fruitful\Data\Contracts\DataSetTemplatesInterface
+	 * @var		  Fruitful\Data\Libraries\DataSetTemplatesInterface
 	 */
 	protected $data_set_templates;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Contracts;
+namespace Fruitful\Data\Components;
 /**
  * Component Interface.
  *

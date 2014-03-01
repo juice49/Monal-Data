@@ -22,7 +22,7 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	protected $messages;
 
 	/**
-	 * Database table the repository uses.
+	 * The database table the repository uses.
 	 *
 	 * @var		String
 	 */
@@ -123,7 +123,7 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 		$data_stream_template->setName($this->name);
 		$data_set_templates = json_decode($this->data_set_templates, true);
 		foreach ($data_set_templates as $encoded_data_set_template) {
-			$data_set_template = \App::make('Fruitful\Data\Libraries\DataSetTemplate');
+			$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
 			$data_set_template->setName($encoded_data_set_template['name']);
 			$data_set_template->setComponent($encoded_data_set_template['component']);
 			$data_set_template->setComponentSettings($encoded_data_set_template['component_settings']);
