@@ -57,6 +57,20 @@ Route::any(
 	)
 );
 Route::any(
+	'admin/data-streams/create/choose-data-stream-template',
+	array(
+		'as' => 'admin.data-streams.choose-template',
+		'uses' => 'DataStreamsController@chooseDataStreamTemplate'
+	)
+);
+Route::any(
+	'admin/data-streams/create/{id}',
+	array(
+		'as' => 'admin.data-streams.create',
+		'uses' => 'DataStreamsController@createDataStream'
+	)
+);
+Route::any(
 	'admin/data-stream-templates',
 	array(
 		'as' => 'admin.data-stream-templates',
@@ -67,13 +81,13 @@ Route::any(
 	'admin/data-stream-templates/create',
 	array(
 		'as' => 'admin.data-stream-templates.create',
-		'uses' => 'DataStreamsController@createStreamTemplate'
+		'uses' => 'DataStreamsController@createDataStreamTemplate'
 	)
 );
 Route::any(
 	'admin/data-stream-templates/edit/{id}',
 	array(
 		'as' => 'admin.data-stream-templates.edit',
-		'uses' => 'DataStreamsController@editStreamTemplate'
+		'uses' => 'DataStreamsController@editDataStreamTemplate'
 	)
 );

@@ -114,14 +114,15 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	 * Decode a Data Stream Template repository entry into its model
 	 * class.
 	 *
+	 * @param	stdClass
 	 * @return	Fruitful\Data\Models\DataStreamTemplate
 	 */
-	protected function decodeFromStorage()
+	public function decodeFromStorage($results)
 	{
 		$data_stream_template = $this->newModel();
-		$data_stream_template->setID($this->id);
-		$data_stream_template->setName($this->name);
-		$data_set_templates = json_decode($this->data_set_templates, true);
+		$data_stream_template->setID($results->id);
+		$data_stream_template->setName($results->name);
+		$data_set_templates = json_decode($results->data_set_templates, true);
 		foreach ($data_set_templates as $encoded_data_set_template) {
 			$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
 			$data_set_template->setName($encoded_data_set_template['name']);
@@ -140,16 +141,17 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	 */
 	public function retrieve($key = null)
 	{
+		$query = \DB::table($this->table)->select('*');
 		if (!$key) {
-			$results = self::all();
+			$results = $query->get();
 			$data_stream_templates = \App::make('Illuminate\Database\Eloquent\Collection');
 			foreach ($results as &$result) {
-				$data_stream_templates->add($result->decodeFromStorage());
+				$data_stream_templates->add($this->decodeFromStorage($result));
 			}
 			return $data_stream_templates;
 		} else {
-			if ($result = self::find($key)) {
-				return $result->decodeFromStorage();
+			if ($result = $query->find($key)) {
+				return $this->decodeFromStorage($result);
 			}
 		}
 		return false;
@@ -166,21 +168,20 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 		if ($this->validatesForStorage($data_stream_template)) {
 			$encoded = $this->encodeForStorage($data_stream_template);
 			if ($data_stream_template->ID()) {
-				if (
-					$this->where('id', '=', $data_stream_template->ID())->update(
-							array(
-							'name' => $encoded['name'],
-							'data_set_templates' => $encoded['data_set_templates'],
-						)
+				\DB::table($this->table)->where('id', '=', $data_stream_template->ID())->update(
+						array(
+						'name' => $encoded['name'],
+						'data_set_templates' => $encoded['data_set_templates'],
 					)
-				) {
-					return true;
-				}
+				);
+				return true;
 			} else {
-				$entry = new self;
-				$entry->name = $encoded['name'];
-				$entry->data_set_templates = $encoded['data_set_templates'];
-				return $entry->save() ? true : false;
+				\DB::table($this->table)->insert(array(
+						'name' => $encoded['name'],
+						'data_set_templates' => $encoded['data_set_templates']
+					)
+				);
+				return true;
 			}
 		}
 		return false;

@@ -38,6 +38,15 @@ interface DataStreamTemplatesRepository
 	public function validatesForStorage(DataStreamTemplate $data_stream_template);
 
 	/**
+	 * Decode a Data Stream Template repository entry into its model
+	 * class.
+	 *
+	 * @param	stdClass
+	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 */
+	public function decodeFromStorage($results);
+
+	/**
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer

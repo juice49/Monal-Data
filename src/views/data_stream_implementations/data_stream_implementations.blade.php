@@ -6,7 +6,7 @@
 
 	@if($system_user->hasAdminPermissions('data_streams', 'create_data_stream'))
 		<div class="align--right">
-			<a href="{{ URL::route('admin.data-sets.create.choose') }}" class="button button--wasabi">Create data stream</a>
+			<a href="{{ URL::route('admin.data-streams.choose-template') }}" class="button button--wasabi">Create data stream</a>
 		</div>
 	@endif
 
@@ -43,6 +43,32 @@
 
 	<div class="node__y--top">
 		<ul class="wall__tiles">
+			@foreach ($data_streams as $data_stream)
+				<li class="tile">
+					<div class="tile__content">
+						<table class="tile__table">
+							<tbody>
+								<tr>
+									<td><span class="tile__table--row_title">Name:</span></td>
+									<td>{{ $data_stream->name() }}</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="node__y--top align--right">
+							@if($system_user->hasAdminPermissions('data_streams', 'create_stream_entry'))
+								<a href="{{ URL::route('admin.data-sets.edit', $data_stream->ID()) }}" class="button button--small button--wasabi">Add entry</a>
+							@endif
+							<a href="" class="button button--small button--mist">View</a>
+							@if($system_user->hasAdminPermissions('data_streams', 'edit_data_stream'))
+								<a href="{{ URL::route('admin.data-sets.edit', $data_stream->ID()) }}" class="button button--small button--dusk">Edit</a>
+							@endif
+							@if($system_user->hasAdminPermissions('data_streams', 'delete_data_stream'))
+								<span class="button button--small button--cuban_heat">Delete</span>
+							@endif
+						</div>
+					</div>
+				</li>
+			@endforeach
 		</ul>
 	</div>
 

@@ -5,7 +5,7 @@ namespace Fruitful\Data\Models;
  *
  * A model for a Data Stream Template. This is a contract for
  * implementations of this model to follow. The model defines the
- * name and Data Sets that a Data Stream will inherit if it implements
+ * Name and Data Sets that a Data Stream will inherit if it implements
  * this Data Stream Template.
  *
  * @author	Arran Jacques

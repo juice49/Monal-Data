@@ -113,7 +113,7 @@ class FruitfulDataSet implements DataSet
 	/**
 	 * Return the ID of the Data Set Template the Data Set is implementing.
 	 *
-	 * @return	String
+	 * @return	Integer
 	 */
 	public function templateID()
 	{
@@ -168,7 +168,7 @@ class FruitfulDataSet implements DataSet
 	 */
 	public function setID($id)
 	{
-		$this->id = is_numeric($id) ? $id : null;
+		$this->id = (integer) $id;
 	}
 
 	/**

@@ -12,6 +12,7 @@
 
 use Fruitful\Core\Contracts\GatewayInterface;
 use Fruitful\Data\Libraries\DataSetTemplatesInterface;
+use Fruitful\Data\Repositories\DataStreamsRepository;
 use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
 
 class DataStreamsController extends AdminController
@@ -24,7 +25,14 @@ class DataStreamsController extends AdminController
 	protected $data_set_templates;
 
 	/**
-	 * An instance the of the Data Streams Template Repository.
+	 * An instance the of the Data Streams Repository.
+	 *
+	 * @var		 Fruitful\Data\Repositories\DataStreamsRepository
+	 */
+	protected $data_streams_repo;
+
+	/**
+	 * An instance the of the Data Stream Templates Repository.
 	 *
 	 * @var		 Fruitful\Data\Repositories\DataStreamTemplatesRepository
 	 */
@@ -38,10 +46,12 @@ class DataStreamsController extends AdminController
 	public function __construct(
 		GatewayInterface $system_gateway,
 		DataSetTemplatesInterface $data_set_templates,
+		DataStreamsRepository $data_streams_repo,
 		DataStreamTemplatesRepository $data_stream_templates_repo
 		) {
 		parent::__construct($system_gateway);
 		$this->data_set_templates = $data_set_templates;
+		$this->data_streams_repo = $data_streams_repo;
 		$this->data_stream_templates_repo = $data_stream_templates_repo;
 	}
 
@@ -56,8 +66,87 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_streams')) {
 			return Redirect::route('admin.dashboard');
 		}
+		$data_streams = $this->data_streams_repo->retrieve();
 		$messages = $this->system->messages->get();
-		return View::make('data::data_stream_implementations.data_stream_implementations', compact('messages'));
+		return View::make('data::data_stream_implementations.data_stream_implementations', compact('messages', 'data_streams'));
+	}
+
+	/**
+	 * Mediate HTTP requests to create new Data Stream and output the
+	 * results.
+	 *
+	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
+	 */
+	public function chooseDataStreamTemplate()
+	{
+		if (!$this->system->user->hasAdminPermissions('data_streams', 'create_data_stream')) {
+			return Redirect::route('admin.data-streams');
+		}
+		if ($this->input) {
+			$validation = Validator::make(
+				$this->input,
+				array(
+					'data_stream_template' => 'required|not_in:0',
+				),
+				array(
+					'data_stream_template.required' => 'You need to choose a Template to use for this Data Set.',
+					'data_stream_template.not_in' => 'You need to choose a Template to use for this Data Set.',
+				)
+			);
+			if ($validation->passes()) {
+				return Redirect::route('admin.data-streams.create', $this->input['data_stream_template']);
+			}
+			$this->system->messages->add($validation->messages()->toArray());
+		}
+		$data_stream_templates = array(0 => 'Choose template...');
+		foreach ($this->data_stream_templates_repo->retrieve() as $data_stream_template) {
+			$data_stream_templates[$data_stream_template->ID()] = $data_stream_template->name();
+		}
+		$messages = $this->system->messages->get();
+		return View::make('data::data_stream_implementations.choose_data_stream_template', compact('messages', 'data_stream_templates'));
+	}
+
+	/**
+	 * Mediate HTTP requests to create new Data Stream and output the
+	 * results.
+	 *
+	 * @param	Integer
+	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
+	 */
+	public function createDataStream($id)
+	{
+		if (!$this->system->user->hasAdminPermissions('data_streams', 'create_data_stream')) {
+			return Redirect::route('admin.data-streams');
+		}
+		$data_stream = $this->data_streams_repo->newModel();
+		if ($data_stream_template = $this->data_stream_templates_repo->retrieve($id)) {
+			$data_stream->setTemplate($data_stream_template);
+			if ($this->input) {
+				$data_stream->setName(isset($this->input['name']) ? $this->input['name'] : null);
+				foreach ($this->input as $key => $value) {
+					if (substr($key, 0, 8) === 'preview-') {
+						$data_stream->addPreviewColumn($value);
+					}
+				}
+				if ($this->data_streams_repo->write($data_stream)) {
+					$this->system->messages->add(
+						array(
+							'success' => array(
+								'You successfully created the Data Stream "' . $data_stream->name() . '".',
+							)
+						)
+					)->flash();
+					return Redirect::route('admin.data-streams');
+				}
+				$this->system->messages->add($this->data_streams_repo->messages()->toArray());
+			}
+			$messages = $this->system->messages->get();
+			return View::make(
+				'data::data_stream_implementations.create_data_stream_implementation',
+				compact('messages', 'data_stream')
+			);
+		}
+		return Redirect::route('admin.data-streams');
 	}
 
 	/**
@@ -82,10 +171,10 @@ class DataStreamsController extends AdminController
 	 *
 	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
 	 */
-	public function createStreamTemplate()
+	public function createDataStreamTemplate()
 	{
 		if (!$this->system->user->hasAdminPermissions('data_stream_templates', 'create_data_stream_template')) {
-			return Redirect::route('admin.dashboard');
+			return Redirect::route('admin.data-stream-templates');
 		}
 		$data_stream_template = $this->data_stream_templates_repo->newModel();
 		$data_set_templates = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input);
@@ -116,10 +205,10 @@ class DataStreamsController extends AdminController
 	 *
 	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
 	 */
-	public function editStreamTemplate($id)
+	public function editDataStreamTemplate($id)
 	{
 		if (!$this->system->user->hasAdminPermissions('data_stream_templates', 'edit_data_stream_template')) {
-			return Redirect::route('admin.dashboard');
+			return Redirect::route('admin.data-stream-templates');
 		}
 		if ($data_stream_template = $this->data_stream_templates_repo->retrieve($id)) {
 			if ($this->input) {
@@ -144,6 +233,6 @@ class DataStreamsController extends AdminController
 			$messages = $this->system->messages->get();
 			return View::make('data::data_stream_templates.edit_data_stream_template', compact('messages', 'data_stream_template'));
 		}
-		return 'no';
+		return Redirect::route('admin.data-stream-templates');
 	}
 }

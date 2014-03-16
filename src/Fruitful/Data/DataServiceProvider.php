@@ -98,6 +98,12 @@ class DataServiceProvider extends ServiceProvider
 			}
 		);
 		$this->app->bind(
+			'Fruitful\Data\Models\DataStream',
+			function() {
+				return new \Fruitful\Data\Models\FruitfulDataStream;
+			}
+		);
+		$this->app->bind(
 			'Fruitful\Data\Models\DataStreamTemplate',
 			function() {
 				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;
@@ -113,6 +119,12 @@ class DataServiceProvider extends ServiceProvider
 			'Fruitful\Data\Repositories\DataSetTemplatesRepository',
 			function() {
 				return new \Fruitful\Data\Repositories\EloquentDataSetTemplatesRepository;
+			}
+		);
+		$this->app->bind(
+			'Fruitful\Data\Repositories\DataStreamsRepository',
+			function() {
+				return new \Fruitful\Data\Repositories\EloquentDataStreamsRepository;
 			}
 		);
 		$this->app->bind(

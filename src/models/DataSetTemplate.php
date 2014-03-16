@@ -5,7 +5,7 @@ namespace Fruitful\Data\Models;
  *
  * A model for a Data Set Template. This is a contract for
  * implementations of this model to follow. The model defines the
- * name, Component and Component settings that a Data Set will
+ * Name, Component and Component settings that a Data Set will
  * inherit if it implements this Data Set Template.
  *
  * @author	Arran Jacques

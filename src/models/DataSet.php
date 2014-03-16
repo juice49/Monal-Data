@@ -4,7 +4,7 @@ namespace Fruitful\Data\Models;
  * Data Set Interface.
  *
  * A model for a Data Set. This is a contract for implementations of
- * this model to follow. The model defines the name, Component,
+ * this model to follow. The model defines the Name, Component,
  * Component settings and Component values for the Data Set.
  *
  * @author	Arran Jacques
