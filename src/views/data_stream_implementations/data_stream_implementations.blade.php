@@ -56,11 +56,11 @@
 						</table>
 						<div class="node__y--top align--right">
 							@if($system_user->hasAdminPermissions('data_streams', 'create_stream_entry'))
-								<a href="{{ URL::route('admin.data-sets.edit', $data_stream->ID()) }}" class="button button--small button--wasabi">Add entry</a>
+								<a href="" class="button button--small button--wasabi">Add entry</a>
 							@endif
 							<a href="" class="button button--small button--mist">View</a>
 							@if($system_user->hasAdminPermissions('data_streams', 'edit_data_stream'))
-								<a href="{{ URL::route('admin.data-sets.edit', $data_stream->ID()) }}" class="button button--small button--dusk">Edit</a>
+								<a href="{{ URL::route('admin.data-streams.edit', $data_stream->ID()) }}" class="button button--small button--dusk">Edit</a>
 							@endif
 							@if($system_user->hasAdminPermissions('data_streams', 'delete_data_stream'))
 								<span class="button button--small button--cuban_heat">Delete</span>

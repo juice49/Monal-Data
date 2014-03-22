@@ -1,7 +1,7 @@
 <?php
 
-Route::any('
-	admin/data-sets', 
+Route::any(
+	'admin/data-sets', 
 	array(
 		'as' => 'admin.data-sets',
 		'uses' => 'DataSetsController@dataSets'
@@ -68,6 +68,13 @@ Route::any(
 	array(
 		'as' => 'admin.data-streams.create',
 		'uses' => 'DataStreamsController@createDataStream'
+	)
+);
+Route::any(
+	'admin/data-streams/edit/{id}',
+	array(
+		'as' => 'admin.data-streams.edit',
+		'uses' => 'DataStreamsController@editDataStream'
 	)
 );
 Route::any(

@@ -12,7 +12,7 @@ namespace Fruitful\Data\Repositories;
 use Fruitful\Data\Repositories\DataStreamsRepository;
 use Fruitful\Data\Models\DataStream;
 
-class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepository
+class EloquentDataStreamsRepository implements DataStreamsRepository
 {
 	/**
 	 * The repository's messages.
@@ -123,8 +123,10 @@ class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepo
 		$data_stream = $this->newModel();
 		$data_stream->setID($result->id);
 		$data_stream->setName($result->name);
-		foreach (explode(',', $result->preview_columns) as $preview_column) {
-			$data_stream->addPreviewColumn($preview_column);
+		if ($result->preview_columns != '') {
+			foreach (explode(',', $result->preview_columns) as $preview_column) {
+				$data_stream->addPreviewColumn($preview_column);
+			}
 		}
 		$data_stream_templates_repo = \App::make('Fruitful\Data\Repositories\DataStreamTemplatesRepository');
 		$template = new \stdClass;
@@ -144,29 +146,28 @@ class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepo
 	 */
 	public function retrieve($key = null)
 	{
-		if (!$key) {
-			$results = \DB::table('data_streams')->select(
-				array(
-					'data_streams.id',
-					'data_streams.name',
-					'data_streams.template',
-					'data_streams.preview_columns',
-					'data_stream_templates.id as template_id',
-					'data_stream_templates.name as template_name',
-					'data_stream_templates.table_prefix as template_table_prefix',
-					'data_stream_templates.data_set_templates as template_data_set_templates',
-				)
+		$query = \DB::table($this->table)->select(
+			array(
+				'data_streams.id',
+				'data_streams.name',
+				'data_streams.template',
+				'data_streams.preview_columns',
+				'data_stream_templates.id as template_id',
+				'data_stream_templates.name as template_name',
+				'data_stream_templates.table_prefix as template_table_prefix',
+				'data_stream_templates.data_set_templates as template_data_set_templates',
 			)
-			->join('data_stream_templates', 'data_streams.id', '=', 'data_stream_templates.id')
-			->get();
+		) ->join('data_stream_templates', 'data_streams.template', '=', 'data_stream_templates.id');
+		if (!$key) {
+			$results = $query->get();
 			$data_streams = \App::make('Illuminate\Database\Eloquent\Collection');
 			foreach ($results as &$result) {
 				$data_streams->add($this->decodeFromStorage($result));
 			}
 			return $data_streams;
 		} else {
-			if ($result = self::find($key)) {
-				return $result->decodeFromStorage();
+			if ($result = $query->where('data_streams.id', '=', $key)->first()) {
+				return $this->decodeFromStorage($result);
 			}
 		}
 		return false;
@@ -183,22 +184,22 @@ class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepo
 		if ($this->validatesForStorage($data_stream)) {
 			$encoded = $this->encodeForStorage($data_stream);
 			if ($data_stream->ID()) {
-				if (
-					$this->where('id', '=', $data_stream_template->ID())->update(
-							array(
-							'name' => $encoded['name'],
-							'data_set_templates' => $encoded['data_set_templates'],
-						)
+				\DB::table($this->table)->where('id', '=', $data_stream->ID())->update(
+					array(
+						'name' => $encoded['name'],
+						'preview_columns' => $encoded['preview_columns'],
 					)
-				) {
-					return true;
-				}
+				);
+				return true;
 			} else {
-				$entry = new self;
-				$entry->name = $encoded['name'];
-				$entry->template = $encoded['template'];
-				$entry->preview_columns = $encoded['preview_columns'];
-				return $entry->save() ? true : false;
+				\DB::table($this->table)->insert(
+					array(
+						'name' => $encoded['name'],
+						'template' => $encoded['template'],
+						'preview_columns' => $encoded['preview_columns'],
+					)
+				);
+				return true;
 			}
 		}
 		return false;

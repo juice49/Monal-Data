@@ -140,6 +140,48 @@ class DataStreamsController extends AdminController
 	}
 
 	/**
+	 * Mediate HTTP requests to update an existing Data Stream and output
+	 * the results.
+	 *
+	 * @param	Integer
+	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
+	 */
+	public function editDataStream($id)
+	{
+		if (!$this->system->user->hasAdminPermissions('data_streams', 'edit_data_stream')) {
+			return Redirect::route('admin.data-streams');
+		}
+		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
+			if ($this->input) {
+				$data_stream->setName(isset($this->input['name']) ? $this->input['name'] : null);
+				$data_stream->discardPreviewColumns();
+				foreach ($this->input as $key => $value) {
+					if (substr($key, 0, 8) === 'preview-') {
+						$data_stream->addPreviewColumn($value);
+					}
+				}
+				if ($this->data_streams_repo->write($data_stream)) {
+					$this->system->messages->add(
+						array(
+							'success' => array(
+								'You successfully updated the Data Stream "' . $data_stream->name() . '".',
+							)
+						)
+					)->flash();
+					return Redirect::route('admin.data-streams');
+				}
+				$this->system->messages->add($this->data_streams_repo->messages()->toArray());
+			}
+			$messages = $this->system->messages->get();
+			return View::make(
+				'data::data_stream_implementations.edit_data_stream_implementation',
+				compact('messages', 'data_stream')
+			);
+		}
+		return Redirect::route('admin.data-streams');
+	}
+
+	/**
 	 * Mediate HTTP requests to retrieve Data Stream Templates and output
 	 * the results.
 	 *

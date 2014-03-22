@@ -132,7 +132,7 @@ class FruitfulDataStream implements DataStream
 	 */
 	public function setName($name)
 	{
-		$this->name = $name;
+		$this->name = (string) $name;
 	}
 
 	/**
@@ -156,7 +156,17 @@ class FruitfulDataStream implements DataStream
 	 */
 	public function addPreviewColumn($id)
 	{
-		array_push($this->preview_column_ids, $id);
+		$this->preview_column_ids[(integer) $id] = (integer) $id;
+	}
+
+	/**
+	 * Discard all of the Preview Columns that have been set.
+	 *
+	 * @return	Void
+	 */
+	public function discardPreviewColumns()
+	{
+		$this->preview_column_ids = array();
 	}
 
 	/**
