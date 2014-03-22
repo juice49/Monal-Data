@@ -88,7 +88,7 @@ class DataSetsController extends AdminController
 		}
 		$data_sets = $this->data_sets_repo->retrieve();
 		$messages = $this->system->messages->get();
-		return View::make('data::data_set_implementations.data_sets', compact('messages', 'data_sets'));
+		return View::make('data::data_set_implementations.data_set_implementations', compact('messages', 'data_sets'));
 	}
 
 	/**
@@ -124,7 +124,10 @@ class DataSetsController extends AdminController
 		}
 		$data_set_templates = array(0 => 'Choose template...') + $data_set_templates;
 		$messages = $this->system->messages->get();
-		return View::make('data::data_set_implementations.choose_data_set_template', compact('messages', 'data_set_templates'));
+		return View::make(
+			'data::data_set_implementations.choose_data_set_template',
+			compact('messages', 'data_set_templates')
+		);
 	}
 
 	/**
@@ -161,7 +164,10 @@ class DataSetsController extends AdminController
 				$this->system->messages->add($this->data_sets_repo->messages()->toArray());
 			}
 			$messages = $this->system->messages->get();
-			return View::make('data::data_set_implementations.create_data_set', compact('messages', 'data_set'));
+			return View::make(
+				'data::data_set_implementations.create_data_set_implementation',
+				compact('messages', 'data_set')
+			);
 		}
 		return Redirect::route('admin.data-sets');
 	}
@@ -206,7 +212,10 @@ class DataSetsController extends AdminController
 				}
 			}
 			$messages = $this->system->messages->get();
-			return View::make('data::data_set_implementations.edit_data_set', compact('messages', 'data_set'));
+			return View::make(
+				'data::data_set_implementations.edit_data_set_implementation',
+				compact('messages', 'data_set')
+			);
 		}
 		return Redirect::route('admin.data-sets');
 	}
@@ -224,7 +233,10 @@ class DataSetsController extends AdminController
 		}
 		$data_set_templates = $this->data_set_templates_repo->retrieve();
 		$messages = $this->system->messages->get();
-		return View::make('data::data_set_templates.data_set_templates', compact('messages', 'data_set_templates'));
+		return View::make(
+			'data::data_set_templates.data_set_templates',
+			compact('messages', 'data_set_templates')
+		);
 	}
 
 	/**
@@ -255,7 +267,10 @@ class DataSetsController extends AdminController
 			$data_set_template = $this->data_set_templates_repo->newModel();
 		}
 		$messages = $this->system->messages->get();
-		return View::make('data::data_set_templates.create_data_set_template', compact('messages', 'data_set_template'));
+		return View::make(
+			'data::data_set_templates.create_data_set_template',
+			compact('messages', 'data_set_template')
+		);
 	}
 
 	/**
@@ -287,7 +302,10 @@ class DataSetsController extends AdminController
 				$this->system->messages->add($this->data_set_templates_repo->messages()->toArray());
 			}
 			$messages = $this->system->messages->get();
-			return View::make('data::data_set_templates.edit_data_set_template', compact('messages', 'data_set_template'));
+			return View::make(
+				'data::data_set_templates.edit_data_set_template',
+				compact('messages', 'data_set_template')
+			);
 		}
 		return Redirect::route('admin.data-set-templates');
 	}

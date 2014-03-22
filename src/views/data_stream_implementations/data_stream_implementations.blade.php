@@ -42,9 +42,9 @@
 	@endif
 
 	<div class="node__y--top">
-		<ul class="wall__tiles">
+		<div class="wall__tiles">
 			@foreach ($data_streams as $data_stream)
-				<li class="tile">
+				<div class="tile">
 					<div class="tile__content">
 						<table class="tile__table">
 							<tbody>
@@ -67,9 +67,9 @@
 							@endif
 						</div>
 					</div>
-				</li>
+				</div>
 			@endforeach
-		</ul>
+		</div>
 	</div>
 
 @stop
