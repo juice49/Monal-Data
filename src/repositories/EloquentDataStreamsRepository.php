@@ -124,6 +124,7 @@ class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepo
 		$template = new \stdClass;
 		$template->id = $result->template_id;
 		$template->name = $result->template_name;
+		$template->table_prefix = $result->template_table_prefix;
 		$template->data_set_templates = $result->template_data_set_templates;
 		$data_stream->setTemplate($data_stream_templates_repo->decodeFromStorage($template));
 		return $data_stream;
@@ -146,6 +147,7 @@ class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepo
 					'data_streams.preview_columns',
 					'data_stream_templates.id as template_id',
 					'data_stream_templates.name as template_name',
+					'data_stream_templates.table_prefix as template_table_prefix',
 					'data_stream_templates.data_set_templates as template_data_set_templates',
 				)
 			)

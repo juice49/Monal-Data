@@ -37,6 +37,14 @@ interface DataStreamTemplate
 	public function name();
 
 	/**
+	 * Return the prefix for the table name that the Data Stream Template
+	 * maps to.
+	 *
+	 * @return	String
+	 */
+	public function tablePrefix();
+
+	/**
 	 * Return the collection of Data Set Templates attached to the Data
 	 * Stream Template. 
 	 *
@@ -61,9 +69,18 @@ interface DataStreamTemplate
 	public function setName($name);
 
 	/**
+	 * Set a prefix for the table name that the Data Stream Template maps
+	 * to.
+	 *
+	 * @param	String
+	 * @return	Void
+	 */
+	public function setTablePrefix($prefix);
+
+	/**
 	 * Add a Data Set Template to the Data Stream Template.
 	 *
-	 * @param	Fruitful\Data\Libraries\DataSetTemplate
+	 * @param	Fruitful\Data\Models\DataSetTemplate
 	 * @return	Void
 	 */
 	public function addDataSetTemplate(DataSetTemplate $data_set_template);

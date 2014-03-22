@@ -66,14 +66,27 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	 */
 	public function validatesForStorage(DataStreamTemplate $data_stream_template)
 	{
+		// Allow alpha, numeric, hypens, underscores and space characters, and must contain at least 1 alpha character.
+		\Validator::extend('data_stream_template_name', function($attribute, $value, $parameters)
+		{
+			return (preg_match('/^[a-z0-9 \-_]+$/i', $value) AND preg_match('/[a-zA-Z]/', $value)) ? true : false;
+		});
+		// Allow alpha, hypens and underscores, and must contain at least 1 alpha character.
+		\Validator::extend('table_prefix', function($attribute, $value, $parameters)
+		{
+			return (preg_match('/^[a-z\-_]+$/i', $value) AND preg_match('/[a-zA-Z]/', $value)) ? true : false;
+		});
+
 		$unique_exception = ($data_stream_template->ID()) ? ',' . $data_stream_template->ID() : null;
 		$validation_rules = array(
-			'name' => 'required|username|unique:data_stream_templates,name' . $unique_exception,
+			'name' => 'required|data_stream_template_name|unique:data_stream_templates,name' . $unique_exception,
+			'table_prefix' => 'table_prefix',
 		);
 		$validation_messages = array(
 			'name.required' => 'You need to give this Data Stream Template a Name.',
-			'name.username' => 'The Name can only contain letters, numbers, spaces, underscores and hyphens.',
-			'name.unique' => 'Sorry, it looks like someone beat you to the punch as this Name has already taken.',
+			'name.data_stream_template_name' => 'The Name of this Data Stream Template can only contain letters, numbers, spaces, underscores and hyphens, and must contain at least 1 letter.',
+			'name.unique' => 'Aw shucks! This Name has already been used.',
+			'table_prefix.table_prefix' => 'The Table Prefix for this Data Stream Template can only contain letters, hypens and underscores.',
 		);
 		if ($data_stream_template->validates($validation_rules, $validation_messages)) {
 			return true;
@@ -94,12 +107,14 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	{
 		$encoded = array(
 			'name' => $data_stream_template->name(),
+			'table_prefix' => $data_stream_template->tablePrefix(),
 			'data_set_templates' => array(),
 		);
 		foreach ($data_stream_template->dataSetTemplates() as $data_set_template) {
 			array_push(
 				$encoded['data_set_templates'],
 				array(
+					'uri' => $data_set_template->URI(),
 					'name' => $data_set_template->name(),
 					'component' => $data_set_template->componentURI(),
 					'component_settings' => $data_set_template->componentSettings(),
@@ -122,9 +137,11 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 		$data_stream_template = $this->newModel();
 		$data_stream_template->setID($results->id);
 		$data_stream_template->setName($results->name);
+		$data_stream_template->setTablePrefix($results->table_prefix);
 		$data_set_templates = json_decode($results->data_set_templates, true);
 		foreach ($data_set_templates as $encoded_data_set_template) {
 			$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
+			$data_set_template->setURI($encoded_data_set_template['uri']);
 			$data_set_template->setName($encoded_data_set_template['name']);
 			$data_set_template->setComponent($encoded_data_set_template['component']);
 			$data_set_template->setComponentSettings($encoded_data_set_template['component_settings']);
@@ -167,20 +184,19 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	{
 		if ($this->validatesForStorage($data_stream_template)) {
 			$encoded = $this->encodeForStorage($data_stream_template);
+			$time = new \DateTime();
+			$data = array(
+				'name' => $encoded['name'],
+				'table_prefix' => $encoded['table_prefix'],
+				'data_set_templates' => $encoded['data_set_templates'],
+				'updated_at' => $time->format('Y-m-d H:i:s'),
+			);
 			if ($data_stream_template->ID()) {
-				\DB::table($this->table)->where('id', '=', $data_stream_template->ID())->update(
-						array(
-						'name' => $encoded['name'],
-						'data_set_templates' => $encoded['data_set_templates'],
-					)
-				);
+				\DB::table($this->table)->where('id', '=', $data_stream_template->ID())->update($data);
 				return true;
 			} else {
-				\DB::table($this->table)->insert(array(
-						'name' => $encoded['name'],
-						'data_set_templates' => $encoded['data_set_templates']
-					)
-				);
+				$data['created_at'] = $time->format('Y-m-d H:i:s');
+				\DB::table($this->table)->insert($data);
 				return true;
 			}
 		}

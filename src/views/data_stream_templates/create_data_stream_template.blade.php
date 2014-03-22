@@ -25,11 +25,19 @@
 				{{ Form::label('name', 'Name', array('class' => 'label--block')) }}
 				{{ Form::input('text', 'name', Input::has('name') ? Input::get('name') : null, array('class' => 'input--text')) }}
 			</div>
+			<div class="control_block">
+				{{ Form::label('table_prefix', 'Table Prefex', array('class' => 'label--block')) }}
+				{{ Form::input('text', 'table_prefix', Input::has('table_prefix') ? Input::get('table_prefix') : null, array('class' => 'input--text')) }}
+			</div>
+			<div class="control_block">
+				{{ Form::label('table_name', 'Table Name', array('class' => 'label--block')) }}
+				{{ Form::input('text', 'table_name', null, array('class' => 'input--text input--disabled', 'disabled' => 'disabled')) }}
+			</div>
 		</div>
 
 		<div class="js--data_sets">
 			@foreach ($data_stream_template->dataSetTemplates() as $data_set_template)
-				{{ $data_set_template->view(true, true) }}
+				{{ $data_set_template->view(true, true, true) }}
 			@endforeach
 		</div>
 
@@ -50,14 +58,21 @@
 	<script>
 		(function(window, jQuery){
 			'use strict';
+
+			function tableName() {
+				$('#table_name').val(snakeCaseString($('#table_prefix').val() + $('#name').val()));
+			}
+
 			$(document).ready(function(){
 				$('.js--add_data_set').on('click', function(){
 					datasets.add(function(view){
 						$('.js--data_sets').append(view);
 					});
 				});
+				$('#table_prefix, #name').on('keyup', tableName).on('change', tableName);
+				tableName();
 			});
-		})(window, jQuery)
+		})(window, jQuery);
 	</script>
 
 @stop

@@ -33,14 +33,17 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	 *
 	 * @var		String
 	 */
-	protected $id = null;
+	public $id = null;
+
+
+	protected $uri = null;
 
 	/**
 	 * The Data Set Template's Name.
 	 *
 	 * @var		String
 	 */
-	protected $name = null;
+	public $name = null;
 
 	/**
 	 * An instance of the Component the Data Set Template is using.
@@ -85,6 +88,11 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	public function ID()
 	{
 		return $this->id;
+	}
+
+	public function URI()
+	{
+		return $this->uri;
 	}
 
 	/**
@@ -135,7 +143,12 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	 */
 	public function setID($id)
 	{
-		$this->id = $id;
+		$this->id = (integer) $id;
+	}
+
+	public function setURI($uri)
+	{
+		$this->uri = (string) $uri;
 	}
 
 	/**
@@ -146,7 +159,7 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	 */
 	public function setName($name)
 	{
-		$this->name = $name;
+		$this->name = (string) $name;
 	}
 
 	/**
@@ -221,11 +234,12 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	 *
 	 * @param	Boolean
 	 * @param	Boolean
+	 * @param	Boolean
 	 * @return	Illuminate\View\View
 	 */
-	public function view($component_chooseable = false, $show_validation_messages = false)
+	public function view($component_chooseable = false, $removable = false, $show_validation_messages = false)
 	{
-		$uri = \Random::letters();
+		$uri = $this->uri ? $this->uri : \Random::letters();
 		$name = $this->name;
 		$component = $this->componentURI();
 		$component_view = ($component) ? $this->component->templateView($uri, $this->componentSettings()) : '';
@@ -240,7 +254,8 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 				'component',
 				'component_view',
 				'component_chooseable',
-				'components'
+				'components',
+				'removable'
 			)
 		);
 	}

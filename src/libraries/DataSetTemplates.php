@@ -43,6 +43,7 @@ class DataSetTemplates implements DataSetTemplatesInterface
 					}
 				}
 				$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
+				$data_set_template->setURI($uri);
 				$data_set_template->setName($data_set['name']);
 				$data_set_template->setComponent($data_set['component']);
 				$data_set_template->setComponentSettings($data_set['component_settings']);

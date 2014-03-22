@@ -15,6 +15,7 @@
         "classmap": [
             "src/components",
             "src/controllers",
+            "src/facades",
             "src/libraries",
             "src/migrations",
             "src/models",

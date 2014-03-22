@@ -179,19 +179,23 @@ class DataStreamsController extends AdminController
 		$data_stream_template = $this->data_stream_templates_repo->newModel();
 		$data_set_templates = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input);
 		if ($this->input) {
-			$data_stream_template->setName($this->input['name']);
+			$data_stream_template->setName(isset($this->input['name']) ? $this->input['name'] : null);
+			$data_stream_template->setTablePrefix(isset($this->input['table_prefix']) ? $this->input['table_prefix'] : null);
 			foreach ($data_set_templates as $data_set_template) {
 				$data_stream_template->addDataSetTemplate($data_set_template);
 			}
-			if ($this->data_stream_templates_repo->write($data_stream_template)) {
-				$this->system->messages->add(
-					array(
-						'success' => array(
-							'You successfully created the Data Stream Template "' . $data_stream_template->name() . '".',
+			if ($this->data_stream_templates_repo->validatesForStorage($data_stream_template)) {
+				if (\StreamSchema::build($data_stream_template)) {
+					$this->data_stream_templates_repo->write($data_stream_template);
+					$this->system->messages->add(
+						array(
+							'success' => array(
+								'You successfully created the Data Stream Template "' . $data_stream_template->name() . '".',
+							)
 						)
-					)
-				)->flash();
-				return Redirect::route('admin.data-stream-templates');
+					)->flash();
+					return Redirect::route('admin.data-stream-templates');
+				}
 			}
 			$this->system->messages->add($this->data_stream_templates_repo->messages()->toArray());
 		}
@@ -213,25 +217,40 @@ class DataStreamsController extends AdminController
 		if ($data_stream_template = $this->data_stream_templates_repo->retrieve($id)) {
 			if ($this->input) {
 				$data_stream_template->setName($this->input['name']);
+				$data_stream_template->setTablePrefix(isset($this->input['table_prefix']) ? $this->input['table_prefix'] : null);
 				$data_stream_template->discardDataSetTemplates();
 				$data_set_templates = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input);
 				foreach ($data_set_templates as $data_set_template) {
 					$data_stream_template->addDataSetTemplate($data_set_template);
 				}
-				if ($this->data_stream_templates_repo->write($data_stream_template)) {
+				if ($this->data_stream_templates_repo->validatesForStorage($data_stream_template)) {
+					if (\StreamSchema::update($data_stream_template)) {
+						$this->data_stream_templates_repo->write($data_stream_template);
+						$this->system->messages->add(
+							array(
+								'success' => array(
+									'You successfully updated the Data Stream Template "' . $data_stream_template->name() . '".',
+								)
+							)
+						)->flash();
+						return Redirect::route('admin.data-stream-templates');
+					}
 					$this->system->messages->add(
 						array(
-							'success' => array(
-								'You successfully updated the Data Stream Template "' . $data_stream_template->name() . '".',
+							'error' => array(
+								'There was an error making these updates.',
 							)
 						)
-					)->flash();
-					return Redirect::route('admin.data-stream-templates');
+					);
+				} else {
+					$this->system->messages->add($this->data_stream_templates_repo->messages()->toArray());
 				}
-				$this->system->messages->add($this->data_stream_templates_repo->messages()->toArray());
 			}
 			$messages = $this->system->messages->get();
-			return View::make('data::data_stream_templates.edit_data_stream_template', compact('messages', 'data_stream_template'));
+			return View::make(
+				'data::data_stream_templates.edit_data_stream_template',
+				compact('messages', 'data_stream_template')
+			);
 		}
 		return Redirect::route('admin.data-stream-templates');
 	}

@@ -69,69 +69,81 @@ class DataServiceProvider extends ServiceProvider
 	{
 		$this->app->bind(
 			'Fruitful\Data\Libraries\ComponentsInterface',
-			function() {
+			function () {
 				return new \Fruitful\Data\Libraries\Components;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Libraries\DataSetsInterface',
-			function() {
+			function () {
 				return new \Fruitful\Data\Libraries\DataSets;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Libraries\DataSetTemplatesInterface',
-			function() {
+			function () {
 				return new \Fruitful\Data\Libraries\DataSetTemplates;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Models\DataSet',
-			function() {
+			function () {
 				return new \Fruitful\Data\Models\FruitfulDataSet;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Models\DataSetTemplate',
-			function() {
+			function () {
 				return new \Fruitful\Data\Models\FruitfulDataSetTemplate;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Models\DataStream',
-			function() {
+			function () {
 				return new \Fruitful\Data\Models\FruitfulDataStream;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Models\DataStreamTemplate',
-			function() {
+			function () {
 				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataSetsRepository',
-			function() {
+			function () {
 				return new \Fruitful\Data\Repositories\EloquentDataSetsRepository;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataSetTemplatesRepository',
-			function() {
+			function () {
 				return new \Fruitful\Data\Repositories\EloquentDataSetTemplatesRepository;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataStreamsRepository',
-			function() {
+			function () {
 				return new \Fruitful\Data\Repositories\EloquentDataStreamsRepository;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataStreamTemplatesRepository',
-			function() {
+			function () {
 				return new \Fruitful\Data\Repositories\EloquentDataStreamTemplatesRepository;
 			}
 		);
+
+		// Register Facades
+		$this->app['fruitulstreamschema'] = $this->app->share(
+			function ($app) {
+				return new \Fruitful\Data\Libraries\FruitulStreamSchema;
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('StreamSchema', 'Fruitful\Data\Facades\StreamSchema');
+		});
 	}
 }
