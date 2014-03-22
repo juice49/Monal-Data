@@ -10,7 +10,7 @@
 		</div>
 	@endif
 
-	<div class="navbar">
+	<div class="node__y--top navbar">
 		<ul class="navbar__menu navbar__menu--dusk">
 			<li><a href="{{ URL::route('admin.data-streams') }}" class="navbar__menu__link">Data Streams</a></li>
 			<li><a href="{{ URL::route('admin.data-stream-templates') }}" class="navbar__menu__link">Data Stream Templates</a></li>

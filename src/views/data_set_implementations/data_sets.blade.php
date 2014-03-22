@@ -10,7 +10,7 @@
 		</div>
 	@endif
 
-	<div class="navbar">
+	<div class="node__y--top navbar">
 		<ul class="navbar__menu navbar__menu--dusk">
 			<li><a href="{{ URL::route('admin.data-sets') }}" class="navbar__menu__link">Data Sets</a></li>
 			<li><a href="{{ URL::route('admin.data-set-templates') }}" class="navbar__menu__link">Data Set Templates</a></li>
