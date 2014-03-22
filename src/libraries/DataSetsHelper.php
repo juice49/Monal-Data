@@ -1,16 +1,14 @@
 <?php
 namespace Fruitful\Data\Libraries;
 /**
- * Data Sets.
+ * Data Sets Helper.
  *
- * A Data Sets helper library implementing the DataSetsInterface.
+ * A helper library for working with Data Sets.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Libraries\DataSetsInterface;
-
-class DataSets implements DataSetsInterface
+class DataSetsHelper
 {
 	/**
 	 * Sort through input data and identify values that belong to

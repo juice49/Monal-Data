@@ -22,8 +22,8 @@
 				{{ Form::input('text', 'name', $data_stream->name(), array('class' => 'input--text')) }}
 			</div>
 			<div class="control_block">
-				<label class="label--block">Preview Data Sets</label>
-				<label class="label--block label--description">The values of the Data Sets you choose below will be show for each entry when viewing the overview of this Stream.</label>
+				<label class="label--block">Data Sets to display</label>
+				<label class="label--block label--description">Choose the Data Sets you want to display when previewing this Data Stream..</label>
 			</div>
 			@foreach ($data_stream->template()->dataSetTemplates() as $key => $data_set_template)
 				<?php $slug = 'preview-' . Str::slug($data_set_template->name()); ?>

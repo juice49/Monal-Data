@@ -82,16 +82,22 @@ class EloquentDataSetsRepository extends \Eloquent implements DataSetsRepository
 	 */
 	public function validatesForStorage(DataSet $data_set)
 	{
+		// Allow alpha, numeric, hypens, underscores and space characters.
+		\Validator::extend('data_set_name', function($attribute, $value, $parameters)
+		{
+			return preg_match('/^[a-z0-9 \-_]+$/i', $value) ? true : false;
+		});
 		$unique_exception = ($data_set->ID()) ? ',' . $data_set->ID() : null;
 		$validation_rules = array(
-			'name' => 'required|username|unique:data_sets,name' . $unique_exception,
+			'name' => 'required|max:100|data_set_name|unique:data_sets,name' . $unique_exception,
 			'template_id' => 'required|numeric',
 			'component' => 'required|not_in:0',
 		);
 		$validation_messages = array(
 			'name.required' => 'You need to give this Data Set a Name.',
-			'name.username' => 'The Name can only contain letters, numbers, spaces, underscores and hyphens.',
-			'name.unique' => 'Sorry, it looks like someone beat you to the punch as this Name has already taken.',
+			'name.max' => 'The Name of this Data Set must be no more than 100 characters long.',
+			'name.data_set_name' => 'The Name of this Data Set can only contain letters, numbers, spaces, underscores and hyphens.',
+			'name.unique' => 'Aw shucks! This Name has already been used.',
 			'template_id.required' => 'This Data Set needs to implement a Data Set Template.',
 			'template_id.numeric' => 'The ID of the Data Set Template that this Data Set implements must be a numeric value.',
 			'component.required' => 'You need to set a Component type for this Data Set.',

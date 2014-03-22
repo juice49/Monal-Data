@@ -79,14 +79,15 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 
 		$unique_exception = ($data_stream_template->ID()) ? ',' . $data_stream_template->ID() : null;
 		$validation_rules = array(
-			'name' => 'required|data_stream_template_name|unique:data_stream_templates,name' . $unique_exception,
+			'name' => 'required|max:100|data_stream_template_name|unique:data_stream_templates,name' . $unique_exception,
 			'table_prefix' => 'table_prefix',
 		);
 		$validation_messages = array(
 			'name.required' => 'You need to give this Data Stream Template a Name.',
+			'name.max' => 'The Name of this Data Stream Template must be no more than 100 characters long.',
 			'name.data_stream_template_name' => 'The Name of this Data Stream Template can only contain letters, numbers, spaces, underscores and hyphens, and must contain at least 1 letter.',
 			'name.unique' => 'Aw shucks! This Name has already been used.',
-			'table_prefix.table_prefix' => 'The Table Prefix for this Data Stream Template can only contain letters, hypens and underscores.',
+			'table_prefix.table_prefix' => 'The Table Prefix for this Data Stream Template can only contain letters, hypens and underscores, and must contain at least one letter.',
 		);
 		if ($data_stream_template->validates($validation_rules, $validation_messages)) {
 			return true;

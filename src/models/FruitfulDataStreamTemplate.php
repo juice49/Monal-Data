@@ -181,7 +181,7 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 	public function validates(array $validation_rules = array(), array $validation_messages = array())
 	{
 		// Allow alpha, numeric, hypens, underscores and space characters, and must contain at least 1 alpha character.
-		\Validator::extend('data_set_template_name', function($attribute, $value, $parameters)
+		\Validator::extend('stream_data_set_template_name', function($attribute, $value, $parameters)
 		{
 			return (preg_match('/^[a-z0-9 \-_]+$/i', $value) AND preg_match('/[a-zA-Z]/', $value)) ? true : false;
 		});
@@ -197,14 +197,15 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 		}
 		$templates_validate = true;
 		$validation_rules = array(
-			'name' => 'required|data_set_template_name',
+			'name' => 'required|max:100|stream_data_set_template_name',
 			'component' => 'required|not_in:0',
 		);
 		$validation_messages = array(
-			'name.required' => 'You need to give this Data Set Template a Name.',
-			'name.data_set_template_name' => 'The Name of this Data Set Template can only contain letters, numbers, spaces, underscores and hyphens, and must contain at least 1 letter.',
-			'component.required' => 'You need to set a Component type for this Data Set Template.',
-			'component.not_in' => 'You need to set a Component type for this Data Set Template.',
+			'name.required' => 'You need to give this Data Set a Name.',
+			'name.max' => 'The Name of this Data Set must be no more than 100 characters long.',
+			'name.stream_data_set_template_name' => 'The Name of this Data Set can only contain letters, numbers, spaces, underscores and hyphens, and must contain at least 1 letter.',
+			'component.required' => 'You need to set a Component type for this Data Set.',
+			'component.not_in' => 'You need to set a Component type for this Data Set.',
 		);
 		$data_set_template_names = array();
 		foreach ($this->data_set_templates as $data_set_template) {
@@ -213,7 +214,7 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 				$this->messages->add(
 					array(
 						'error' => array(
-							'You can’t have two Data Set Templates with the same Name.',
+							'You can’t have two Data Sets with the same Name.',
 						)
 					)
 				);

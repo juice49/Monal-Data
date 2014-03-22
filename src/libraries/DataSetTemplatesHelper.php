@@ -3,15 +3,12 @@ namespace Fruitful\Data\Libraries;
 /**
  * Data Set Templates.
  *
- * A Data Set Templates helper library implementing the
- * DataSetTemplatesInterface.
+ * A helper library for working with Data Set Templates.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Libraries\DataSetTemplatesInterface;
-
-class DataSetTemplates implements DataSetTemplatesInterface
+class DataSetTemplatesHelper
 {
 	/**
 	 * Sort through input data and identify values that belong to

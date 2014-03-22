@@ -74,18 +74,6 @@ class DataServiceProvider extends ServiceProvider
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Libraries\DataSetsInterface',
-			function () {
-				return new \Fruitful\Data\Libraries\DataSets;
-			}
-		);
-		$this->app->bind(
-			'Fruitful\Data\Libraries\DataSetTemplatesInterface',
-			function () {
-				return new \Fruitful\Data\Libraries\DataSetTemplates;
-			}
-		);
-		$this->app->bind(
 			'Fruitful\Data\Models\DataSet',
 			function () {
 				return new \Fruitful\Data\Models\FruitfulDataSet;
@@ -135,6 +123,28 @@ class DataServiceProvider extends ServiceProvider
 		);
 
 		// Register Facades
+		$this->app['datasetshelper'] = $this->app->share(
+			function ($app) {
+				return new \Fruitful\Data\Libraries\DataSetsHelper;
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('DataSetsHelper', 'Fruitful\Data\Facades\DataSetsHelper');
+		});
+
+		$this->app['datasettemplateshelper'] = $this->app->share(
+			function ($app) {
+				return new \Fruitful\Data\Libraries\DataSetTemplatesHelper;
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('DataSetTemplatesHelper', 'Fruitful\Data\Facades\DataSetTemplatesHelper');
+		});
+
 		$this->app['fruitulstreamschema'] = $this->app->share(
 			function ($app) {
 				return new \Fruitful\Data\Libraries\FruitulStreamSchema;

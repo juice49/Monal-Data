@@ -11,19 +11,11 @@
  */
 
 use Fruitful\Core\Contracts\GatewayInterface;
-use Fruitful\Data\Libraries\DataSetTemplatesInterface;
 use Fruitful\Data\Repositories\DataStreamsRepository;
 use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
 
 class DataStreamsController extends AdminController
 {
-	/**
-	 * An instance of the Data Sets library.
-	 *
-	 * @var		  Fruitful\Data\Libraries\DataSetTemplatesInterface
-	 */
-	protected $data_set_templates;
-
 	/**
 	 * An instance the of the Data Streams Repository.
 	 *
@@ -45,12 +37,10 @@ class DataStreamsController extends AdminController
 	 */
 	public function __construct(
 		GatewayInterface $system_gateway,
-		DataSetTemplatesInterface $data_set_templates,
 		DataStreamsRepository $data_streams_repo,
 		DataStreamTemplatesRepository $data_stream_templates_repo
 		) {
 		parent::__construct($system_gateway);
-		$this->data_set_templates = $data_set_templates;
 		$this->data_streams_repo = $data_streams_repo;
 		$this->data_stream_templates_repo = $data_stream_templates_repo;
 	}
@@ -177,7 +167,7 @@ class DataStreamsController extends AdminController
 			return Redirect::route('admin.data-stream-templates');
 		}
 		$data_stream_template = $this->data_stream_templates_repo->newModel();
-		$data_set_templates = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input);
+		$data_set_templates = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input);
 		if ($this->input) {
 			$data_stream_template->setName(isset($this->input['name']) ? $this->input['name'] : null);
 			$data_stream_template->setTablePrefix(isset($this->input['table_prefix']) ? $this->input['table_prefix'] : null);
@@ -219,7 +209,7 @@ class DataStreamsController extends AdminController
 				$data_stream_template->setName($this->input['name']);
 				$data_stream_template->setTablePrefix(isset($this->input['table_prefix']) ? $this->input['table_prefix'] : null);
 				$data_stream_template->discardDataSetTemplates();
-				$data_set_templates = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input);
+				$data_set_templates = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input);
 				foreach ($data_set_templates as $data_set_template) {
 					$data_stream_template->addDataSetTemplate($data_set_template);
 				}

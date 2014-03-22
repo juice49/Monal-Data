@@ -66,14 +66,20 @@ class EloquentDataStreamsRepository extends \Eloquent implements DataStreamsRepo
 	 */
 	public function validatesForStorage(DataStream $data_stream)
 	{
+		// Allow alpha, numeric, hypens, underscores and space characters.
+		\Validator::extend('data_stream_name', function($attribute, $value, $parameters)
+		{
+			return preg_match('/^[a-z0-9 \-_]+$/i', $value) ? true : false;
+		});
 		$unique_exception = ($data_stream->ID()) ? ',' . $data_stream->ID() : null;
 		$validation_rules = array(
-			'name' => 'required|username|unique:data_streams,name' . $unique_exception,
+			'name' => 'required|max:100|data_stream_name|unique:data_streams,name' . $unique_exception,
 		);
 		$validation_messages = array(
 			'name.required' => 'You need to give this Data Stream a Name.',
-			'name.username' => 'The Name for this Data Stream can only contain letters, numbers, spaces, underscores and hyphens.',
-			'name.unique' => 'Sorry, it looks like someone beat you to the punch as that Name has already taken.',
+			'name.max' => 'The Name of this Data Stream must be no more than 100 characters long.',
+			'name.data_stream_name' => 'The Name for this Data Stream can only contain letters, numbers, spaces, underscores and hyphens.',
+			'name.unique' => 'Aw shucks! This Name has already been used.',
 		);
 		if ($data_stream->validates($validation_rules, $validation_messages)) {
 			$stream_validates = true;

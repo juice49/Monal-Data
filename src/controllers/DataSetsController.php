@@ -11,28 +11,12 @@
  */
 
 use Fruitful\Core\Contracts\GatewayInterface;
-use Fruitful\Data\Libraries\DataSetsInterface;
-use Fruitful\Data\Libraries\DataSetTemplatesInterface;
 use Fruitful\Data\Libraries\ComponentsInterface;
 use Fruitful\Data\Repositories\DataSetsRepository;
 use Fruitful\Data\Repositories\DataSetTemplatesRepository;
 
 class DataSetsController extends AdminController
 {
-	/**
-	 * An instance of the Data Sets library. 
-	 *
-	 * @var		 Fruitful\Data\Libraries\DataSetsInterface
-	 */
-	protected $data_sets;
-
-	/**
-	 * An instance of the Data Set Templates library. 
-	 *
-	 * @var		 Fruitful\Data\Libraries\DataSetTemplatesInterface
-	 */
-	protected $data_set_templates;
-
 	/**
 	 * An instance of the Components library. 
 	 *
@@ -61,15 +45,11 @@ class DataSetsController extends AdminController
 	 */
 	public function __construct(
 		GatewayInterface $system_gateway,
-		DataSetsInterface $data_sets,
-		DataSetTemplatesInterface $data_set_templates,
 		ComponentsInterface $components,
 		DataSetsRepository $data_sets_repo,
 		DataSetTemplatesRepository $data_set_templates_repo
 		) {
 		parent::__construct($system_gateway);
-		$this->data_sets = $data_sets;
-		$this->data_set_templates = $data_set_templates;
 		$this->components = $components;
 		$this->data_sets_repo = $data_sets_repo;
 		$this->data_set_templates_repo = $data_set_templates_repo;
@@ -148,7 +128,7 @@ class DataSetsController extends AdminController
 			$data_set->setComponent($data_set_template->componentURI());
 			$data_set->setComponentSettings($data_set_template->componentSettings());
 			if ($this->input) {
-				$data_set_values = $this->data_sets->extractDataSetValuesFromInput($this->input)->first();
+				$data_set_values = \DataSetsHelper::extractDataSetValuesFromInput($this->input)->first();
 				$data_set->setName($data_set_values['name']);
 				$data_set->setComponentValues($data_set_values['component_values']);
 				if ($this->data_sets_repo->write($data_set)) {
@@ -195,7 +175,7 @@ class DataSetsController extends AdminController
 				);
 			} else {
 				if ($this->input) {
-					$data_set_values = $this->data_sets->extractDataSetValuesFromInput($this->input)->first();
+					$data_set_values = \DataSetsHelper::extractDataSetValuesFromInput($this->input)->first();
 					$data_set->setName($data_set_values['name']);
 					$data_set->setComponentValues($data_set_values['component_values']);
 					if ($this->data_sets_repo->write($data_set)) {
@@ -251,7 +231,7 @@ class DataSetsController extends AdminController
 			return Redirect::route('admin.data-set-templates');
 		}
 		if ($this->input) {
-			$data_set_template = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input)->first();
+			$data_set_template = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input)->first();
 			if ($this->data_set_templates_repo->write($data_set_template)) {
 				$this->system->messages->add(
 					array(
@@ -287,7 +267,7 @@ class DataSetsController extends AdminController
 		}
 		if ($data_set_template = $this->data_set_templates_repo->retrieve($id)) {
 			if ($this->input) {
-				$data_set_template = $this->data_set_templates->extractDataSetTemplatesFromInput($this->input)->first();
+				$data_set_template = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input)->first();
 				$data_set_template->setID($id);
 				if ($this->data_set_templates_repo->write($data_set_template)) {
 					$this->system->messages->add(
