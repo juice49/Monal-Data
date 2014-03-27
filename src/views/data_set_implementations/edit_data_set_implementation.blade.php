@@ -16,7 +16,7 @@
 	@endif
 
 	{{ Form::open() }}
-		{{ $data_set->view() }}
+		{{ $data_set->view(false, true) }}
 		<div class="form__controls form__controls--standard control_block">
 			<div class="form__controls__left">
 				<a href="{{ URL::route('admin.data-sets') }}" class="button button--mustard">Cancel</a>

@@ -275,7 +275,7 @@ class FruitfulDataSet implements DataSet
 	 * @param	Boolean
 	 * @return	Illuminate\View\View
 	 */
-	public function view($show_validation_messages = false)
+	public function view($show_validation_messages = false, $modify_name = false)
 	{
 		$uri = \Random::letters();
 		$name = $this->name();
@@ -291,6 +291,7 @@ class FruitfulDataSet implements DataSet
 				'messages',
 				'uri',
 				'name',
+				'modify_name',
 				'component_view'
 			)
 		);

@@ -92,6 +92,12 @@ class DataServiceProvider extends ServiceProvider
 			}
 		);
 		$this->app->bind(
+			'Fruitful\Data\Models\DataStreamEntry',
+			function () {
+				return new \Fruitful\Data\Models\FruitfulDataStreamEntry;
+			}
+		);
+		$this->app->bind(
 			'Fruitful\Data\Models\DataStreamTemplate',
 			function () {
 				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;

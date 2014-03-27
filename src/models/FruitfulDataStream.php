@@ -3,13 +3,14 @@ namespace Fruitful\Data\Models;
 /**
  * Fruitful Data Stream.
  *
- * The Fruitful System's implementation of the DataStream interface.
+ * The Fruitful System's implementation of the DataStream model.
  *
  * @author	Arran Jacques
  */
 
 use Fruitful\Data\Models\DataStream;
 use Fruitful\Data\Models\DataStreamTemplate;
+use Fruitful\Data\Models\DataStreamEntry;
 
 class FruitfulDataStream implements DataStream
 {
@@ -69,6 +70,18 @@ class FruitfulDataStream implements DataStream
 	public function messages()
 	{
 		return $this->messages->get();
+	}
+
+	/**
+	 * Generate and return a new model of an entry for this stream.
+	 *
+	 * @return	Fruitful\Data\Models\DataStreamEntry
+	 */
+	public function newEntryModel()
+	{
+		$entry_model = \App::make('Fruitful\Data\Models\DataStreamEntry');
+		$entry_model->buildModelFromDataStreamTemplate($this->template());
+		return $entry_model;
 	}
 
 	/**
@@ -167,6 +180,42 @@ class FruitfulDataStream implements DataStream
 	public function discardPreviewColumns()
 	{
 		$this->preview_column_ids = array();
+	}
+
+	/**
+	 * Add a new entry to the Data Stream.
+	 *
+	 * @param	Fruitful\Data\Models\DataStreamEntry
+	 * @return	Boolean
+	 */
+	public function addEntry(DataStreamEntry $entry)
+	{
+		$data_sets_validate = true;
+		foreach ($entry->dataSets() as $data_set) {
+			if (!$data_set->validates()) {
+				$data_sets_validate = false;
+				$this->messages->add(
+					array(
+						'error' => array(
+							'The values you have entered below contain some errors. Please check them.',
+						)
+					)
+				);
+			}
+		}
+		if ($data_sets_validate) {
+			if (\StreamSchema::addEntry($this->template, $entry, $this->id)) {
+				return true;
+			}
+			$this->messages->add(
+				array(
+					'error' => array(
+						'There was an error adding this entry to the Data Stream.',
+					)
+				)
+			);
+		}
+		return false;
 	}
 
 	/**

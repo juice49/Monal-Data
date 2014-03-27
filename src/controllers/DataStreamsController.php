@@ -181,6 +181,38 @@ class DataStreamsController extends AdminController
 		return Redirect::route('admin.data-streams');
 	}
 
+	public function createEntry($id)
+	{
+		if (!$this->system->user->hasAdminPermissions('data_streams', 'create_stream_entry')) {
+			return Redirect::route('admin.data-streams');
+		}
+		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
+			$stream_entry = $data_stream->newEntryModel();
+			if ($this->input) {
+				foreach (\DataSetsHelper::extractDataSetValuesFromInput($this->input) as $key => $data_set_values) {
+					$stream_entry->dataSets()[$key]->setComponentValues($data_set_values['component_values']);
+				}
+				if ($data_stream->addEntry($stream_entry)) {
+					$this->system->messages->add(
+						array(
+							'success' => array(
+								'You successfully created a new entry.',
+							)
+						)
+					)->flash();
+					return Redirect::route('admin.data-streams');
+				}
+				$this->system->messages->add($data_stream->messages()->toArray());
+			}
+			$messages = $this->system->messages->get();
+			return View::make(
+				'data::data_stream_entries.create_entry',
+				compact('messages', 'data_stream', 'stream_entry')
+			);
+		}
+		return Redirect::route('admin.data-streams');
+	}
+
 	/**
 	 * Mediate HTTP requests to retrieve Data Stream Templates and output
 	 * the results.

@@ -9,10 +9,16 @@
 			</ul>
 		</div> 
 	@endif
-	<div class="control_block">
-		{{ Form::label($uri . '-name', 'Name', array('class' => 'label--block')) }}
-		{{ Form::input('text', $uri . '-name', $name, array('class' => 'input--text')) }}
-		{{ Form::input('hidden', $uri . '-data_set', $uri) }}
-	</div>
+	@if ($modify_name)
+		<div class="control_block">
+			{{ Form::label($uri . '-name', 'Name', array('class' => 'label--block')) }}
+			{{ Form::input('text', $uri . '-name', $name, array('class' => 'input--text')) }}
+		</div>
+	@else
+		@if ($name AND $name != '')
+			<h2>{{ $name }}</h2>
+		@endif
+	@endif
 	{{ $component_view }}
+	{{ Form::input('hidden', $uri . '-data_set', $uri) }}
 </div>
