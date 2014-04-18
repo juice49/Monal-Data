@@ -13,25 +13,27 @@ namespace Fruitful\Data\Models;
  * @author	Arran Jacques
  */
 
+use Fruitful\Data\Models\DataSet;
+
 interface DataStreamEntry
 {
 	/**
-	 * Use a Data Set Template to set what Data Sets the model has.
-	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
-	 * @return	Void
-	 */
-	public function buildModelFromDataStreamTemplate(DataStreamTemplate $data_stream_template);
-
-	/**
-	 * Return the Data Sets the Entry has available.
+	 * Return the model's Data Sets.
 	 *
 	 * @return	Array
 	 */
 	public function dataSets();
 
 	/**
-	 * Return the Entry's interface.
+	 * Add a new Data Set to the model.
+	 *
+	 * @param	Fruitful\Data\Models\DataSet
+	 * @return	Void
+	 */
+	public function addDataSet(DataSet $data_set);
+
+	/**
+	 * Return a view of the model.
 	 *
 	 * @param	Boolean
 	 * @return	Illuminate\View\View

@@ -3,8 +3,8 @@ namespace Fruitful\Data\Libraries;
 /**
  * Fruitful Stream Schema.
  *
- * Create and drop database tables for storing stream entries and
- * update table schema.
+ * Create and drop and update database tables that are used to store
+ * entires in a Data Stream.
  *
  * @author	Arran Jacques
  */
@@ -16,7 +16,7 @@ class FruitulStreamSchema
 {
 	/**
 	 * Create a new table from a Data Stream Template, which will then be
-	 * used to store the entries of any Data Stream that implements the
+	 * used to store the entries of any Data Stream that implements that
 	 * Data Stream Template.
 	 *
 	 * @param	Fruitful\Data\Models\DataStreamTemplate
@@ -42,9 +42,9 @@ class FruitulStreamSchema
 	}
 
 	/**
-	 * Update a Data Stream Template’s table’s schema by adding,
-	 * removing, or updating table’s columns to match the Data Set
-	 * Templates in the Data Stream Template.
+	 * Update a Data Stream table by adding, removing or updating the
+	 * table’s columns so that they correspond to the Data Set Templates
+	 * within a Data Stream Template,
 	 *
 	 * @param	Fruitful\Data\Models\DataStreamTemplate
 	 * @return	Boolean / String
@@ -127,6 +127,7 @@ class FruitulStreamSchema
 	 * @param	Fruitful\Data\Models\DataStreamTemplate
 	 * @param	Fruitful\Data\Models\DataStreamEntry
 	 * @param	Integer
+	 * @return	Boolean
 	 */
 	public function addEntry(
 		DataStreamTemplate $data_stream_template,
@@ -137,6 +138,8 @@ class FruitulStreamSchema
 		$repository_name .= \Text::snakeCaseString($data_stream_template->name());
 		$encoded_entry = array(
 			'stream' => (integer) $stream_id,
+			'created_at' => date('Y-m-d H:i:s'),
+			'updated_at' => date('Y-m-d H:i:s'),
 		);
 		$components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
 		foreach ($data_stream_template->dataSetTemplates() as $key => $data_set_template) {

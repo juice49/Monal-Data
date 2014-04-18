@@ -56,7 +56,7 @@
 						</table>
 						<div class="node__y--top align--right">
 							@if($system_user->hasAdminPermissions('data_streams', 'create_stream_entry'))
-								<a href="{{ URL::route('admin.data-streams.create-entry', $data_stream->ID()) }}" class="button button--small button--wasabi">Add entry</a>
+								<a href="{{ URL::route('admin.data-streams.add-entry', $data_stream->ID()) }}" class="button button--small button--wasabi">Add entry</a>
 							@endif
 							<a href="" class="button button--small button--mist">View</a>
 							@if($system_user->hasAdminPermissions('data_streams', 'edit_data_stream'))

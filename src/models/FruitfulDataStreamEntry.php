@@ -9,36 +9,19 @@ namespace Fruitful\Data\Models;
  */
 
 use Fruitful\Data\Models\DataStreamEntry;
-use Fruitful\Data\Models\DataStreamTemplate;
+use Fruitful\Data\Models\DataSet;
 
 class FruitfulDataStreamEntry implements DataStreamEntry
 {
 	/**
-	 * An array of Data Sets that make up the entry model.
+	 * An array of the model's Data Sets.
 	 *
 	 * @var		Array
 	 */
 	protected $data_sets = array();
 
 	/**
-	 * Use a Data Set Template to set what Data Sets the model has.
-	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
-	 * @return	Void
-	 */
-	public function buildModelFromDataStreamTemplate(DataStreamTemplate $data_stream_template)
-	{
-		foreach ($data_stream_template->dataSetTemplates() as $data_set_template) {
-			$data_set = \App::make('Fruitful\Data\Models\DataSet');
-			$data_set->setName($data_set_template->name());
-			$data_set->setComponent($data_set_template->componentURI());
-			$data_set->setComponentSettings($data_set_template->componentSettings());
-			array_push($this->data_sets, $data_set);
-		}
-	}
-
-	/**
-	 * Return the Data Sets the Entry has available.
+	 * Return the model's Data Sets.
 	 *
 	 * @return	Array
 	 */
@@ -48,7 +31,18 @@ class FruitfulDataStreamEntry implements DataStreamEntry
 	}
 
 	/**
-	 * Return the Entry's interface.
+	 * Add a new Data Set to the model.
+	 *
+	 * @param	Fruitful\Data\Models\DataSet
+	 * @return	Void
+	 */
+	public function addDataSet(DataSet $data_set)
+	{
+		array_push($this->data_sets, $data_set);
+	}
+
+	/**
+	 * Return a view of the model.
 	 *
 	 * @param	Boolean
 	 * @return	Illuminate\View\View

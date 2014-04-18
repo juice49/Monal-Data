@@ -78,10 +78,10 @@ Route::any(
 	)
 );
 Route::any(
-	'admin/data-streams/create-entry/{id}',
+	'admin/data-streams/add-entry/{id}',
 	array(
-		'as' => 'admin.data-streams.create-entry',
-		'uses' => 'DataStreamsController@createEntry'
+		'as' => 'admin.data-streams.add-entry',
+		'uses' => 'DataStreamsController@addEntry'
 	)
 );
 Route::any(

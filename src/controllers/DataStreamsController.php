@@ -181,7 +181,14 @@ class DataStreamsController extends AdminController
 		return Redirect::route('admin.data-streams');
 	}
 
-	public function createEntry($id)
+	/**
+	 * Mediate HTTP requests to add a new entry to a Data Stream and
+	 * output the results.
+	 *
+	 * @param	Integer
+	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
+	 */
+	public function addEntry($id)
 	{
 		if (!$this->system->user->hasAdminPermissions('data_streams', 'create_stream_entry')) {
 			return Redirect::route('admin.data-streams');
@@ -196,7 +203,7 @@ class DataStreamsController extends AdminController
 					$this->system->messages->add(
 						array(
 							'success' => array(
-								'You successfully created a new entry.',
+								'You successfully added a new entry to the Data Stream ' . $data_stream->name(),
 							)
 						)
 					)->flash();
@@ -206,7 +213,7 @@ class DataStreamsController extends AdminController
 			}
 			$messages = $this->system->messages->get();
 			return View::make(
-				'data::data_stream_entries.create_entry',
+				'data::data_stream_entries.add_entry',
 				compact('messages', 'data_stream', 'stream_entry')
 			);
 		}
