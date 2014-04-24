@@ -203,7 +203,7 @@ class DataStreamsController extends AdminController
 					$this->system->messages->add(
 						array(
 							'success' => array(
-								'You successfully added a new entry to the Data Stream ' . $data_stream->name(),
+								'You successfully added a new entry to the Data Stream "' . $data_stream->name() . '"',
 							)
 						)
 					)->flash();

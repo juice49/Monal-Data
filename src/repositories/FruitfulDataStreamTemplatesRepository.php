@@ -1,10 +1,10 @@
 <?php
 namespace Fruitful\Data\Repositories;
 /**
- * Eloquent Data Stream Templates Repository.
+ * Fruitful Data Stream Templates Repository.
  *
  * The Fruitful System's implementation of the
- * DataStreamTemplatesRepository using Laravel’s Eloquent ORM.
+ * DataStreamTemplatesRepository.
  *
  * @author	Arran Jacques
  */
@@ -12,7 +12,7 @@ namespace Fruitful\Data\Repositories;
 use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
 use Fruitful\Data\Models\DataStreamTemplate;
 
-class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStreamTemplatesRepository
+class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesRepository
 {
 	/**
 	 * The repository's messages.
@@ -185,19 +185,14 @@ class EloquentDataStreamTemplatesRepository extends \Eloquent implements DataStr
 	{
 		if ($this->validatesForStorage($data_stream_template)) {
 			$encoded = $this->encodeForStorage($data_stream_template);
-			$time = new \DateTime();
-			$data = array(
-				'name' => $encoded['name'],
-				'table_prefix' => $encoded['table_prefix'],
-				'data_set_templates' => $encoded['data_set_templates'],
-				'updated_at' => $time->format('Y-m-d H:i:s'),
-			);
 			if ($data_stream_template->ID()) {
-				\DB::table($this->table)->where('id', '=', $data_stream_template->ID())->update($data);
+				$encoded['updated_at'] = date('Y-m-d H:i:s');
+				\DB::table($this->table)->where('id', '=', $data_stream_template->ID())->update($encoded);
 				return true;
 			} else {
-				$data['created_at'] = $time->format('Y-m-d H:i:s');
-				\DB::table($this->table)->insert($data);
+				$encoded['created_at'] = date('Y-m-d H:i:s');
+				$encoded['updated_at'] = date('Y-m-d H:i:s');
+				\DB::table($this->table)->insert($encoded);
 				return true;
 			}
 		}

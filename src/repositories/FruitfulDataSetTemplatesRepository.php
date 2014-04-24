@@ -1,10 +1,10 @@
 <?php
 namespace Fruitful\Data\Repositories;
 /**
- * Eloquent Data Set Templates Repository.
+ * Fruitful Data Set Templates Repository.
  *
  * The Fruitful System's implementation of the
- * DataSetTemplatesRepository using Laravel’s Eloquent ORM.
+ * DataSetTemplatesRepository.
  *
  * @author	Arran Jacques
  */
@@ -12,7 +12,7 @@ namespace Fruitful\Data\Repositories;
 use Fruitful\Data\Repositories\DataSetTemplatesRepository;
 use Fruitful\Data\Models\DataSetTemplate;
 
-class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTemplatesRepository
+class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 {
 	/**
 	 * The repository's messages.
@@ -111,15 +111,16 @@ class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTem
 	/**
 	 * Decode a Data Set Template repository entry into its model class.
 	 *
+	 * @param	stdClass
 	 * @return	Fruitful\Data\Models\DataSetTemplate
 	 */
-	protected function decodeFromStorage()
+	protected function decodeFromStorage($result)
 	{
 		$data_set_template = $this->newModel();
-		$data_set_template->setID($this->id);
-		$data_set_template->setName($this->name);
-		$data_set_template->setComponent($this->component);
-		$data_set_template->setComponentSettings(json_decode($this->component_settings, true));
+		$data_set_template->setID($result->id);
+		$data_set_template->setName($result->name);
+		$data_set_template->setComponent($result->component);
+		$data_set_template->setComponentSettings(json_decode($result->component_settings, true));
 		return $data_set_template;
 	}
 
@@ -131,16 +132,17 @@ class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTem
 	 */
 	public function retrieve($key = null)
 	{
+		$query = \DB::table($this->table);
 		if (!$key) {
-			$results = self::all();
+			$results = $query->select('*')->get();
 			$data_set_templates =  \App::make('Illuminate\Database\Eloquent\Collection');
-			foreach ($results as &$result) {
-				$data_set_templates->add($result->decodeFromStorage());
+			foreach ($results as $result) {
+				$data_set_templates->add($this->decodeFromStorage($result));
 			}
 			return $data_set_templates;
 		} else {
-			if ($result = self::find($key)) {
-				return $result->decodeFromStorage();
+			if ($result = $query->where('id', '=', $key)->first()) {
+				return $this->decodeFromStorage($result);
 			}
 		}
 		return false;
@@ -157,22 +159,14 @@ class EloquentDataSetTemplatesRepository extends \Eloquent implements DataSetTem
 		if ($this->validatesForStorage($data_set_template)) {
 			$encoded = $this->encodeForStorage($data_set_template);
 			if ($data_set_template->ID()) {
-				if (
-					$this->where('id', '=', $data_set_template->ID())->update(
-							array(
-							'name' => $encoded['name'],
-							'component' => $encoded['component'],
-							'component_settings' => $encoded['component_settings'],
-						)
-					)
-				) {
-					return true;
-				}
+				$encoded['updated_at'] = date('Y-m-d H:i:s');
+				\DB::table($this->table)->where('id', '=', $data_set_template->ID())->update($encoded);
+				return true;
 			} else {
-				$this->name = $encoded['name'];
-				$this->component = $encoded['component'];
-				$this->component_settings = $encoded['component_settings'];
-				return $this->save() ? true : false;
+				$encoded['created_at'] = date('Y-m-d H:i:s');
+				$encoded['updated_at'] = date('Y-m-d H:i:s');
+				\DB::table($this->table)->insert($encoded);
+				return true;
 			}
 		}
 		return false;

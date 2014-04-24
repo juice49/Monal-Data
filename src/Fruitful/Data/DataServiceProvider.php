@@ -106,25 +106,25 @@ class DataServiceProvider extends ServiceProvider
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataSetsRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\EloquentDataSetsRepository;
+				return new \Fruitful\Data\Repositories\FruitfulDataSetsRepository;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataSetTemplatesRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\EloquentDataSetTemplatesRepository;
+				return new \Fruitful\Data\Repositories\FruitfulDataSetTemplatesRepository;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataStreamsRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\EloquentDataStreamsRepository;
+				return new \Fruitful\Data\Repositories\FruitfulDataStreamsRepository;
 			}
 		);
 		$this->app->bind(
 			'Fruitful\Data\Repositories\DataStreamTemplatesRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\EloquentDataStreamTemplatesRepository;
+				return new \Fruitful\Data\Repositories\FruitfulDataStreamTemplatesRepository;
 			}
 		);
 

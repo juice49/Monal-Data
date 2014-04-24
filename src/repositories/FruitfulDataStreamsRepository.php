@@ -1,10 +1,9 @@
 <?php
 namespace Fruitful\Data\Repositories;
 /**
- * Eloquent Data Streams Repository.
+ * Fruitful Data Streams Repository.
  *
- * The Fruitful System's implementation of the DataStreamsRepository
- * using Laravel’s Eloquent ORM.
+ * The Fruitful System's implementation of the DataStreamsRepository.
  *
  * @author	Arran Jacques
  */
@@ -12,7 +11,7 @@ namespace Fruitful\Data\Repositories;
 use Fruitful\Data\Repositories\DataStreamsRepository;
 use Fruitful\Data\Models\DataStream;
 
-class EloquentDataStreamsRepository implements DataStreamsRepository
+class FruitfulDataStreamsRepository implements DataStreamsRepository
 {
 	/**
 	 * The repository's messages.
@@ -161,7 +160,7 @@ class EloquentDataStreamsRepository implements DataStreamsRepository
 		if (!$key) {
 			$results = $query->get();
 			$data_streams = \App::make('Illuminate\Database\Eloquent\Collection');
-			foreach ($results as &$result) {
+			foreach ($results as $result) {
 				$data_streams->add($this->decodeFromStorage($result));
 			}
 			return $data_streams;
@@ -184,21 +183,13 @@ class EloquentDataStreamsRepository implements DataStreamsRepository
 		if ($this->validatesForStorage($data_stream)) {
 			$encoded = $this->encodeForStorage($data_stream);
 			if ($data_stream->ID()) {
-				\DB::table($this->table)->where('id', '=', $data_stream->ID())->update(
-					array(
-						'name' => $encoded['name'],
-						'preview_columns' => $encoded['preview_columns'],
-					)
-				);
+				$encoded['updated_at'] = date('Y-m-d H:i:s');
+				\DB::table($this->table)->where('id', '=', $data_stream->ID())->update($encoded);
 				return true;
 			} else {
-				\DB::table($this->table)->insert(
-					array(
-						'name' => $encoded['name'],
-						'template' => $encoded['template'],
-						'preview_columns' => $encoded['preview_columns'],
-					)
-				);
+				$encoded['created_at'] = date('Y-m-d H:i:s');
+				$encoded['updated_at'] = date('Y-m-d H:i:s');
+				\DB::table($this->table)->insert($encoded);
 				return true;
 			}
 		}
