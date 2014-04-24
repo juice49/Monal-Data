@@ -28,6 +28,13 @@ interface DataSetTemplate
 	public function ID();
 
 	/**
+	 * Return the Data Set Template's URI.
+	 *
+	 * @return	String
+	 */
+	public function URI();
+
+	/**
 	 * Return the Data Set Template's Name.
 	 *
 	 * @return	String
@@ -62,6 +69,14 @@ interface DataSetTemplate
 	 * @return	Void
 	 */
 	public function setID($id);
+
+	/**
+	 * Set the URI for the Data Set Template.
+	 *
+	 * @param	String
+	 * @return	Void
+	 */
+	public function setURI($uri);
 
 	/**
 	 * Set the Name for the Data Set Template.

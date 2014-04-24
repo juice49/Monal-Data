@@ -122,6 +122,20 @@ class FruitulStreamSchema
 	}
 
 	/**
+	 * Return all entires belonging to a given Data Stream.
+	 *
+	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Integer
+	 * @return	Array
+	 */
+	public function getEntires(DataStreamTemplate $data_stream_template, $stream_id)
+	{
+		$repository_name = \Text::snakeCaseString($data_stream_template->tablePrefix());
+		$repository_name .= \Text::snakeCaseString($data_stream_template->name());
+		return \DB::table($repository_name)->select('*')->where('stream', '=', $stream_id)->get();
+	}
+
+	/**
 	 * Add a new Entry to a Data Streams repository.
 	 *
 	 * @param	Fruitful\Data\Models\DataStreamTemplate

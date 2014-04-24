@@ -46,11 +46,18 @@ class FruitfulDataStream implements DataStream
 	/**
 	 * An array of keys that correspond to Data Sets —- the values of
 	 * which will be show when previewing entries for the Data Stream —-
-	 * in the Data Set Template that the Data Stream is implementing.
+	 * in the Data Stream Template that the Data Stream is implementing.
 	 *
 	 * @var		Array
 	 */
 	public $preview_column_ids = array();
+
+	/**
+	 * An array of the Data Stream's enteries.
+	 *
+	 * @var		Illuminate\Database\Eloquent\Collection
+	 */
+	protected $entries = null;
 
 	/**
 	 * Constructor.
@@ -133,6 +140,36 @@ class FruitfulDataStream implements DataStream
 	}
 
 	/**
+	 * Return all of the Data Stream's enteries.
+	 *
+	 * @return	Illuminate\Database\Eloquent\Collection
+	 */
+	public function entries()
+	{
+		if (!$this->entries) {
+			$entries = \App::make('Illuminate\Database\Eloquent\Collection');
+			foreach (\StreamSchema::getEntires($this->template, $this->id) as $result) {
+				unset($result->id);
+				unset($result->stream);
+				unset($result->created_at);
+				unset($result->updated_at);
+				$entry = $this->newEntryModel();
+				$i = 0;
+				foreach ($result as $key => $value) {
+					$components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+					$dressed_values = $components->make($entry->dataSets()[$i]->componentURI())
+										->dressImplementationValues($value);
+					$entry->dataSets()[$i]->setComponentValues($dressed_values);
+					$i++;
+				}
+				$entries->add($entry);
+			}
+			$this->entries = $entries;
+		}
+		return $this->entries;
+	}
+
+	/**
 	 * Set the ID for the Data Stream.
 	 *
 	 * @param	Integer
@@ -186,6 +223,23 @@ class FruitfulDataStream implements DataStream
 	public function discardPreviewColumns()
 	{
 		$this->preview_column_ids = array();
+	}
+
+	/**
+	 * Determine if a Data Set has been defined as a preview column for
+	 * the Data Stream.
+	 *
+	 * @param	Integer
+	 * @return	Boolean
+	 */
+	public function hasPreviewColumn($id)
+	{
+		foreach ($this->preview_column_ids as $column_id) {
+			if ($id === $column_id) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

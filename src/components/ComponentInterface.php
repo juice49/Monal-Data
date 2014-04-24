@@ -72,6 +72,14 @@ interface ComponentInterface
 	public function implementationValuesValidate(array $values = array(), array $settings = array());
 
 	/**
+	 * Return a summary for a set of valid component values.
+	 *
+	 * @param	Array
+	 * @param	String
+	 */
+	public function summariseValues(array $values = array());
+
+	/**
 	 * Convert a set of valid component values into as simple a format as
 	 * possible for easy storage.
 	 *

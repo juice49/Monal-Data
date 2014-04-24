@@ -175,6 +175,17 @@ class Text implements ComponentInterface
 	}
 
 	/**
+	 * Return a summary for a set of valid component values.
+	 *
+	 * @param	Array
+	 * @param	String
+	 */
+	public function summariseValues(array $values = array())
+	{
+		return \Str::limit($this->stripImplementationValues($values), 100);
+	}
+
+	/**
 	 * Convert a set of valid component values into as simple a format as
 	 * possible for easy storage.
 	 *

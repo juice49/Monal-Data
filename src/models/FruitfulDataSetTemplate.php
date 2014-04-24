@@ -35,7 +35,11 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	 */
 	public $id = null;
 
-
+	/**
+	 * The Data Set Template's URI.
+	 *
+	 * @var		String
+	 */
 	protected $uri = null;
 
 	/**
@@ -90,6 +94,11 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 		return $this->id;
 	}
 
+	/**
+	 * Return the Data Set Template's URI.
+	 *
+	 * @return	String
+	 */
 	public function URI()
 	{
 		return $this->uri;
@@ -146,6 +155,12 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 		$this->id = (integer) $id;
 	}
 
+	/**
+	 * Set the URI for the Data Set Template.
+	 *
+	 * @param	String
+	 * @return	Void
+	 */
 	public function setURI($uri)
 	{
 		$this->uri = (string) $uri;

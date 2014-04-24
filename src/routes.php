@@ -78,6 +78,13 @@ Route::any(
 	)
 );
 Route::any(
+	'admin/data-streams/view/{id}',
+	array(
+		'as' => 'admin.data-streams.view',
+		'uses' => 'DataStreamsController@viewDataStream'
+	)
+);
+Route::any(
 	'admin/data-streams/add-entry/{id}',
 	array(
 		'as' => 'admin.data-streams.add-entry',

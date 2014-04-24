@@ -182,6 +182,28 @@ class DataStreamsController extends AdminController
 	}
 
 	/**
+	 * Mediate HTTP requests to view an existing Data Stream and output
+	 * the results.
+	 *
+	 * @param	Integer
+	 * @return	Illuminate\View\View / Illuminate\Http\RedirectResponse
+	 */
+	public function viewDataStream($id)
+	{
+		if (!$this->system->user->hasAdminPermissions('data_streams')) {
+			return Redirect::route('admin');
+		}
+		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
+			$messages = $this->system->messages->get();
+			return View::make(
+				'data::data_stream_implementations.view_data_stream_implementation',
+				compact('messages', 'data_stream')
+			);
+		}
+		return Redirect::route('admin.data-streams');
+	}
+
+	/**
 	 * Mediate HTTP requests to add a new entry to a Data Stream and
 	 * output the results.
 	 *

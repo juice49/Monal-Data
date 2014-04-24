@@ -57,6 +57,13 @@ interface DataStream
 	public function previewColumns();
 
 	/**
+	 * Return all of the Data Stream's enteries.
+	 *
+	 * @return	Illuminate\Database\Eloquent\Collection
+	 */
+	public function entries();
+
+	/**
 	 * Set the ID for the Data Stream.
 	 *
 	 * @param	Integer
@@ -96,6 +103,15 @@ interface DataStream
 	 * @return	Void
 	 */
 	public function discardPreviewColumns();
+
+	/**
+	 * Determine if a Data Set has been defined as a preview column for
+	 * the Data Stream.
+	 *
+	 * @param	Integer
+	 * @return	Boolean
+	 */
+	public function hasPreviewColumn($id);
 
 	/**
 	 * Add a new entry to the Data Stream.
