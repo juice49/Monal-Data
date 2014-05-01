@@ -1,114 +1,98 @@
 <?php
 
-Route::any(
-	'admin/data-sets', 
-	array(
-		'as' => 'admin.data-sets',
-		'uses' => 'DataSetsController@dataSets'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-sets',
+	'admin.data-sets',
+	'DataSetsController@dataSets'
 );
-Route::any(
-	'admin/data-sets/create/choose',
-	array(
-		'as' => 'admin.data-sets.create.choose',
-		'uses' => 'DataSetsController@chooseTemplate'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-sets/create/choose',
+	'admin.data-sets.create.choose',
+	'DataSetsController@chooseTemplate'
 );
-Route::any(
-	'admin/data-sets/create/{id}',
-	array(
-		'as' => 'admin.data-sets.create',
-		'uses' => 'DataSetsController@createDataSet'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-sets/create/{id}',
+	'admin.data-sets.create',
+	'DataSetsController@createDataSet'
 );
-Route::any(
-	'admin/data-sets/edit/{id}',
-	array(
-		'as' => 'admin.data-sets.edit',
-		'uses' => 'DataSetsController@editDataSet'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-sets/edit/{id}',
+	'admin.data-sets.edit',
+	'DataSetsController@editDataSet'
 );
-Route::any(
-	'admin/data-set-templates',
-	array(
-		'as' => 'admin.data-set-templates',
-		'uses' => 'DataSetsController@dataSetTemplates'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-set-templates',
+	'admin.data-set-templates',
+	'DataSetsController@dataSetTemplates'
 );
-Route::any(
-	'admin/data-set-templates/create',
-	array(
-		'as' => 'admin.data-set-templates.create',
-		'uses' => 'DataSetsController@createDataSetTemplate'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-set-templates/create',
+	'admin.data-set-templates.create',
+	'DataSetsController@createDataSetTemplate'
 );
-Route::any(
-	'admin/data-set-templates/edit/{id}',
-	array(
-		'as' => 'admin.data-set-templates.edit',
-		'uses' => 'DataSetsController@editDataSetTemplate'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-set-templates/edit/{id}',
+	'admin.data-set-templates.edit',
+	'DataSetsController@editDataSetTemplate'
 );
-Route::any(
-	'admin/data-streams',
-	array(
-		'as' => 'admin.data-streams',
-		'uses' => 'DataStreamsController@dataStreams'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-streams',
+	'admin.data-streams',
+	'DataStreamsController@dataStreams'
 );
-Route::any(
-	'admin/data-streams/create/choose-data-stream-template',
-	array(
-		'as' => 'admin.data-streams.choose-template',
-		'uses' => 'DataStreamsController@chooseDataStreamTemplate'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-streams/create/choose-data-stream-template',
+	'admin.data-streams.choose-template',
+	'DataStreamsController@chooseDataStreamTemplate'
 );
-Route::any(
-	'admin/data-streams/create/{id}',
-	array(
-		'as' => 'admin.data-streams.create',
-		'uses' => 'DataStreamsController@createDataStream'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-streams/create/{id}',
+	'admin.data-streams.create',
+	'DataStreamsController@createDataStream'
 );
-Route::any(
-	'admin/data-streams/edit/{id}',
-	array(
-		'as' => 'admin.data-streams.edit',
-		'uses' => 'DataStreamsController@editDataStream'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-streams/edit/{id}',
+	'admin.data-streams.edit',
+	'DataStreamsController@editDataStream'
 );
-Route::any(
-	'admin/data-streams/view/{id}',
-	array(
-		'as' => 'admin.data-streams.view',
-		'uses' => 'DataStreamsController@viewDataStream'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-streams/view/{id}',
+	'admin.data-streams.view',
+	'DataStreamsController@viewDataStream'
 );
-Route::any(
-	'admin/data-streams/add-entry/{id}',
-	array(
-		'as' => 'admin.data-streams.add-entry',
-		'uses' => 'DataStreamsController@addEntry'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-streams/add-entry/{id}',
+	'admin.data-streams.add-entry',
+	'DataStreamsController@addEntry'
 );
-Route::any(
-	'admin/data-stream-templates',
-	array(
-		'as' => 'admin.data-stream-templates',
-		'uses' => 'DataStreamsController@dataStreamTemplates'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-stream-templates',
+	'admin.data-stream-templates',
+	'DataStreamsController@dataStreamTemplates'
 );
-Route::any(
-	'admin/data-stream-templates/create',
-	array(
-		'as' => 'admin.data-stream-templates.create',
-		'uses' => 'DataStreamsController@createDataStreamTemplate'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-stream-templates/create',
+	'admin.data-stream-templates.create',
+	'DataStreamsController@createDataStreamTemplate'
 );
-Route::any(
-	'admin/data-stream-templates/edit/{id}',
-	array(
-		'as' => 'admin.data-stream-templates.edit',
-		'uses' => 'DataStreamsController@editDataStreamTemplate'
-	)
+Fruitful::registerAdminRoute(
+	'any',
+	'data-stream-templates/edit/{id}',
+	'admin.data-stream-templates.edit',
+	'DataStreamsController@editDataStreamTemplate'
 );
