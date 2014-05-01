@@ -10,7 +10,7 @@
  * @author	Arran Jacques
  */
 
-use Fruitful\Core\Contracts\GatewayInterface;
+use Fruitful\GatewayInterface;
 use Fruitful\Data\Repositories\DataStreamsRepository;
 use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
 

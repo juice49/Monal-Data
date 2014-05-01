@@ -10,7 +10,7 @@
  * @author	Arran Jacques
  */
 
-use Fruitful\Core\Contracts\GatewayInterface;
+use Fruitful\GatewayInterface;
 use Fruitful\Data\Libraries\ComponentsInterface;
 use Fruitful\Data\Repositories\DataSetsRepository;
 use Fruitful\Data\Repositories\DataSetTemplatesRepository;

@@ -27,7 +27,7 @@ class ComponentsAJAXController extends BaseController
 	 */
 	public function __construct()
 	{
-		parent::__construct(\App::make('Fruitful\Core\Contracts\GatewayInterface'));
+		parent::__construct(\App::make('Fruitful\GatewayInterface'));
 		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
 	}
 
