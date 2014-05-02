@@ -1,5 +1,5 @@
 {
-    "name": "fruitful/data",
+    "name": "monal/data",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
             "src/repositories"
         ],
         "psr-0": {
-            "Fruitful\\Data": "src/"
+            "Monal\\Data": "src/"
         }
     },
     "minimum-stability": "dev"

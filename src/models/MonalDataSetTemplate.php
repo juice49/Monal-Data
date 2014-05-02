@@ -1,30 +1,30 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
- * Fruitful Data Set Template.
+ * Monal Data Set Template.
  *
- * The Fruitful System's implementation of the DataSetTemplate
+ * The Monal System's implementation of the DataSetTemplate
  * interface.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataSetTemplate;
-use Fruitful\Data\Components\ComponentInterface;
+use Monal\Data\Models\DataSetTemplate;
+use Monal\Data\Components\ComponentInterface;
 
-class FruitfulDataSetTemplate implements DataSetTemplate
+class MonalDataSetTemplate implements DataSetTemplate
 {
 	/**
 	 * The Data Set Template's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
 	/**
 	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
+	 * @var		 Monal\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
@@ -52,7 +52,7 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	/**
 	 * An instance of the Component the Data Set Template is using.
 	 *
-	 * @var		Fruitful\Data\Components\ComponentInterface
+	 * @var		Monal\Data\Components\ComponentInterface
 	 */
 	protected $component = null;
 
@@ -70,8 +70,8 @@ class FruitfulDataSetTemplate implements DataSetTemplate
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
-		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
+		$this->components = \App::make('Monal\Data\Libraries\ComponentsInterface');
 	}
 
 	/**

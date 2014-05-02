@@ -20,7 +20,7 @@ class DataSetsAJAXController extends BaseController
 	 */
 	public function __construct()
 	{
-		parent::__construct(\App::make('Fruitful\GatewayInterface'));
+		parent::__construct(\App::make('Monal\GatewayInterface'));
 	}
 
 	/**
@@ -32,7 +32,7 @@ class DataSetsAJAXController extends BaseController
 	public function dataSetTemplateView($data)
 	{
 		$results = array();
-		$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
+		$data_set_template = \App::make('Monal\Data\Models\DataSetTemplate');
 		$results['status'] = 'OK';
 		$results['view'] = $data_set_template->view(true, true)->render();
 		return json_encode($results, JSON_FORCE_OBJECT);

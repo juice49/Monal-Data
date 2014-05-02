@@ -16,7 +16,7 @@ class ComponentsAJAXController extends BaseController
 	/**
 	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
+	 * @var		 Monal\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
@@ -27,8 +27,8 @@ class ComponentsAJAXController extends BaseController
 	 */
 	public function __construct()
 	{
-		parent::__construct(\App::make('Fruitful\GatewayInterface'));
-		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+		parent::__construct(\App::make('Monal\GatewayInterface'));
+		$this->components = \App::make('Monal\Data\Libraries\ComponentsInterface');
 	}
 
 	/**

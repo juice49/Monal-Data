@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
  * Data Sets Repository.
  *
@@ -9,7 +9,7 @@ namespace Fruitful\Data\Repositories;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataSet;
+use Monal\Data\Models\DataSet;
 
 interface DataSetsRepository
 {
@@ -23,14 +23,14 @@ interface DataSetsRepository
 	/**
 	 * Return a new Data Set model.
 	 *
-	 * @return	Fruitful\Data\Models\DataSet
+	 * @return	Monal\Data\Models\DataSet
 	 */
 	public function newModel();
 
 	/**
 	 * Check a Data Set model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataSet $data_set);
@@ -39,14 +39,14 @@ interface DataSetsRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataSet
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataSet
 	 */
 	public function retrieve($key = null);
 
 	/**
 	 * Write a Data Set model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Boolean
 	 */
 	public function write(DataSet $data_set);

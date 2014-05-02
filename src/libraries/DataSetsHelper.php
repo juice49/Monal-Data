@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Monal\Data\Libraries;
 /**
  * Data Sets Helper.
  *

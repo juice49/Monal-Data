@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Components;
+namespace Monal\Data\Components;
 /**
  * Component Interface.
  *

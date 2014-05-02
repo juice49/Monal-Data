@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Monal\Data\Libraries;
 /**
  * Components.
  *
@@ -8,7 +8,7 @@ namespace Fruitful\Data\Libraries;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Libraries\ComponentsInterface;
+use Monal\Data\Libraries\ComponentsInterface;
 
 class Components implements ComponentsInterface
 {
@@ -33,8 +33,8 @@ class Components implements ComponentsInterface
 	public function resourceMap()
 	{
 		return array(
-			'text' => '\Fruitful\Data\Components\Text',
-			'wysiwyg' => '\Fruitful\Data\Components\WYSIWYG',
+			'text' => '\Monal\Data\Components\Text',
+			'wysiwyg' => '\Monal\Data\Components\WYSIWYG',
 		);
 	}
 
@@ -42,7 +42,7 @@ class Components implements ComponentsInterface
 	 * Create a new instance of a component type.
 	 *
 	 * @param	String
-	 * @return	Fruitful\Data\Components\ComponentInterface
+	 * @return	Monal\Data\Components\ComponentInterface
 	 */
 	public function make($component_uri)
 	{

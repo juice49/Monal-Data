@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
  * Data Set Template Interface.
  *

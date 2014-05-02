@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
  * Data Stream Interface.
  *
@@ -22,7 +22,7 @@ interface DataStream
 	/**
 	 * Generate and return a new model of an entry for this stream.
 	 *
-	 * @return	Fruitful\Data\Models\DataStreamEntry
+	 * @return	Monal\Data\Models\DataStreamEntry
 	 */
 	public function newEntryModel();
 
@@ -44,7 +44,7 @@ interface DataStream
 	 * Return the model of the Data Stream Template the Data Stream is
 	 * implementing.
 	 *
-	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Monal\Data\Models\DataStreamTemplate
 	 */
 	public function template();
 
@@ -83,7 +83,7 @@ interface DataStream
 	 * Set the model of the Data Stream Template the Data Stream is
 	 * implementing.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Void
 	 */
 	public function setTemplate(DataStreamTemplate $data_stream_template);
@@ -116,7 +116,7 @@ interface DataStream
 	/**
 	 * Add a new entry to the Data Stream.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamEntry
+	 * @param	Monal\Data\Models\DataStreamEntry
 	 * @return	Boolean
 	 */
 	public function addEntry(DataStreamEntry $entry);

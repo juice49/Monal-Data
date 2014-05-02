@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
  * Data Stream Templates Repository.
  *
@@ -11,7 +11,7 @@ namespace Fruitful\Data\Repositories;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataStreamTemplate;
+use Monal\Data\Models\DataStreamTemplate;
 
 interface DataStreamTemplatesRepository
 {
@@ -25,14 +25,14 @@ interface DataStreamTemplatesRepository
 	/**
 	 * Return a new Data Stream Template model.
 	 *
-	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Monal\Data\Models\DataStreamTemplate
 	 */
 	public function newModel();
 
 	/**
 	 * Check a Data Stream Template model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataStreamTemplate $data_stream_template);
@@ -42,7 +42,7 @@ interface DataStreamTemplatesRepository
 	 * class.
 	 *
 	 * @param	stdClass
-	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Monal\Data\Models\DataStreamTemplate
 	 */
 	public function decodeFromStorage($results);
 
@@ -50,14 +50,14 @@ interface DataStreamTemplatesRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataStreamTemplate
 	 */
 	public function retrieve($key = null);
 
 	/**
 	 * Write a Data Stream Template model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean
 	 */
 	public function write(DataStreamTemplate $data_stream_template);

@@ -1,7 +1,7 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Monal\Data\Libraries;
 /**
- * Fruitful Stream Schema.
+ * Monal Stream Schema.
  *
  * Create and drop and update database tables that are used to store
  * entires in a Data Stream.
@@ -9,17 +9,17 @@ namespace Fruitful\Data\Libraries;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataStreamTemplate;
-use Fruitful\Data\Models\DataStreamEntry;
+use Monal\Data\Models\DataStreamTemplate;
+use Monal\Data\Models\DataStreamEntry;
 
-class FruitulStreamSchema
+class MonalStreamSchema
 {
 	/**
 	 * Create a new table from a Data Stream Template, which will then be
 	 * used to store the entries of any Data Stream that implements that
 	 * Data Stream Template.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean / String
 	 */
 	public function build(DataStreamTemplate $data_stream_template)
@@ -46,12 +46,12 @@ class FruitulStreamSchema
 	 * table’s columns so that they correspond to the Data Set Templates
 	 * within a Data Stream Template,
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean / String
 	 */
 	public function update(DataStreamTemplate $data_stream_template)
 	{	
-		$data_stream_templates_repo = \App::make('Fruitful\Data\Repositories\DataStreamTemplatesRepository');
+		$data_stream_templates_repo = \App::make('Monal\Data\Repositories\DataStreamTemplatesRepository');
 		if ($data_stream_template->ID()) {
 			if ($original_data_stream_template = $data_stream_templates_repo->retrieve($data_stream_template->ID())) {
 
@@ -124,7 +124,7 @@ class FruitulStreamSchema
 	/**
 	 * Return all entires belonging to a given Data Stream.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @param	Integer
 	 * @return	Array
 	 */
@@ -138,8 +138,8 @@ class FruitulStreamSchema
 	/**
 	 * Add a new Entry to a Data Streams repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
-	 * @param	Fruitful\Data\Models\DataStreamEntry
+	 * @param	Monal\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamEntry
 	 * @param	Integer
 	 * @return	Boolean
 	 */
@@ -155,7 +155,7 @@ class FruitulStreamSchema
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s'),
 		);
-		$components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+		$components = \App::make('Monal\Data\Libraries\ComponentsInterface');
 		foreach ($data_stream_template->dataSetTemplates() as $key => $data_set_template) {
 			$value = $components->make($data_set_template->componentURI())
 				->stripImplementationValues($entry->dataSets()[$key]->componentValues());

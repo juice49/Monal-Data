@@ -1,6 +1,6 @@
 @extends('../dashboard')
 @section('master-head')
-	<script src="{{ URL::to('packages/fruitful/data/js/components.js') }}"></script>
+	<script src="{{ URL::to('packages/monal/data/js/components.js') }}"></script>
 @stop
 @section('body-header')
 	<h1 class="color--teal">Edit Data Set Template</h1>

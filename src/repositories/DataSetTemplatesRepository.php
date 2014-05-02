@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
  * Data Set Templates Repository.
  *
@@ -11,7 +11,7 @@ namespace Fruitful\Data\Repositories;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataSetTemplate;
+use Monal\Data\Models\DataSetTemplate;
 
 interface DataSetTemplatesRepository
 {
@@ -25,14 +25,14 @@ interface DataSetTemplatesRepository
 	/**
 	 * Return a new Data Set Template model.
 	 *
-	 * @return	Fruitful\Data\Models\DataSetTemplate
+	 * @return	Monal\Data\Models\DataSetTemplate
 	 */
 	public function newModel();
 
 	/**
 	 * Check the Data Set Template model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataSetTemplate $data_set_template);
@@ -41,14 +41,14 @@ interface DataSetTemplatesRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataSetTemplate
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataSetTemplate
 	 */
 	public function retrieve($key = null);
 
 	/**
 	 * Write a Data Set Template model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Boolean
 	 */
 	public function write(DataSetTemplate $data_set_template);

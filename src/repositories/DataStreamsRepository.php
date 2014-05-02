@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
  * Data Streams Repository.
  *
@@ -11,7 +11,7 @@ namespace Fruitful\Data\Repositories;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataStream;
+use Monal\Data\Models\DataStream;
 
 interface DataStreamsRepository
 {
@@ -25,14 +25,14 @@ interface DataStreamsRepository
 	/**
 	 * Return a new Data Stream model.
 	 *
-	 * @return	Fruitful\Data\Models\DataStream
+	 * @return	Monal\Data\Models\DataStream
 	 */
 	public function newModel();
 
 	/**
 	 * Check a Data Stream model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataStream
+	 * @param	Monal\Data\Models\DataStream
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataStream $data_stream);
@@ -41,7 +41,7 @@ interface DataStreamsRepository
 	 * Decode a Data Stream repository entry into its model class.
 	 *
 	 * @param	stdClass
-	 * @return	Fruitful\Data\Models\DataStream
+	 * @return	Monal\Data\Models\DataStream
 	 */
 	public function decodeFromStorage($result);
 
@@ -49,14 +49,14 @@ interface DataStreamsRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataStream
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataStream
 	 */
 	public function retrieve($key = null);
 
 	/**
 	 * Write a Data Stream model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStream
+	 * @param	Monal\Data\Models\DataStream
 	 * @return	Boolean
 	 */
 	public function write(DataStream $data_stream);

@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Monal\Data\Libraries;
 /**
  * Components Interface.
  *
@@ -29,7 +29,7 @@ interface ComponentsInterface
 	 * Create a new instance of a component type.
 	 *
 	 * @param	String
-	 * @return	Fruitful\Data\Components\ComponentInterface
+	 * @return	Monal\Data\Components\ComponentInterface
 	 */
 	public function make($component_uri);
 }

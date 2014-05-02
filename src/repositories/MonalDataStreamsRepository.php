@@ -1,22 +1,22 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
- * Fruitful Data Streams Repository.
+ * Monal Data Streams Repository.
  *
- * The Fruitful System's implementation of the DataStreamsRepository.
+ * The Monal System's implementation of the DataStreamsRepository.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Repositories\DataStreamsRepository;
-use Fruitful\Data\Models\DataStream;
+use Monal\Data\Repositories\DataStreamsRepository;
+use Monal\Data\Models\DataStream;
 
-class FruitfulDataStreamsRepository implements DataStreamsRepository
+class MonalDataStreamsRepository implements DataStreamsRepository
 {
 	/**
 	 * The repository's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
@@ -34,7 +34,7 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
 	}
 
 	/**
@@ -50,17 +50,17 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 	/**
 	 * Return a new Data Stream model.
 	 *
-	 * @return	Fruitful\Data\Models\DataStream
+	 * @return	Monal\Data\Models\DataStream
 	 */
 	public function newModel()
 	{
-		return \App::make('Fruitful\Data\Models\DataStream');
+		return \App::make('Monal\Data\Models\DataStream');
 	}
 
 	/**
 	 * Check a Data Stream model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataStream
+	 * @param	Monal\Data\Models\DataStream
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataStream $data_stream)
@@ -94,7 +94,7 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 	 * Encode a Data Stream model so it is ready to be stored in the
 	 * repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStream
+	 * @param	Monal\Data\Models\DataStream
 	 * @return	Array
 	 */
 	protected function encodeForStorage(DataStream $data_stream)
@@ -115,7 +115,7 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 	 * Decode a Data Stream repository entry into its model class.
 	 *
 	 * @param	stdClass
-	 * @return	Fruitful\Data\Models\DataStream
+	 * @return	Monal\Data\Models\DataStream
 	 */
 	public function decodeFromStorage($result)
 	{
@@ -127,7 +127,7 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 				$data_stream->addPreviewColumn($preview_column);
 			}
 		}
-		$data_stream_templates_repo = \App::make('Fruitful\Data\Repositories\DataStreamTemplatesRepository');
+		$data_stream_templates_repo = \App::make('Monal\Data\Repositories\DataStreamTemplatesRepository');
 		$template = new \stdClass;
 		$template->id = $result->template_id;
 		$template->name = $result->template_name;
@@ -141,7 +141,7 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataStream
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataStream
 	 */
 	public function retrieve($key = null)
 	{
@@ -175,7 +175,7 @@ class FruitfulDataStreamsRepository implements DataStreamsRepository
 	/**
 	 * Write a Data Stream model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStream
+	 * @param	Monal\Data\Models\DataStream
 	 * @return	Boolean
 	 */
 	public function write(DataStream $data_stream)

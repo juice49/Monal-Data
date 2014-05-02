@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Facades;
+namespace Monal\Data\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -10,5 +10,5 @@ class StreamSchema extends Facade
 	 *
 	 * @return	String
 	 */
-	protected static function getFacadeAccessor() { return 'fruitulstreamschema'; }
+	protected static function getFacadeAccessor() { return 'monalstreamschema'; }
 }

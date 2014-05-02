@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Components;
+namespace Monal\Data\Components;
 /**
  * Text Component.
  *
@@ -8,14 +8,14 @@ namespace Fruitful\Data\Components;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Components\ComponentInterface;
+use Monal\Data\Components\ComponentInterface;
 
 class Text implements ComponentInterface
 {
 	/**
 	 * The Component's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	public $messages;
 
@@ -26,7 +26,7 @@ class Text implements ComponentInterface
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
 	}
 
 	/**

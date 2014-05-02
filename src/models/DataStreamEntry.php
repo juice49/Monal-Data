@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
  * Data Stream Entry.
  *
@@ -13,7 +13,7 @@ namespace Fruitful\Data\Models;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataSet;
+use Monal\Data\Models\DataSet;
 
 interface DataStreamEntry
 {
@@ -27,7 +27,7 @@ interface DataStreamEntry
 	/**
 	 * Add a new Data Set to the model.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Void
 	 */
 	public function addDataSet(DataSet $data_set);

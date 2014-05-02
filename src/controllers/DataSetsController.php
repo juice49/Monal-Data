@@ -10,31 +10,31 @@
  * @author	Arran Jacques
  */
 
-use Fruitful\GatewayInterface;
-use Fruitful\Data\Libraries\ComponentsInterface;
-use Fruitful\Data\Repositories\DataSetsRepository;
-use Fruitful\Data\Repositories\DataSetTemplatesRepository;
+use Monal\GatewayInterface;
+use Monal\Data\Libraries\ComponentsInterface;
+use Monal\Data\Repositories\DataSetsRepository;
+use Monal\Data\Repositories\DataSetTemplatesRepository;
 
 class DataSetsController extends AdminController
 {
 	/**
 	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
+	 * @var		 Monal\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
 	/**
 	 * An instance the of the Data Sets Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\DataSetsRepository
+	 * @var		 Monal\Data\Repositories\DataSetsRepository
 	 */
 	protected $data_sets_repo;
 
 	/**
 	 * An instance the of the Data Set Templates Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\DataSetTemplatesRepository
+	 * @var		 Monal\Data\Repositories\DataSetTemplatesRepository
 	 */
 	protected $data_set_templates_repo;
 

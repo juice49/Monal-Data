@@ -10,23 +10,23 @@
  * @author	Arran Jacques
  */
 
-use Fruitful\GatewayInterface;
-use Fruitful\Data\Repositories\DataStreamsRepository;
-use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
+use Monal\GatewayInterface;
+use Monal\Data\Repositories\DataStreamsRepository;
+use Monal\Data\Repositories\DataStreamTemplatesRepository;
 
 class DataStreamsController extends AdminController
 {
 	/**
 	 * An instance the of the Data Streams Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\DataStreamsRepository
+	 * @var		 Monal\Data\Repositories\DataStreamsRepository
 	 */
 	protected $data_streams_repo;
 
 	/**
 	 * An instance the of the Data Stream Templates Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\DataStreamTemplatesRepository
+	 * @var		 Monal\Data\Repositories\DataStreamTemplatesRepository
 	 */
 	protected $data_stream_templates_repo;
 

@@ -1,23 +1,23 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
- * Fruitful Data Stream.
+ * Monal Data Stream.
  *
- * The Fruitful System's implementation of the DataStream model.
+ * The Monal System's implementation of the DataStream model.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataStream;
-use Fruitful\Data\Models\DataStreamTemplate;
-use Fruitful\Data\Models\DataStreamEntry;
+use Monal\Data\Models\DataStream;
+use Monal\Data\Models\DataStreamTemplate;
+use Monal\Data\Models\DataStreamEntry;
 
-class FruitfulDataStream implements DataStream
+class MonalDataStream implements DataStream
 {
 	/**
 	 * The Data Stream's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
@@ -39,7 +39,7 @@ class FruitfulDataStream implements DataStream
 	 * A model of the Data Stream Template the Data Stream is
 	 * implementing.
 	 *
-	 * @var		Fruitful\Data\Models\DataStreamTemplate
+	 * @var		Monal\Data\Models\DataStreamTemplate
 	 */
 	public $template = null;
 
@@ -66,7 +66,7 @@ class FruitfulDataStream implements DataStream
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
 	}
 
 	/**
@@ -82,13 +82,13 @@ class FruitfulDataStream implements DataStream
 	/**
 	 * Generate and return a new model of an entry for this stream.
 	 *
-	 * @return	Fruitful\Data\Models\DataStreamEntry
+	 * @return	Monal\Data\Models\DataStreamEntry
 	 */
 	public function newEntryModel()
 	{
-		$entry_model = \App::make('Fruitful\Data\Models\DataStreamEntry');
+		$entry_model = \App::make('Monal\Data\Models\DataStreamEntry');
 		foreach ($this->template->dataSetTemplates() as $data_set_template) {
-			$data_set = \App::make('Fruitful\Data\Models\DataSet');
+			$data_set = \App::make('Monal\Data\Models\DataSet');
 			$data_set->setName($data_set_template->name());
 			$data_set->setComponent($data_set_template->componentURI());
 			$data_set->setComponentSettings($data_set_template->componentSettings());
@@ -121,7 +121,7 @@ class FruitfulDataStream implements DataStream
 	 * Return the model of the Data Stream Template the Data Stream is
 	 * implementing.
 	 *
-	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Monal\Data\Models\DataStreamTemplate
 	 */
 	public function template()
 	{
@@ -156,7 +156,7 @@ class FruitfulDataStream implements DataStream
 				$entry = $this->newEntryModel();
 				$i = 0;
 				foreach ($result as $key => $value) {
-					$components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+					$components = \App::make('Monal\Data\Libraries\ComponentsInterface');
 					$dressed_values = $components->make($entry->dataSets()[$i]->componentURI())
 										->dressImplementationValues($value);
 					$entry->dataSets()[$i]->setComponentValues($dressed_values);
@@ -195,7 +195,7 @@ class FruitfulDataStream implements DataStream
 	 * Set the model of the Data Stream Template the Data Stream is
 	 * implementing.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Void
 	 */
 	public function setTemplate(DataStreamTemplate $data_stream_template)
@@ -245,7 +245,7 @@ class FruitfulDataStream implements DataStream
 	/**
 	 * Add a new entry to the Data Stream.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamEntry
+	 * @param	Monal\Data\Models\DataStreamEntry
 	 * @return	Boolean
 	 */
 	public function addEntry(DataStreamEntry $entry)

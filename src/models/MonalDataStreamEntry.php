@@ -1,17 +1,17 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
- * Fruitful Data Stream Entry.
+ * Monal Data Stream Entry.
  *
- * The Fruitful System's implementation of the DataStreamEntry model.
+ * The Monal System's implementation of the DataStreamEntry model.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataStreamEntry;
-use Fruitful\Data\Models\DataSet;
+use Monal\Data\Models\DataStreamEntry;
+use Monal\Data\Models\DataSet;
 
-class FruitfulDataStreamEntry implements DataStreamEntry, \IteratorAggregate, \ArrayAccess
+class MonalDataStreamEntry implements DataStreamEntry, \IteratorAggregate, \ArrayAccess
 {
 	/**
 	 * An array of the model's Data Sets.
@@ -45,7 +45,7 @@ class FruitfulDataStreamEntry implements DataStreamEntry, \IteratorAggregate, \A
 	public function summariseDataSets()
 	{
 		if ($this->summarised_data_sets === null) {
-			$components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+			$components = \App::make('Monal\Data\Libraries\ComponentsInterface');
 			$this->summarised_data_sets = array();
 			foreach ($this->data_sets as $key => $data_set) {
 				$value = $components->make($data_set->componentURI())->summariseValues($data_set->componentValues());
@@ -64,7 +64,7 @@ class FruitfulDataStreamEntry implements DataStreamEntry, \IteratorAggregate, \A
 	 */
 	public function buildIteratorArray()
 	{
-		$components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
+		$components = \App::make('Monal\Data\Libraries\ComponentsInterface');
 		$this->items = array();
 		foreach ($this->data_sets as $key => $data_set) {
 			$value = $components->make($data_set->componentURI())->stripImplementationValues($data_set->componentValues());
@@ -165,7 +165,7 @@ class FruitfulDataStreamEntry implements DataStreamEntry, \IteratorAggregate, \A
 	/**
 	 * Add a new Data Set to the model.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Void
 	 */
 	public function addDataSet(DataSet $data_set)

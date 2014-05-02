@@ -1,23 +1,23 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
- * Fruitful Data Stream Template.
+ * Monal Data Stream Template.
  *
- * The Fruitful System's implementation of the DataStreamTemplate
+ * The Monal System's implementation of the DataStreamTemplate
  * interface.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataStreamTemplate;
-use Fruitful\Data\Models\DataSetTemplate;
+use Monal\Data\Models\DataStreamTemplate;
+use Monal\Data\Models\DataSetTemplate;
 
-class FruitfulDataStreamTemplate implements DataStreamTemplate
+class MonalDataStreamTemplate implements DataStreamTemplate
 {
 	/**
 	 * The Data Stream Template's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
@@ -57,7 +57,7 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
 		$this->data_set_templates = \App::make('Illuminate\Database\Eloquent\Collection');
 	}
 
@@ -150,7 +150,7 @@ class FruitfulDataStreamTemplate implements DataStreamTemplate
 	/**
 	 * Add a Data Set Template to the Data Stream Template.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Void
 	 */
 	public function addDataSetTemplate(DataSetTemplate $data_set_template)

@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Facades;
+namespace Monal\Data\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

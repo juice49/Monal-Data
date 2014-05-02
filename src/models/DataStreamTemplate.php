@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Models;
+namespace Monal\Data\Models;
 /**
  * Data Stream Template Interface.
  *
@@ -11,7 +11,7 @@ namespace Fruitful\Data\Models;
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Models\DataSetTemplate;
+use Monal\Data\Models\DataSetTemplate;
 
 interface DataStreamTemplate
 {
@@ -80,7 +80,7 @@ interface DataStreamTemplate
 	/**
 	 * Add a Data Set Template to the Data Stream Template.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Void
 	 */
 	public function addDataSetTemplate(DataSetTemplate $data_set_template);

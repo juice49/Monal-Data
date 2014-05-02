@@ -1,23 +1,23 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
- * Fruitful Data Set Templates Repository.
+ * Monal Data Set Templates Repository.
  *
- * The Fruitful System's implementation of the
+ * The Monal System's implementation of the
  * DataSetTemplatesRepository.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Repositories\DataSetTemplatesRepository;
-use Fruitful\Data\Models\DataSetTemplate;
+use Monal\Data\Repositories\DataSetTemplatesRepository;
+use Monal\Data\Models\DataSetTemplate;
 
-class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
+class MonalDataSetTemplatesRepository implements DataSetTemplatesRepository
 {
 	/**
 	 * The repository's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
@@ -35,7 +35,7 @@ class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
 	}
 
 	/**
@@ -51,17 +51,17 @@ class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 	/**
 	 * Return a new Data Set Template model.
 	 *
-	 * @return	Fruitful\Data\Models\DataSetTemplate
+	 * @return	Monal\Data\Models\DataSetTemplate
 	 */
 	public function newModel()
 	{
-		return \App::make('Fruitful\Data\Models\DataSetTemplate');
+		return \App::make('Monal\Data\Models\DataSetTemplate');
 	}
 
 	/**
 	 * Check the Data Set Template model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataSetTemplate $data_set_template)
@@ -96,7 +96,7 @@ class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 	 * Encode a Data Set Template model so it is ready to be stored in
 	 * the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Array
 	 */
 	protected function encodeForStorage(DataSetTemplate $data_set_template)
@@ -112,7 +112,7 @@ class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 	 * Decode a Data Set Template repository entry into its model class.
 	 *
 	 * @param	stdClass
-	 * @return	Fruitful\Data\Models\DataSetTemplate
+	 * @return	Monal\Data\Models\DataSetTemplate
 	 */
 	protected function decodeFromStorage($result)
 	{
@@ -128,7 +128,7 @@ class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataSetTemplate
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataSetTemplate
 	 */
 	public function retrieve($key = null)
 	{
@@ -151,7 +151,7 @@ class FruitfulDataSetTemplatesRepository implements DataSetTemplatesRepository
 	/**
 	 * Write a Data Set Template model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataSetTemplate
+	 * @param	Monal\Data\Models\DataSetTemplate
 	 * @return	Boolean
 	 */
 	public function write(DataSetTemplate $data_set_template)

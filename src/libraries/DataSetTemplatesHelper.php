@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data\Libraries;
+namespace Monal\Data\Libraries;
 /**
  * Data Set Templates.
  *
@@ -39,7 +39,7 @@ class DataSetTemplatesHelper
 						$data_set['component_settings'][explode($uri . '-', $key)[1]] = $value;
 					}
 				}
-				$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
+				$data_set_template = \App::make('Monal\Data\Models\DataSetTemplate');
 				$data_set_template->setURI($uri);
 				$data_set_template->setName($data_set['name']);
 				$data_set_template->setComponent($data_set['component']);

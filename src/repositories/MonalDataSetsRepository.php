@@ -1,36 +1,36 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
- * Fruitful Data Sets Repository.
+ * Monal Data Sets Repository.
  *
- * The Fruitful System's implementation of the DataSetsRepository.
+ * The Monal System's implementation of the DataSetsRepository.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Repositories\DataSetsRepository;
-use Fruitful\Data\Models\DataSet;
+use Monal\Data\Repositories\DataSetsRepository;
+use Monal\Data\Models\DataSet;
 
-class FruitfulDataSetsRepository implements DataSetsRepository
+class MonalDataSetsRepository implements DataSetsRepository
 {
 	/**
 	 * The repository's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
 	/**
 	 * An instance of the Components library. 
 	 *
-	 * @var		 Fruitful\Data\Libraries\ComponentsInterface
+	 * @var		 Monal\Data\Libraries\ComponentsInterface
 	 */
 	protected $components;
 
 	/**
 	 * An instance the of the Data Set Templates Repository.
 	 *
-	 * @var		 Fruitful\Data\Repositories\DataSetTemplatesRepository
+	 * @var		 Monal\Data\Repositories\DataSetTemplatesRepository
 	 */
 	protected $data_set_templates_repo;
 
@@ -48,9 +48,9 @@ class FruitfulDataSetsRepository implements DataSetsRepository
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
-		$this->components = \App::make('Fruitful\Data\Libraries\ComponentsInterface');
-		$this->data_set_templates_repo = \App::make('Fruitful\Data\Repositories\DataSetTemplatesRepository');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
+		$this->components = \App::make('Monal\Data\Libraries\ComponentsInterface');
+		$this->data_set_templates_repo = \App::make('Monal\Data\Repositories\DataSetTemplatesRepository');
 	}
 
 	/**
@@ -66,17 +66,17 @@ class FruitfulDataSetsRepository implements DataSetsRepository
 	/**
 	 * Return a new Data Set model.
 	 *
-	 * @return	Fruitful\Data\Models\DataSet
+	 * @return	Monal\Data\Models\DataSet
 	 */
 	public function newModel()
 	{
-		return \App::make('Fruitful\Data\Models\DataSet');
+		return \App::make('Monal\Data\Models\DataSet');
 	}
 
 	/**
 	 * Check a Data Set model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataSet $data_set)
@@ -114,7 +114,7 @@ class FruitfulDataSetsRepository implements DataSetsRepository
 	 * Encode a Data Set model so it is ready to be stored in the
 	 * repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Array
 	 */
 	protected function encodeForStorage(DataSet $data_set)
@@ -133,7 +133,7 @@ class FruitfulDataSetsRepository implements DataSetsRepository
 	 * Decode a Data Set repository entry into its model class.
 	 *
 	 * @param	stdClass
-	 * @return	Fruitful\Data\Models\DataSet
+	 * @return	Monal\Data\Models\DataSet
 	 */
 	protected function decodeFromStorage($result)
 	{
@@ -155,7 +155,7 @@ class FruitfulDataSetsRepository implements DataSetsRepository
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataSet
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataSet
 	 */
 	public function retrieve($key = null)
 	{
@@ -178,7 +178,7 @@ class FruitfulDataSetsRepository implements DataSetsRepository
 	/**
 	 * Write a Data Set model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataSet
+	 * @param	Monal\Data\Models\DataSet
 	 * @return	Boolean
 	 */
 	public function write(DataSet $data_set)

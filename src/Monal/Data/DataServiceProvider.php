@@ -1,5 +1,5 @@
 <?php
-namespace Fruitful\Data;
+namespace Monal\Data;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -19,7 +19,7 @@ class DataServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		$this->package('fruitful/data');
+		$this->package('monal/data');
 
 		$routes = __DIR__.'/../../routes.php';
 		if (file_exists($routes)){
@@ -29,9 +29,9 @@ class DataServiceProvider extends ServiceProvider
 		\View::addLocation(__DIR__ . '/../../components');
 		\View::addNamespace('components', __DIR__ . '/../../components');
 
-		\Fruitful::registerMenuOption('Data', 'Data Sets', 'data-sets', 'data_sets');
-		\Fruitful::registerMenuOption('Data', 'Data Streams', 'data-streams', 'data_streams');
-		\Fruitful::registerPermissionSet(
+		\Monal::registerMenuOption('Data', 'Data Sets', 'data-sets', 'data_sets');
+		\Monal::registerMenuOption('Data', 'Data Streams', 'data-streams', 'data_streams');
+		\Monal::registerPermissionSet(
 			'Data',
 			'data_sets',
 			array(
@@ -40,7 +40,7 @@ class DataServiceProvider extends ServiceProvider
 				'Delete Data Set' => 'delete_data_set',
 			)
 		);
-		\Fruitful::registerPermissionSet(
+		\Monal::registerPermissionSet(
 			'Data Set Templates',
 			'data_set_templates',
 			array(
@@ -49,7 +49,7 @@ class DataServiceProvider extends ServiceProvider
 				'Delete Data Set Template' => 'delete_data_set_template',
 			)
 		);
-		\Fruitful::registerPermissionSet(
+		\Monal::registerPermissionSet(
 			'Data Stream Templates',
 			'data_stream_templates',
 			array(
@@ -68,98 +68,98 @@ class DataServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->app->bind(
-			'Fruitful\Data\Libraries\ComponentsInterface',
+			'Monal\Data\Libraries\ComponentsInterface',
 			function () {
-				return new \Fruitful\Data\Libraries\Components;
+				return new \Monal\Data\Libraries\Components;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Models\DataSet',
+			'Monal\Data\Models\DataSet',
 			function () {
-				return new \Fruitful\Data\Models\FruitfulDataSet;
+				return new \Monal\Data\Models\MonalDataSet;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Models\DataSetTemplate',
+			'Monal\Data\Models\DataSetTemplate',
 			function () {
-				return new \Fruitful\Data\Models\FruitfulDataSetTemplate;
+				return new \Monal\Data\Models\MonalDataSetTemplate;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Models\DataStream',
+			'Monal\Data\Models\DataStream',
 			function () {
-				return new \Fruitful\Data\Models\FruitfulDataStream;
+				return new \Monal\Data\Models\MonalDataStream;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Models\DataStreamEntry',
+			'Monal\Data\Models\DataStreamEntry',
 			function () {
-				return new \Fruitful\Data\Models\FruitfulDataStreamEntry;
+				return new \Monal\Data\Models\MonalDataStreamEntry;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Models\DataStreamTemplate',
+			'Monal\Data\Models\DataStreamTemplate',
 			function () {
-				return new \Fruitful\Data\Models\FruitfulDataStreamTemplate;
+				return new \Monal\Data\Models\MonalDataStreamTemplate;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Repositories\DataSetsRepository',
+			'Monal\Data\Repositories\DataSetsRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\FruitfulDataSetsRepository;
+				return new \Monal\Data\Repositories\MonalDataSetsRepository;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Repositories\DataSetTemplatesRepository',
+			'Monal\Data\Repositories\DataSetTemplatesRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\FruitfulDataSetTemplatesRepository;
+				return new \Monal\Data\Repositories\MonalDataSetTemplatesRepository;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Repositories\DataStreamsRepository',
+			'Monal\Data\Repositories\DataStreamsRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\FruitfulDataStreamsRepository;
+				return new \Monal\Data\Repositories\MonalDataStreamsRepository;
 			}
 		);
 		$this->app->bind(
-			'Fruitful\Data\Repositories\DataStreamTemplatesRepository',
+			'Monal\Data\Repositories\DataStreamTemplatesRepository',
 			function () {
-				return new \Fruitful\Data\Repositories\FruitfulDataStreamTemplatesRepository;
+				return new \Monal\Data\Repositories\MonalDataStreamTemplatesRepository;
 			}
 		);
 
 		// Register Facades
 		$this->app['datasetshelper'] = $this->app->share(
 			function ($app) {
-				return new \Fruitful\Data\Libraries\DataSetsHelper;
+				return new \Monal\Data\Libraries\DataSetsHelper;
 			}
 		);
 		$this->app->booting(
 			function () {
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('DataSetsHelper', 'Fruitful\Data\Facades\DataSetsHelper');
+			$loader->alias('DataSetsHelper', 'Monal\Data\Facades\DataSetsHelper');
 		});
 
 		$this->app['datasettemplateshelper'] = $this->app->share(
 			function ($app) {
-				return new \Fruitful\Data\Libraries\DataSetTemplatesHelper;
+				return new \Monal\Data\Libraries\DataSetTemplatesHelper;
 			}
 		);
 		$this->app->booting(
 			function () {
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('DataSetTemplatesHelper', 'Fruitful\Data\Facades\DataSetTemplatesHelper');
+			$loader->alias('DataSetTemplatesHelper', 'Monal\Data\Facades\DataSetTemplatesHelper');
 		});
 
-		$this->app['fruitulstreamschema'] = $this->app->share(
+		$this->app['monalstreamschema'] = $this->app->share(
 			function ($app) {
-				return new \Fruitful\Data\Libraries\FruitulStreamSchema;
+				return new \Monal\Data\Libraries\MonalStreamSchema;
 			}
 		);
 		$this->app->booting(
 			function () {
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('StreamSchema', 'Fruitful\Data\Facades\StreamSchema');
+			$loader->alias('StreamSchema', 'Monal\Data\Facades\StreamSchema');
 		});
 	}
 }

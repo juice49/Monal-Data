@@ -1,23 +1,23 @@
 <?php
-namespace Fruitful\Data\Repositories;
+namespace Monal\Data\Repositories;
 /**
- * Fruitful Data Stream Templates Repository.
+ * Monal Data Stream Templates Repository.
  *
- * The Fruitful System's implementation of the
+ * The Monal System's implementation of the
  * DataStreamTemplatesRepository.
  *
  * @author	Arran Jacques
  */
 
-use Fruitful\Data\Repositories\DataStreamTemplatesRepository;
-use Fruitful\Data\Models\DataStreamTemplate;
+use Monal\Data\Repositories\DataStreamTemplatesRepository;
+use Monal\Data\Models\DataStreamTemplate;
 
-class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesRepository
+class MonalDataStreamTemplatesRepository implements DataStreamTemplatesRepository
 {
 	/**
 	 * The repository's messages.
 	 *
-	 * @var		 Fruitful\Core\Contracts\MessagesInterface
+	 * @var		 Monal\Core\Contracts\MessagesInterface
 	 */
 	protected $messages;
 
@@ -35,7 +35,7 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 	 */
 	public function __construct()
 	{
-		$this->messages = \App::make('Fruitful\Core\Contracts\MessagesInterface');
+		$this->messages = \App::make('Monal\Core\Contracts\MessagesInterface');
 	}
 
 	/**
@@ -51,17 +51,17 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 	/**
 	 * Return a new Data Stream Template model.
 	 *
-	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Monal\Data\Models\DataStreamTemplate
 	 */
 	public function newModel()
 	{
-		return \App::make('Fruitful\Data\Models\DataStreamTemplate');
+		return \App::make('Monal\Data\Models\DataStreamTemplate');
 	}
 
 	/**
 	 * Check a Data Stream Template model validates for storage.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean
 	 */
 	public function validatesForStorage(DataStreamTemplate $data_stream_template)
@@ -101,7 +101,7 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 	 * Encode a Data Stream Template model so it is ready to be stored in
 	 * the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Array
 	 */
 	protected function encodeForStorage(DataStreamTemplate $data_stream_template)
@@ -131,7 +131,7 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 	 * class.
 	 *
 	 * @param	stdClass
-	 * @return	Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Monal\Data\Models\DataStreamTemplate
 	 */
 	public function decodeFromStorage($results)
 	{
@@ -141,7 +141,7 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 		$data_stream_template->setTablePrefix($results->table_prefix);
 		$data_set_templates = json_decode($results->data_set_templates, true);
 		foreach ($data_set_templates as $encoded_data_set_template) {
-			$data_set_template = \App::make('Fruitful\Data\Models\DataSetTemplate');
+			$data_set_template = \App::make('Monal\Data\Models\DataSetTemplate');
 			$data_set_template->setURI($encoded_data_set_template['uri']);
 			$data_set_template->setName($encoded_data_set_template['name']);
 			$data_set_template->setComponent($encoded_data_set_template['component']);
@@ -155,7 +155,7 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 	 * Retrieve an instance/s from the repository.
 	 *
 	 * @param	Integer
-	 * @return	Illuminate\Database\Eloquent\Collection / Fruitful\Data\Models\DataStreamTemplate
+	 * @return	Illuminate\Database\Eloquent\Collection / Monal\Data\Models\DataStreamTemplate
 	 */
 	public function retrieve($key = null)
 	{
@@ -178,7 +178,7 @@ class FruitfulDataStreamTemplatesRepository implements DataStreamTemplatesReposi
 	/**
 	 * Write a Data Stream Template model to the repository.
 	 *
-	 * @param	Fruitful\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean
 	 */
 	public function write(DataStreamTemplate $data_stream_template)
