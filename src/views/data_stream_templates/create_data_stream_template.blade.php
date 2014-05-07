@@ -23,11 +23,11 @@
 		<div class="well">
 			<div class="control_block">
 				{{ Form::label('name', 'Name', array('class' => 'label--block')) }}
-				{{ Form::input('text', 'name', Input::has('name') ? Input::get('name') : null, array('class' => 'input--text')) }}
+				{{ Form::input('text', 'name', $data_stream_template->name(), array('class' => 'input--text')) }}
 			</div>
 			<div class="control_block">
 				{{ Form::label('table_prefix', 'Table Prefex', array('class' => 'label--block')) }}
-				{{ Form::input('text', 'table_prefix', Input::has('table_prefix') ? Input::get('table_prefix') : null, array('class' => 'input--text')) }}
+				{{ Form::input('text', 'table_prefix', $data_stream_template->tablePrefix(), array('class' => 'input--text')) }}
 			</div>
 			<div class="control_block">
 				{{ Form::label('table_name', 'Table Name', array('class' => 'label--block')) }}

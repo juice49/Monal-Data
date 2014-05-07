@@ -150,7 +150,7 @@ class MonalDataStream implements DataStream
 			$entries = \App::make('Illuminate\Database\Eloquent\Collection');
 			foreach (\StreamSchema::getEntires($this->template, $this->id) as $result) {
 				unset($result->id);
-				unset($result->stream);
+				unset($result->rel);
 				unset($result->created_at);
 				unset($result->updated_at);
 				$entry = $this->newEntryModel();

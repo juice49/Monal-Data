@@ -29,7 +29,7 @@ class MonalStreamSchema
 		if (!\Schema::hasTable($repository_name)) {
 			\Schema::create($repository_name, function($table) use($data_stream_template) {
 			    $table->increments('id');
-			    $table->string('stream');
+			    $table->string('rel');
 				foreach ($data_stream_template->dataSetTemplates() as $data_set_template) {
 					$table->longtext(\Text::snakeCaseString($data_set_template->name()));
 				}
@@ -132,7 +132,7 @@ class MonalStreamSchema
 	{
 		$repository_name = \Text::snakeCaseString($data_stream_template->tablePrefix());
 		$repository_name .= \Text::snakeCaseString($data_stream_template->name());
-		return \DB::table($repository_name)->select('*')->where('stream', '=', $stream_id)->get();
+		return \DB::table($repository_name)->select('*')->where('rel', '=', $stream_id)->get();
 	}
 
 	/**
@@ -151,7 +151,7 @@ class MonalStreamSchema
 		$repository_name = \Text::snakeCaseString($data_stream_template->tablePrefix());
 		$repository_name .= \Text::snakeCaseString($data_stream_template->name());
 		$encoded_entry = array(
-			'stream' => (integer) $stream_id,
+			'rel' => (integer) $stream_id,
 			'created_at' => date('Y-m-d H:i:s'),
 			'updated_at' => date('Y-m-d H:i:s'),
 		);

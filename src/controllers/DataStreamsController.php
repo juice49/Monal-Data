@@ -270,10 +270,11 @@ class DataStreamsController extends AdminController
 			return Redirect::route('admin.data-stream-templates');
 		}
 		$data_stream_template = $this->data_stream_templates_repo->newModel();
-		$data_set_templates = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input);
+		$data_stream_template->setTablePrefix('stream__');
 		if ($this->input) {
 			$data_stream_template->setName(isset($this->input['name']) ? $this->input['name'] : null);
 			$data_stream_template->setTablePrefix(isset($this->input['table_prefix']) ? $this->input['table_prefix'] : null);
+			$data_set_templates = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input);
 			foreach ($data_set_templates as $data_set_template) {
 				$data_stream_template->addDataSetTemplate($data_set_template);
 			}
