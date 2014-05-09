@@ -28,8 +28,8 @@ class MonalStreamSchema
 		$repository_name .= \Text::snakeCaseString($data_stream_template->name());
 		if (!\Schema::hasTable($repository_name)) {
 			\Schema::create($repository_name, function($table) use($data_stream_template) {
-			    $table->increments('id');
-			    $table->string('rel');
+				$table->increments('id');
+				$table->string('rel');
 				foreach ($data_stream_template->dataSetTemplates() as $data_set_template) {
 					$table->longtext(\Text::snakeCaseString($data_set_template->name()));
 				}
@@ -44,79 +44,125 @@ class MonalStreamSchema
 	/**
 	 * Update a Data Stream table by adding, removing or updating the
 	 * table’s columns so that they correspond to the Data Set Templates
-	 * within a Data Stream Template,
+	 * within a Data Stream Template.
 	 *
 	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @return	Boolean / String
 	 */
-	public function update(DataStreamTemplate $data_stream_template)
+	public function update(DataStreamTemplate $from, DataStreamTemplate $to)
 	{	
-		$data_stream_templates_repo = \App::make('Monal\Data\Repositories\DataStreamTemplatesRepository');
-		if ($data_stream_template->ID()) {
-			if ($original_data_stream_template = $data_stream_templates_repo->retrieve($data_stream_template->ID())) {
+		if ($to->ID()) {
+			$repository_name = \Text::snakeCaseString($from->tablePrefix());
+			$repository_name .= \Text::snakeCaseString($from->name());
 
-				$repository_name = \Text::snakeCaseString($original_data_stream_template->tablePrefix());
-				$repository_name .= \Text::snakeCaseString($original_data_stream_template->name());
-
-				// Create an array of Data Set Templates in the original Data Stream
-				// Template.
-				$original_repo_structure = array();
-				foreach ($original_data_stream_template->dataSetTemplates() as $original_data_set_template) {
-					$original_repo_structure[$original_data_set_template->URI()] = $original_data_set_template;
-				}
-
-				// Loop through the Data Set Templates in the updated Data Stream
-				// Template and identify where they have changed or new ones have been
-				//added.
-				$updated_repo_structure = array();
-				foreach ($data_stream_template->dataSetTemplates() as $data_set_template) {
-
-					// Check if the Data Set Template has a column in the existing table.
-					if (isset($original_repo_structure[$data_set_template->URI()])) {
-						$original = $original_repo_structure[$data_set_template->URI()];
-
-						// If the Data Set Template's name has been changed, update the
-						// corresponding column's name.
-						if ($original->name() !== $data_set_template->name()) {
-							\Schema::table($repository_name, function($table) use($original, $data_set_template)
-							{
-								$table->renameColumn(
-							    	\Text::snakeCaseString($original->name()),
-							    	\Text::snakeCaseString($data_set_template->name())
-							    );
-							});
-						}
-					} else {
-						// Add a new column for new Data Set Templates.
-						\Schema::table($repository_name, function($table) use($data_set_template)
-						{
-							$table->longtext(\Text::snakeCaseString($data_set_template->name()));
-						});
-					}
-					$updated_repo_structure[$data_set_template->URI()] = $data_set_template->URI();
-				}
-
-				// Loop through the Data Set Templates in the original Data Stream
-				// Template and see if any have been removed in the updated version.
-				foreach ($original_repo_structure as $original_column_uri => $original_data_set_template) {
-					// If a column has been removed then drop it from the repository.
-					if (!isset($updated_repo_structure[$original_column_uri])) {
-						\Schema::table($repository_name, function($table) use($original_data_set_template)
-						{
-							$table->dropColumn(\Text::snakeCaseString($original_data_set_template->name()));
-						});
-					}
-				}
-
-				// Check if the Data Stream Template's name has been changed. If so
-				// update its corresponding table's name.
-				$updated_repo_name =  \Text::snakeCaseString($data_stream_template->tablePrefix());
-				$updated_repo_name .= \Text::snakeCaseString($data_stream_template->name());
-				if ($repository_name != $updated_repo_name) {
-					\Schema::rename($repository_name, $updated_repo_name);
-				}
-				return true;
+			// Create an array of Data Set Templates in the original Data Stream
+			// Template.
+			$original_repo_structure = array();
+			foreach ($from->dataSetTemplates() as $original_data_set_template) {
+				$original_repo_structure[$original_data_set_template->URI()] = $original_data_set_template;
 			}
+
+			// Create an array of Data Set Templates in the new Data Stream
+			// Template.
+			$updated_repo_structure = array();
+			foreach ($to->dataSetTemplates() as $data_set_template) {
+				$updated_repo_structure[$data_set_template->URI()] = $data_set_template->URI();
+			}
+
+			// Loop through the Data Set Templates in the original Data Stream
+			// Template and see if any have been removed in the updated version.
+			foreach ($original_repo_structure as $original_column_uri => $original_data_set_template) {
+				// If a column has been removed then drop it from the repository.
+				if (!isset($updated_repo_structure[$original_column_uri])) {
+					\Schema::table($repository_name, function($table) use($original_data_set_template)
+					{
+						$table->dropColumn(\Text::snakeCaseString($original_data_set_template->name()));
+					});
+				}
+			}
+
+			// Loop through the Data Set Templates in the updated Data Stream
+			// Template and identify where they have changed or new ones have been
+			// added.
+			$name_change_map = array();
+			$cols_to_create = array();
+			foreach ($to->dataSetTemplates() as $data_set_template) {
+
+				// Check if the Data Set Template already has a corresponsing column
+				// in the streams table.
+				if (isset($original_repo_structure[$data_set_template->URI()])) {
+					// It does have column.
+
+					$original = $original_repo_structure[$data_set_template->URI()];
+
+					// If the Data Set Template's name has been change then we need to
+					// update the corresponding column's name, so add it to the list
+					// column names to be updates.
+					if ($original->name() !== $data_set_template->name()) {
+						$name_change_map[\Text::snakeCaseString($original->name())] = \Text::snakeCaseString($data_set_template->name());
+					}
+				} else {
+					// If the Data Set Template is new and doesn't have a corresponding
+					// column then add it to the list columns to be created.
+					$cols_to_create[$data_set_template->name()] = \Text::snakeCaseString($data_set_template->name());
+				}
+			}
+
+			// Loop through the array of column names to be updated and update
+			// each one accordingly.
+			$temporary_col_names = array();
+			$i = 0;
+			foreach ($name_change_map as $old_col_name => $new_col_name) {
+
+				// If there is already a column with the same name that this column is
+				// to be given, but the existing column is also due to have its name
+				// changed (meaning there won’t be a naming conflict after the process
+				// is complete), then assign a temporary name to the current column.
+				// After the existing column’s name has been updated we can then come
+				// back to this one and update it.
+				if (isset($name_change_map[$new_col_name])) {
+					$temp_name = 'temp' . $i;
+					$temporary_col_names[$temp_name] = $new_col_name;
+					\Schema::table($repository_name, function($table) use($old_col_name, $temp_name)
+					{
+						$table->renameColumn($old_col_name, $temp_name);
+					});
+				// Else just rename the column.
+				} else {
+					\Schema::table($repository_name, function($table) use($old_col_name, $new_col_name)
+					{
+						$table->renameColumn($old_col_name, $new_col_name);
+					});
+				}
+				$i++;
+			}
+
+			// Loop through any columns with temporary names and update their
+			// names accordingly.
+			foreach ($temporary_col_names as $temp_col_name => $new_col_name) {
+				\Schema::table($repository_name, function($table) use($temp_col_name, $new_col_name)
+				{
+					$table->renameColumn($temp_col_name, $new_col_name);
+				});
+			}
+
+			// Loop through the array of column to be created and create each one
+			// in turn.
+			foreach ($cols_to_create as $column_name) {
+				\Schema::table($repository_name, function($table) use($column_name)
+				{
+					$table->longtext($column_name);
+				});
+			}
+
+			// Check if the Data Stream Template's name has been changed. If so
+			// update its corresponding table's name.
+			$updated_repo_name =  \Text::snakeCaseString($to->tablePrefix());
+			$updated_repo_name .= \Text::snakeCaseString($to->name());
+			if ($repository_name != $updated_repo_name) {
+				\Schema::rename($repository_name, $updated_repo_name);
+			}
+			return true;
 		}
 		return false;
 	}

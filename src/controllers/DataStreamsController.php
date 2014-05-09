@@ -310,6 +310,7 @@ class DataStreamsController extends AdminController
 		}
 		if ($data_stream_template = $this->data_stream_templates_repo->retrieve($id)) {
 			if ($this->input) {
+				$from = clone $data_stream_template;
 				$data_stream_template->setName($this->input['name']);
 				$data_stream_template->setTablePrefix(isset($this->input['table_prefix']) ? $this->input['table_prefix'] : null);
 				$data_stream_template->discardDataSetTemplates();
@@ -318,7 +319,7 @@ class DataStreamsController extends AdminController
 					$data_stream_template->addDataSetTemplate($data_set_template);
 				}
 				if ($this->data_stream_templates_repo->validatesForStorage($data_stream_template)) {
-					if (\StreamSchema::update($data_stream_template)) {
+					if (\StreamSchema::update($from, $data_stream_template)) {
 						$this->data_stream_templates_repo->write($data_stream_template);
 						$this->system->messages->add(
 							array(
