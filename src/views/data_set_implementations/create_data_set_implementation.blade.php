@@ -1,12 +1,12 @@
 @extends('../dashboard')
 @section('body-header')
-	<h1 class="color--teal">Create Data Set</h1>
+	<h1 class="dashboard__title">Create Data Set</h1>
 @stop
 @section('body-content')
 
 	@if ($messages)
 		<div class="message_box message_box--tomato">
-			<h6>Great Scott!</h6>
+			<span class="message_box__title">Great Scott!</span>
 			<ul>
 				@foreach($messages->all() as $message)
 					<li>{{ $message }}</li>

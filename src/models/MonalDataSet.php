@@ -161,6 +161,26 @@ class MonalDataSet implements DataSet
 	}
 
 	/**
+	 * Return an array of JS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function componentScripts()
+	{
+		return ($this->hasComponent()) ? $this->component->scripts() : array();
+	}
+
+	/**
+	 * Return an array of CSS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function componentCSS()
+	{
+		return ($this->hasComponent()) ? $this->component->css() : array();
+	}
+
+	/**
 	 * Set the ID for the Data Set.
 	 *
 	 * @param	Integer

@@ -1,6 +1,6 @@
 @extends('../dashboard')
 @section('body-header')
-	<h1 class="color--teal">Edit Data Set</h1>
+	<h1 class="dashboard__title">Edit Data Set</h1>
 @stop
 @section('body-content')
 

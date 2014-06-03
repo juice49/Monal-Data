@@ -1,15 +1,12 @@
 @extends('../dashboard')
-@section('master-head')
-	<script src="{{ URL::to('packages/monal/data/js/components.js') }}"></script>
-@stop
 @section('body-header')
-	<h1 class="color--teal">Create Data Set Template</h1>
+	<h1 class="dashboard__title">Create Data Set Template</h1>
 @stop
 @section('body-content')
 
 	@if ($messages)
 		<div class="message_box message_box--tomato">
-			<h6>Great Scott!</h6>
+			<span class="message_box__title">Great Scott!</span>
 			<ul>
 				@foreach($messages->all() as $message)
 					<li>{{ $message }}</li>

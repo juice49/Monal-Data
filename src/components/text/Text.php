@@ -60,6 +60,26 @@ class Text implements ComponentInterface
 	}
 
 	/**
+	 * Return an array of JS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function scripts()
+	{
+		return array();
+	}
+
+	/**
+	 * Return an array of CSS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function css()
+	{
+		return array();
+	}
+
+	/**
 	 * Check an array of settings validate and are suitable to be used as
 	 * a template for a new implementations of the Text component.
 	 *

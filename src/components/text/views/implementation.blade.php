@@ -1,11 +1,11 @@
 <div class="control_block">
 	<div class="control_block">
-		{{ Form::label($uri . '-text', 'Content', array('class' => 'label--block')) }}
+		{{ Form::label($uri . '-text', 'Content', array('class' => 'label label--block')) }}
 		@if (isset($settings['type']))
 			@if ($settings['type'] === 'single-line')
-				{{ Form::input('text' , $uri . '-text', isset($values['text']) ? $values['text'] : null, array('class' => 'js--text--' . $uri . ' input--text')) }}
+				{{ Form::input('text' , $uri . '-text', isset($values['text']) ? $values['text'] : null, array('class' => 'js--text--' . $uri . ' input__text')) }}
 			@elseif ($settings['type'] === 'block')
-				{{ Form::textarea($uri . '-text', isset($values['text']) ? $values['text'] : null, array('class' => 'js--text--' . $uri . ' textarea--default')) }}
+				{{ Form::textarea($uri . '-text', isset($values['text']) ? $values['text'] : null, array('class' => 'js--text--' . $uri . ' textarea')) }}
 			@endif
 		@endif
 		@if (
@@ -14,7 +14,7 @@
 			isset($settings['limit_length']) AND
 			isset($settings['limit_type'])
 		)
-			<label for="{{ $uri }}-text" class="label--block label--description">
+			<label for="{{ $uri }}-text" class="label label--block label--description">
 				<span class="js--word_count--{{ $uri }}">{{ $settings['limit_length'] }}</span> / {{ $settings['limit_length'] }} {{ $settings['limit_type'] }} remaining
 			</label>
 		@endif

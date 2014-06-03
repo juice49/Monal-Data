@@ -1,6 +1,6 @@
 <div class="control_block">
 	<div class="control_block">
-		{{ Form::label($uri . '-wysiwyg', 'Content', array('class' => 'label--block')) }}
+		{{ Form::label($uri . '-wysiwyg', 'Content', array('class' => 'label label--block')) }}
 		{{ Form::textarea($uri . '-wysiwyg', isset($values['wysiwyg']) ? $values['wysiwyg'] : null) }}
 	</div>
 </div>

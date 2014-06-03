@@ -209,4 +209,26 @@ class MonalStreamSchema
 		}
 		return \DB::table($repository_name)->insert($encoded_entry);
 	}
+
+	/**
+	 * Add a new Entry to a Data Streams repository.
+	 *
+	 * @param	Monal\Data\Models\DataStreamTemplate
+	 * @param	Monal\Data\Models\DataStreamEntry
+	 * @param	Integer
+	 */
+	public function updateEntry(DataStreamTemplate $data_stream_template, DataStreamEntry $entry) {
+		$repository_name = \Text::snakeCaseString($data_stream_template->tablePrefix());
+		$repository_name .= \Text::snakeCaseString($data_stream_template->name());
+		$encoded_entry = array(
+			'updated_at' => date('Y-m-d H:i:s'),
+		);
+		$components = \App::make('Monal\Data\Libraries\ComponentsInterface');
+		foreach ($data_stream_template->dataSetTemplates() as $key => $data_set_template) {
+			$value = $components->make($data_set_template->componentURI())
+				->stripImplementationValues($entry->dataSets()[$key]->componentValues());
+			$encoded_entry[\Text::snakeCaseString($data_set_template->name())] = $value;
+		}
+		return \DB::table($repository_name)->where('rel', '=', $entry->ID())->update($encoded_entry);
+	}
 }

@@ -62,6 +62,26 @@ class WYSIWYG implements ComponentInterface
 	}
 
 	/**
+	 * Return an array of JS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function scripts()
+	{
+		return array('packages/monal/data/js/redactor/redactor.js');
+	}
+
+	/**
+	 * Return an array of CSS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function css()
+	{
+		return array('packages/monal/data/js/redactor/redactor.css');
+	}
+
+	/**
 	 * Check an array of settings validate and are suitable to be used as
 	 * a template for a new implementations of the WYSIWYG component.
 	 *

@@ -1,6 +1,6 @@
 @extends('../dashboard')
 @section('body-header')
-	<h1 class="color--teal">Data Set Templates</h1>
+	<h1 class="dashboard__title">Data Set Templates</h1>
 @stop
 @section('body-content')
 
@@ -10,18 +10,18 @@
 		</div>
 	@endif
 
-	<div class="node__y--top navbar">
+	<nav class="node__y--top navbar">
 		<ul class="navbar__menu navbar__menu--dusk">
-			<li><a href="{{ URL::route('admin.data-sets') }}" class="navbar__menu__link">Data Sets</a></li>
-			<li><a href="{{ URL::route('admin.data-set-templates') }}" class="navbar__menu__link">Data Set Templates</a></li>
+			<li class="navbar__menu__option"><a href="{{ URL::route('admin.data-sets') }}" class="navbar__menu__link">Data Sets</a></li>
+			<li class="navbar__menu__option"><a href="{{ URL::route('admin.data-set-templates') }}" class="navbar__menu__link">Data Set Templates</a></li>
 		</ul>
-	</div>
+	</nav>
 
 	@if ($messages)
 		<div class="node__y--top">
 			@if ($messages->has('success'))
 				<div class="message_box message_box--wasabi">
-					<h6>Woot!</h6>
+					<span class="message_box__title">Woot!</span>
 					<ul>
 						@foreach($messages->all() as $message)
 							<li>{{ $message }}</li>
@@ -30,7 +30,7 @@
 				</div>
 			@else
 				<div class="message_box message_box--tomato">
-					<h6>Great Scott!</h6>
+					<span class="message_box__title">Great Scott!</span>
 					<ul>
 						@foreach($messages->all() as $message)
 							<li>{{ $message }}</li>
@@ -46,18 +46,16 @@
 			@foreach ($data_set_templates as $data_set_template)
 				<li class="tile">
 					<div class="tile__content">
-						<table class="tile__table">
-							<tbody>
-								<tr>
-									<td><span class="tile__table--row_title">Name:</span></td>
-									<td>{{ $data_set_template->name() }}</td>
-								</tr>
-								<tr>
-									<td><span class="tile__table--row_title">Component:</span></td>
-									<td>{{ $data_set_template->componentName() }}</td>
-								</tr>
-							</tbody>
-						</table>
+						<ul class="tile__properties">
+							<li class="tile__property">
+								<span class="tile__property__key">Name:</span>
+								<span class="tile__property__value">{{ $data_set_template->name() }}</span>
+							</li>
+							<li class="tile__property">
+								<span class="tile__property__key">Component:</span>
+								<span class="tile__property__value">{{ $data_set_template->componentName() }}</span>
+							</li>
+						</ul>
 						<div class="node__y--top align--right">
 							@if($system_user->hasAdminPermissions('data_set_templates', 'edit_data_set_template'))
 								<a href="{{ URL::route('admin.data-set-templates.edit', $data_set_template->ID()) }}" class="button button--small button--dusk">Edit</a>

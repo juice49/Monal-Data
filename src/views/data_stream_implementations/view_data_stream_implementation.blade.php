@@ -1,6 +1,7 @@
 @extends('../dashboard')
 @section('body-header')
-	<h1 class="color--teal">{{ $data_stream->name() }}</h1>
+	<h2 class="dashboard__subtitle">{{ $data_stream->name() }}</h2>
+	<h1 class="dashboard__title">{{ $data_stream->name() }}</h1>
 @stop
 @section('body-content')
 
@@ -9,20 +10,18 @@
 			@foreach ($data_stream->entries() as $entry)
 				<div class="tile">
 					<div class="tile__content">
-						<table class="tile__table">
-							<tbody>
-								<?php $i = 0; ?>
-								@foreach ($entry->summariseDataSets()  as $key => $value)
-									@if ($data_stream->hasPreviewColumn($i))
-										<tr>
-											<td><span class="tile__table--row_title">{{ $key }}</span></td>
-											<td>{{ $value }}</td>
-										</tr>
-									@endif
-									<?php $i++; ?>
-								@endforeach
-							</tbody>
-						</table>
+						<ul class="tile__properties">
+							<?php $i = 0; ?>
+							@foreach ($entry->summariseDataSets() as $key => $value)
+								@if ($data_stream->hasPreviewColumn($i))
+									<li class="tile__property">
+										<span class="tile__property__key">{{ $key }}:</span>
+										<span class="tile__property__value">{{ $value }}</span>
+									</li>
+								@endif
+								<?php $i++; ?>
+							@endforeach
+						</ul>
 						<div class="node__y--top align--right">
 							@if($system_user->hasAdminPermissions('data_streams', 'edit_stream_entry'))
 								<a href="" class="button button--small button--dusk">Edit entry</a>

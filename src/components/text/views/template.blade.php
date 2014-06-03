@@ -1,24 +1,21 @@
 <div class="control_block">
 	<div class="control_block">
-		{{ Form::label($uri . '-type', 'Type', array('class' => 'label--block')) }}
-		<div class="select__default">
-			{{ Form::select($uri . '-type', $types, isset($settings['type']) ? $settings['type'] : null, array('class' => 'js--type--' . $uri . ' select')) }}
-		</div>
+		{{ Form::label($uri . '-type', 'Type', array('class' => 'label label--block')) }}
+		{{ Form::select($uri . '-type', $types, isset($settings['type']) ? $settings['type'] : null, array('class' => 'js--type--' . $uri . ' select')) }}
 	</div>
 	<div class="control_block">
-		{{ Form::checkbox($uri . '-limit', 1, isset($settings['limit']) ? $settings['limit'] : null, array('class' => 'js--limit--' . $uri . ' input--checkbox data_set', 'id' => $uri . '-limit')) }}
-		{{ Form::label($uri . '-limit', null, array('class' => 'input--checkbox__default input--checkbox__inline')) }}
-		{{ Form::label($uri . '-limit', 'Limit Length', array('class' => 'label--inline')) }}
+		<label for="{{ $uri . '-limit' }}" class="label checkbox">
+			{{ Form::checkbox($uri . '-limit', 1, isset($settings['limit']) ? $settings['limit'] : null, array('class' => 'js--limit--' . $uri . ' checkbox__input data_set', 'id' => $uri . '-limit')) }}
+			<span class="checkbox__label">Limit Length</span>
+		</label>
 	</div>
 	<div class="js--limit_settings--{{ $uri }}">
 		<div class="control_block">
 			{{ Form::label($uri . '-limit_length', 'Limit To', array('class' => 'label--block')) }}
-			{{ Form::input('text', $uri . '-limit_length', isset($settings['limit_length']) ? $settings['limit_length'] : null, array('class' => 'input--text', 'placeholder' => 'e.g., 100')) }}
+			{{ Form::input('text', $uri . '-limit_length', isset($settings['limit_length']) ? $settings['limit_length'] : null, array('class' => 'input__text', 'placeholder' => 'e.g., 100')) }}
 		</div>
 		<div class="control_block">
-			<div class="select__default">
-				{{ Form::select($uri . '-limit_type', $limit_types, isset($settings['limit_type']) ? $settings['limit_type'] : null, array('class' => 'select')) }}
-			</div>
+			{{ Form::select($uri . '-limit_type', $limit_types, isset($settings['limit_type']) ? $settings['limit_type'] : null, array('class' => 'select')) }}
 		</div>
 	</div>
 </div>

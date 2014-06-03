@@ -53,6 +53,7 @@ class DataSetsController extends AdminController
 		$this->components = $components;
 		$this->data_sets_repo = $data_sets_repo;
 		$this->data_set_templates_repo = $data_set_templates_repo;
+		$this->system->dashboard->addScript('packages/monal/data/js/components.js');
 	}
 
 	/**
@@ -127,6 +128,12 @@ class DataSetsController extends AdminController
 			$data_set->setTemplateID($id);
 			$data_set->setComponent($data_set_template->componentURI());
 			$data_set->setComponentSettings($data_set_template->componentSettings());
+			foreach ($data_set->componentCSS() as $css) {
+				$this->system->dashboard->addCSS($css);
+			}
+			foreach ($data_set->componentScripts() as $script) {
+				$this->system->dashboard->addScript($script);
+			}
 			if ($this->input) {
 				$data_set_values = \DataSetsHelper::extractDataSetValuesFromInput($this->input)->first();
 				$data_set->setName($data_set_values['name']);
@@ -165,6 +172,7 @@ class DataSetsController extends AdminController
 			return Redirect::route('admin.data-sets');
 		}
 		if ($data_set = $this->data_sets_repo->retrieve($id)) {
+
 			if (!$data_set->hasComponent()) {
 				$this->system->messages->add(
 					array(
@@ -189,6 +197,12 @@ class DataSetsController extends AdminController
 						return Redirect::route('admin.data-sets');
 					}
 					$this->system->messages->add($this->data_sets_repo->messages()->toArray());
+				}
+				foreach ($data_set->componentCSS() as $css) {
+					$this->system->dashboard->addCSS($css);
+				}
+				foreach ($data_set->componentScripts() as $script) {
+					$this->system->dashboard->addScript($script);
 				}
 			}
 			$messages = $this->system->messages->get();

@@ -1,6 +1,6 @@
 @extends('../dashboard')
 @section('body-header')
-	<h1 class="color--teal">Data Streams</h1>
+	<h1 class="dashboard__title">Data Streams</h1>
 @stop
 @section('body-content')
 
@@ -12,8 +12,8 @@
 
 	<div class="node__y--top navbar">
 		<ul class="navbar__menu navbar__menu--dusk">
-			<li><a href="{{ URL::route('admin.data-streams') }}" class="navbar__menu__link">Data Streams</a></li>
-			<li><a href="{{ URL::route('admin.data-stream-templates') }}" class="navbar__menu__link">Data Stream Templates</a></li>
+			<li class="navbar__menu__option"><a href="{{ URL::route('admin.data-streams') }}" class="navbar__menu__link">Data Streams</a></li>
+			<li class="navbar__menu__option"><a href="{{ URL::route('admin.data-stream-templates') }}" class="navbar__menu__link">Data Stream Templates</a></li>
 		</ul>
 	</div>
 
@@ -21,7 +21,7 @@
 		<div class="node__y--top">
 			@if ($messages->has('success'))
 				<div class="message_box message_box--wasabi">
-					<h6>Woot!</h6>
+					<span class="message_box__title">Woot!</span>
 					<ul>
 						@foreach($messages->all() as $message)
 							<li>{{ $message }}</li>
@@ -30,7 +30,7 @@
 				</div>
 			@else
 				<div class="message_box message_box--tomato">
-					<h6>Great Scott!</h6>
+					<span class="message_box__title">Great Scott!</span>
 					<ul>
 						@foreach($messages->all() as $message)
 							<li>{{ $message }}</li>
@@ -46,14 +46,12 @@
 			@foreach ($data_streams as $data_stream)
 				<div class="tile">
 					<div class="tile__content">
-						<table class="tile__table">
-							<tbody>
-								<tr>
-									<td><span class="tile__table--row_title">Name:</span></td>
-									<td>{{ $data_stream->name() }}</td>
-								</tr>
-							</tbody>
-						</table>
+						<ul class="tile__properties">
+							<li class="tile__property">
+								<span class="tile__property__key">Name:</span>
+								<span class="tile__property__value">{{ $data_stream->name() }}</span>
+							</li>
+						</ul>
 						<div class="node__y--top align--right">
 							@if($system_user->hasAdminPermissions('data_streams', 'create_stream_entry'))
 								<a href="{{ URL::route('admin.data-streams.add-entry', $data_stream->ID()) }}" class="button button--small button--wasabi">Add entry</a>

@@ -33,10 +33,10 @@ interface DataStreamEntry
 	public function addDataSet(DataSet $data_set);
 
 	/**
-	 * Return a view of the model.
+	 * Return a GUI for the model.
 	 *
-	 * @param	Boolean
+	 * @param	Array
 	 * @return	Illuminate\View\View
 	 */
-	public function view($show_validation_messages = false);
+	public function view(array $settings = array());
 }

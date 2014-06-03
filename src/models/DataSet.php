@@ -69,6 +69,20 @@ interface DataSet
 	public function componentValues();
 
 	/**
+	 * Return an array of JS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function componentScripts();
+
+	/**
+	 * Return an array of CSS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function componentCSS();
+
+	/**
 	 * Set the ID for the Data Set.
 	 *
 	 * @param	Integer

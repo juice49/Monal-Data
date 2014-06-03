@@ -35,6 +35,20 @@ interface ComponentInterface
 	public function name();
 
 	/**
+	 * Return an array of JS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function scripts();
+
+	/**
+	 * Return an array of CSS files the component needs to work.
+	 *
+	 * @return	Array
+	 */
+	public function css();
+
+	/**
 	 * Check an array of settings validate and are suitable to be used as
 	 * a template for a new implementations of the Component.
 	 *

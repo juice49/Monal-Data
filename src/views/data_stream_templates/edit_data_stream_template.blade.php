@@ -1,37 +1,35 @@
 @extends('../dashboard')
-@section('master-head')
-	<script src="{{ URL::to('packages/monal/data/js/datasets.js') }}"></script>
-	<script src="{{ URL::to('packages/monal/data/js/components.js') }}"></script>
-@stop
 @section('body-header')
-	<h1 class="color--teal">Edit Data Stream Template</h1>
+	<h1 class="dashboard__title">Edit Data Stream Template</h1>
 @stop
 @section('body-content')
 
 	@if ($messages)
-		<div class="message_box message_box--tomato">
-			<h6>Great Scott!</h6>
-			<ul>
-				@foreach($messages->all() as $message)
-					<li>{{ $message }}</li>
-				@endforeach
-			</ul>
-		</div> 
+		<div class="node__y--bottom">
+			<div class="message_box message_box--tomato">
+				<span class="message_box__title">Great Scott!</span>
+				<ul>
+					@foreach($messages->all() as $message)
+						<li>{{ $message }}</li>
+					@endforeach
+				</ul>
+			</div>
+		</div>
 	@endif
 
 	{{ Form::open() }}
 		<div class="well">
 			<div class="control_block">
-				{{ Form::label('name', 'Name', array('class' => 'label--block')) }}
-				{{ Form::input('text', 'name', Input::has('name') ? Input::get('name') : $data_stream_template->name(), array('class' => 'input--text')) }}
+				{{ Form::label('name', 'Name', array('class' => 'label label--block')) }}
+				{{ Form::input('text', 'name', Input::has('name') ? Input::get('name') : $data_stream_template->name(), array('class' => 'input__text')) }}
 			</div>
 			<div class="control_block">
-				{{ Form::label('table_prefix', 'Table Prefex', array('class' => 'label--block')) }}
-				{{ Form::input('text', 'table_prefix', Input::has('table_prefix') ? Input::get('table_prefix') : $data_stream_template->tablePrefix(), array('class' => 'input--text')) }}
+				{{ Form::label('table_prefix', 'Table Prefex', array('class' => 'label label--block')) }}
+				{{ Form::input('text', 'table_prefix', Input::has('table_prefix') ? Input::get('table_prefix') : $data_stream_template->tablePrefix(), array('class' => 'input__text')) }}
 			</div>
 			<div class="control_block">
-				{{ Form::label('table_name', 'Table Name', array('class' => 'label--block')) }}
-				{{ Form::input('text', 'table_name', null, array('class' => 'input--text input--disabled', 'disabled' => 'disabled')) }}
+				{{ Form::label('table_name', 'Table Name', array('class' => 'label label--block')) }}
+				{{ Form::input('text', 'table_name', null, array('class' => 'input__text input__text--disabled', 'disabled' => 'disabled')) }}
 			</div>
 		</div>
 

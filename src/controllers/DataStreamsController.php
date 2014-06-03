@@ -294,6 +294,8 @@ class DataStreamsController extends AdminController
 			$this->system->messages->add($this->data_stream_templates_repo->messages()->toArray());
 		}
 		$messages = $this->system->messages->get();
+		$this->system->dashboard->addScript('packages/monal/data/js/datasets.js');
+		$this->system->dashboard->addScript('packages/monal/data/js/components.js');
 		return View::make('data::data_stream_templates.create_data_stream_template', compact('messages', 'data_stream_template'));
 	}
 
@@ -342,6 +344,8 @@ class DataStreamsController extends AdminController
 				}
 			}
 			$messages = $this->system->messages->get();
+			$this->system->dashboard->addScript('packages/monal/data/js/datasets.js');
+			$this->system->dashboard->addScript('packages/monal/data/js/components.js');
 			return View::make(
 				'data::data_stream_templates.edit_data_stream_template',
 				compact('messages', 'data_stream_template')
