@@ -298,4 +298,37 @@ class MonalDataStream implements DataStream
 		}
 		return ($stream_validates) ? true : false;
 	}
+
+	/**
+	 * Return a GUI displaying the data stream's settings.
+	 *
+	 * @param	Array
+	 * @return	Illuminate\View\View
+	 */
+	public function viewSettings(array $settings = array())
+	{
+		$data_stream = $this;
+		$show_validation = isset($settings['show_validation']) ? $settings['show_validation'] : true;
+		$messages = $this->messages();
+		return \View::make(
+			'data::models.data_stream_settings',
+			compact(
+				'messages',
+				'data_stream',
+				'show_validation'
+			)
+		);
+	}
+
+	/**
+	 * Return a GUI displaying the data stream's enteries.
+	 *
+	 * @param	Array
+	 * @return	Illuminate\View\View
+	 */
+	public function viewEnteries(array $settings = array())
+	{
+		$data_stream =  $this;
+		return \View::make('data::models.data_stream_entries', compact('data_stream'));
+	}
 }

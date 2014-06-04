@@ -13,7 +13,7 @@
 		{{ Form::label($uri . '-name', 'Name', array('class' => 'label label--block')) }}
 		{{ Form::input('text', $uri . '-name', $name, array('class' => 'input__text')) }}
 	</div>
-	@if ($component_chooseable)
+	@if ($choose_component)
 		<div class="control_block">
 			{{ Form::label($uri . '-component', 'Component Type', array('class' => 'label label--block')) }}
 			{{ Form::select($uri . '-component', $components, $component, array('class' => 'js--component__type--' . $uri . ' select')) }}
@@ -28,29 +28,28 @@
 		</div>
 	@endif
 </div>
-@if ($component_chooseable)
-	<script>
-	(function(window, $){
-		'use strict';
-		$(document).ready(function(){
-			@if ($component_chooseable)
-				$('.js--component__type--{{ $uri }}').on('change', function(){
-					if ($(this).val() != 0){
-						components.temaplteView($(this).val(), '{{ $uri }}', function(view){
-							$('.js--component--{{ $uri }}').html(view);
-						});
-					}
-					else{
-						$('.js--component--{{ $uri }}').html('');
-					}
-				});
-			@endif
-			@if ($removable)
-				$('.js--removable--{{ $uri }}').on('click', function(){
-					$('.js--data_set_template--{{ $uri }}').remove();
-				});
-			@endif
-		});
-	})(window, jQuery);
-	</script>
-@endif
+
+<script>
+(function(window, $){
+	'use strict';
+	$(document).ready(function(){
+		@if ($choose_component)
+			$('.js--component__type--{{ $uri }}').on('change', function(){
+				if ($(this).val() != 0){
+					components.temaplteView($(this).val(), '{{ $uri }}', function(view){
+						$('.js--component--{{ $uri }}').html(view);
+					});
+				}
+				else{
+					$('.js--component--{{ $uri }}').html('');
+				}
+			});
+		@endif
+		@if ($removable)
+			$('.js--removable--{{ $uri }}').on('click', function(){
+				$('.js--data_set_template--{{ $uri }}').remove();
+			});
+		@endif
+	});
+})(window, jQuery);
+</script>

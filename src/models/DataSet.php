@@ -148,10 +148,10 @@ interface DataSet
 	public function validates(array $validation_rules = array(), array $validation_messages = array());
 
 	/**
-	 * Return the Data Set's interface.
+	 * Return a GUI for the model.
 	 *
-	 * @param	Boolean
+	 * @param	Array
 	 * @return	Illuminate\View\View
 	 */
-	public function view($show_validation_messages = false);
+	public function view(array $settings = array());
 }

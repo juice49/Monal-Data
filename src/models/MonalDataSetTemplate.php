@@ -245,31 +245,34 @@ class MonalDataSetTemplate implements DataSetTemplate
 	}
 
 	/**
-	 * Return the Data Set Template's interface.
+	 * Return a GUI for the model.
 	 *
-	 * @param	Boolean
-	 * @param	Boolean
-	 * @param	Boolean
+	 * @param	Array
 	 * @return	Illuminate\View\View
 	 */
-	public function view($component_chooseable = false, $removable = false, $show_validation_messages = false)
+	public function view(array $settings = array())
 	{
 		$uri = $this->uri ? $this->uri : \Random::letters();
 		$name = $this->name;
 		$component = $this->componentURI();
 		$component_view = ($component) ? $this->component->templateView($uri, $this->componentSettings()) : '';
 		$components = array_merge(array(0 => 'Choose component type...'), $this->components->available());
-		$messages = ($show_validation_messages) ? $this->messages->get() : false;
+
+		$show_validation = isset($settings['show_validation']) ? $settings['show_validation'] : false;
+		$choose_component = isset($settings['choose_component']) ? $settings['choose_component'] : false;
+		$removable = isset($settings['removable']) ? $settings['removable'] : false;
+
+		$messages = ($show_validation) ? $this->messages->get() : false;
 		return \View::make(
-			'data::data_sets.template',
+			'data::models.data_set_template',
 			compact(
 				'messages',
 				'uri',
 				'name',
 				'component',
 				'component_view',
-				'component_chooseable',
 				'components',
+				'choose_component',
 				'removable'
 			)
 		);

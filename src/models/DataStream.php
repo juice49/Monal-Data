@@ -129,4 +129,20 @@ interface DataStream
 	 * @return	Boolean
 	 */
 	public function validates(array $validation_rules = array(), array $validation_messages = array());
+
+	/**
+	 * Return a GUI displaying the data stream's settings.
+	 *
+	 * @param	Array
+	 * @return	Illuminate\View\View
+	 */
+	public function viewSettings(array $settings = array());
+
+	/**
+	 * Return a GUI displaying the data stream's enteries.
+	 *
+	 * @param	Array
+	 * @return	Illuminate\View\View
+	 */
+	public function viewEnteries(array $settings = array());
 }

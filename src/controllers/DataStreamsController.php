@@ -58,7 +58,7 @@ class DataStreamsController extends AdminController
 		}
 		$data_streams = $this->data_streams_repo->retrieve();
 		$messages = $this->system->messages->get();
-		return View::make('data::data_stream_implementations.data_stream_implementations', compact('messages', 'data_streams'));
+		return View::make('data::data_streams.data_streams', compact('messages', 'data_streams'));
 	}
 
 	/**
@@ -93,7 +93,7 @@ class DataStreamsController extends AdminController
 			$data_stream_templates[$data_stream_template->ID()] = $data_stream_template->name();
 		}
 		$messages = $this->system->messages->get();
-		return View::make('data::data_stream_implementations.choose_data_stream_template', compact('messages', 'data_stream_templates'));
+		return View::make('data::data_streams.choose', compact('messages', 'data_stream_templates'));
 	}
 
 	/**
@@ -128,13 +128,8 @@ class DataStreamsController extends AdminController
 					)->flash();
 					return Redirect::route('admin.data-streams');
 				}
-				$this->system->messages->add($this->data_streams_repo->messages()->toArray());
 			}
-			$messages = $this->system->messages->get();
-			return View::make(
-				'data::data_stream_implementations.create_data_stream_implementation',
-				compact('messages', 'data_stream')
-			);
+			return View::make('data::data_streams.create', compact('data_stream'));
 		}
 		return Redirect::route('admin.data-streams');
 	}
@@ -170,13 +165,8 @@ class DataStreamsController extends AdminController
 					)->flash();
 					return Redirect::route('admin.data-streams');
 				}
-				$this->system->messages->add($this->data_streams_repo->messages()->toArray());
 			}
-			$messages = $this->system->messages->get();
-			return View::make(
-				'data::data_stream_implementations.edit_data_stream_implementation',
-				compact('messages', 'data_stream')
-			);
+			return View::make('data::data_streams.edit', compact('data_stream'));
 		}
 		return Redirect::route('admin.data-streams');
 	}
@@ -196,7 +186,7 @@ class DataStreamsController extends AdminController
 		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
 			$messages = $this->system->messages->get();
 			return View::make(
-				'data::data_stream_implementations.view_data_stream_implementation',
+				'data::data_streams.view_entries',
 				compact('messages', 'data_stream')
 			);
 		}
@@ -229,13 +219,13 @@ class DataStreamsController extends AdminController
 							)
 						)
 					)->flash();
-					return Redirect::route('admin.data-streams');
+					return Redirect::route('admin.data-streams.view', $data_stream->ID());
 				}
 				$this->system->messages->add($data_stream->messages()->toArray());
 			}
 			$messages = $this->system->messages->get();
 			return View::make(
-				'data::data_stream_entries.add_entry',
+				'data::data_streams.add_entry',
 				compact('messages', 'data_stream', 'stream_entry')
 			);
 		}
@@ -296,7 +286,7 @@ class DataStreamsController extends AdminController
 		$messages = $this->system->messages->get();
 		$this->system->dashboard->addScript('packages/monal/data/js/datasets.js');
 		$this->system->dashboard->addScript('packages/monal/data/js/components.js');
-		return View::make('data::data_stream_templates.create_data_stream_template', compact('messages', 'data_stream_template'));
+		return View::make('data::data_stream_templates.create', compact('messages', 'data_stream_template'));
 	}
 
 	/**
@@ -347,7 +337,7 @@ class DataStreamsController extends AdminController
 			$this->system->dashboard->addScript('packages/monal/data/js/datasets.js');
 			$this->system->dashboard->addScript('packages/monal/data/js/components.js');
 			return View::make(
-				'data::data_stream_templates.edit_data_stream_template',
+				'data::data_stream_templates.edit',
 				compact('messages', 'data_stream_template')
 			);
 		}

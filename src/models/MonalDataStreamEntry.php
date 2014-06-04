@@ -182,12 +182,12 @@ class MonalDataStreamEntry implements DataStreamEntry, \IteratorAggregate, \Arra
 	public function view(array $settings = array())
 	{
 		$data_sets = $this->data_sets;
-		$show_validation_messages = isset($settings['show_validation_messages']) ? $settings['show_validation_messages'] : false;
+		$show_validation = isset($settings['show_validation']) ? $settings['show_validation'] : false;
 		return \View::make(
-			'data::data_stream_entries.entry',
+			'data::models.data_stream_entry',
 			compact(
-				'show_validation_messages',
-				'data_sets'
+				'data_sets',
+				'show_validation'
 			)
 		);
 	}

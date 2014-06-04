@@ -69,7 +69,7 @@ class DataSetsController extends AdminController
 		}
 		$data_sets = $this->data_sets_repo->retrieve();
 		$messages = $this->system->messages->get();
-		return View::make('data::data_set_implementations.data_set_implementations', compact('messages', 'data_sets'));
+		return View::make('data::data_sets.data_sets', compact('messages', 'data_sets'));
 	}
 
 	/**
@@ -106,7 +106,7 @@ class DataSetsController extends AdminController
 		$data_set_templates = array(0 => 'Choose template...') + $data_set_templates;
 		$messages = $this->system->messages->get();
 		return View::make(
-			'data::data_set_implementations.choose_data_set_template',
+			'data::data_sets.choose',
 			compact('messages', 'data_set_templates')
 		);
 	}
@@ -152,7 +152,7 @@ class DataSetsController extends AdminController
 			}
 			$messages = $this->system->messages->get();
 			return View::make(
-				'data::data_set_implementations.create_data_set_implementation',
+				'data::data_sets.create',
 				compact('messages', 'data_set')
 			);
 		}
@@ -207,7 +207,7 @@ class DataSetsController extends AdminController
 			}
 			$messages = $this->system->messages->get();
 			return View::make(
-				'data::data_set_implementations.edit_data_set_implementation',
+				'data::data_sets.edit',
 				compact('messages', 'data_set')
 			);
 		}
@@ -262,7 +262,7 @@ class DataSetsController extends AdminController
 		}
 		$messages = $this->system->messages->get();
 		return View::make(
-			'data::data_set_templates.create_data_set_template',
+			'data::data_set_templates.create',
 			compact('messages', 'data_set_template')
 		);
 	}
@@ -297,7 +297,7 @@ class DataSetsController extends AdminController
 			}
 			$messages = $this->system->messages->get();
 			return View::make(
-				'data::data_set_templates.edit_data_set_template',
+				'data::data_set_templates.edit',
 				compact('messages', 'data_set_template')
 			);
 		}

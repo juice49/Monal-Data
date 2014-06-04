@@ -34,7 +34,11 @@ class DataSetsAJAXController extends BaseController
 		$results = array();
 		$data_set_template = \App::make('Monal\Data\Models\DataSetTemplate');
 		$results['status'] = 'OK';
-		$results['view'] = $data_set_template->view(true, true)->render();
+		$results['view'] = $data_set_template->view(array(
+			'show_validation_messages' => true,
+			'choose_component' => true,
+			'removable' => true
+		))->render();
 		return json_encode($results, JSON_FORCE_OBJECT);
 	}
 }

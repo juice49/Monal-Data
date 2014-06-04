@@ -1,7 +1,6 @@
 @extends('../dashboard')
 @section('body-header')
-	<h2 class="dashboard__subtitle">Data Stream</h2>
-	<h1 class="dashboard__title">Add Entry</h1>
+	<h1 class="dashboard__title">Edit Data Set Template</h1>
 @stop
 @section('body-content')
 
@@ -19,15 +18,15 @@
 	@endif
 
 	{{ Form::open() }}
-		{{ $stream_entry->view(array(
-			'show_validation_messages' => true
+		{{ $data_set_template->view(array(
+			'choose_component' => true,
 		)) }}
 		<div class="form__controls form__controls--standard control_block">
 			<div class="form__controls__left">
-				<a href="{{ URL::route('admin.data-streams') }}" class="button button--mustard">Cancel</a>
+				<a href="{{ URL::route('admin.data-set-templates') }}" class="button button--mustard">Cancel</a>
 			</div>
 			<div class="form__controls__right align--right">
-				{{ Form::submit('Add entry', array('class' => 'button button--wasabi')) }}
+				{{ Form::submit('Update', array('class' => 'button button--wasabi')) }}
 			</div>
 		</div>
 	{{ Form::close() }}

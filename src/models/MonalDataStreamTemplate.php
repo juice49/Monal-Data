@@ -233,4 +233,29 @@ class MonalDataStreamTemplate implements DataStreamTemplate
 		}
 		return ($stream_validates AND $templates_validate) ? true : false;
 	}
+
+	/**
+	 * Return a GUI for the model.
+	 *
+	 * @param	Array
+	 * @return	Illuminate\View\View
+	 */
+	public function view(array $settings = array())
+	{
+		$show_validation = isset($settings['show_validation']) ? $settings['show_validation'] : false;
+		$name = $this->name();
+		$table_prefix = $this->tablePrefix();
+		$data_set_templates = $this->dataSetTemplates();
+		$messages = $this->messages();
+		return \View::make(
+			'data::models.data_stream_template',
+			compact(
+				'messages',
+				'name',
+				'table_prefix',
+				'data_set_templates',
+				'show_validation'
+			)
+		);
+	}
 }

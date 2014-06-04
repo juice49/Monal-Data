@@ -5,18 +5,22 @@
 @section('body-content')
 
 	@if ($messages)
-		<div class="message_box message_box--tomato">
-			<span class="message_box__title">Great Scott!</span>
-			<ul>
-				@foreach($messages->all() as $message)
-					<li>{{ $message }}</li>
-				@endforeach
-			</ul>
-		</div> 
+		<div class="node__y--bottom">
+			<div class="message_box message_box--tomato">
+				<span class="message_box__title">Great Scott!</span>
+				<ul>
+					@foreach($messages->all() as $message)
+						<li>{{ $message }}</li>
+					@endforeach
+				</ul>
+			</div>
+		</div>
 	@endif
 
 	{{ Form::open() }}
-		{{ $data_set_template->view(true) }}
+		{{ $data_set_template->view(array(
+			'choose_component' => true,
+		)) }}
 		<div class="form__controls form__controls--standard control_block">
 			<div class="form__controls__left">
 				<a href="{{ URL::route('admin.data-set-templates') }}" class="button button--mustard">Cancel</a>
@@ -26,5 +30,4 @@
 			</div>
 		</div>
 	{{ Form::close() }}
-
 @stop

@@ -290,13 +290,16 @@ class MonalDataSet implements DataSet
 	}
 
 	/**
-	 * Return the Data Set's interface.
+	 * Return a GUI for the model.
 	 *
-	 * @param	Boolean
+	 * @param	Array
 	 * @return	Illuminate\View\View
 	 */
-	public function view($show_validation_messages = false, $modify_name = false)
+	public function view(array $settings = array())
 	{
+		$show_validation = isset($settings['show_validation']) ? $settings['show_validation'] : false;
+		$modify_name = isset($settings['modify_name']) ? $settings['modify_name'] : false;
+
 		$uri = \Random::letters();
 		$name = $this->name();
 		if ($this->hasComponent()) {
@@ -304,9 +307,9 @@ class MonalDataSet implements DataSet
 		} else {
 			$component_view = '';
 		}
-		$messages = ($show_validation_messages) ? $this->messages->get() : false;
+		$messages = ($show_validation) ? $this->messages->get() : false;
 		return \View::make(
-			'data::data_sets.implementation',
+			'data::models.data_set',
 			compact(
 				'messages',
 				'uri',
