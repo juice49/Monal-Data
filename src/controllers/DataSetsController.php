@@ -124,10 +124,7 @@ class DataSetsController extends AdminController
 			return Redirect::route('admin.data-sets');
 		}
 		if ($data_set_template = $this->data_set_templates_repo->retrieve($id)) {
-			$data_set = $this->data_sets_repo->newModel();
-			$data_set->setTemplateID($id);
-			$data_set->setComponent($data_set_template->componentURI());
-			$data_set->setComponentSettings($data_set_template->componentSettings());
+			$data_set = $data_set_template->newDataSetFromTemplate();
 			foreach ($data_set->componentCSS() as $css) {
 				$this->system->dashboard->addCSS($css);
 			}
@@ -172,7 +169,6 @@ class DataSetsController extends AdminController
 			return Redirect::route('admin.data-sets');
 		}
 		if ($data_set = $this->data_sets_repo->retrieve($id)) {
-
 			if (!$data_set->hasComponent()) {
 				$this->system->messages->add(
 					array(

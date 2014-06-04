@@ -110,6 +110,13 @@ interface DataSetTemplate
 	public function hasComponent();
 
 	/**
+	 * Generate a new data set model based on this data set template.
+	 *
+	 * @return	Monal\Pages\Models\MonalPage
+	 */
+	public function newDataSetFromTemplate();
+
+	/**
 	 * Check the Data Set Template validates against a set of given
 	 * rules.
 	 *

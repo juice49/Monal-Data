@@ -87,12 +87,14 @@ class MonalDataStream implements DataStream
 	public function newEntryModel()
 	{
 		$entry_model = \App::make('Monal\Data\Models\DataStreamEntry');
-		foreach ($this->template->dataSetTemplates() as $data_set_template) {
-			$data_set = \App::make('Monal\Data\Models\DataSet');
-			$data_set->setName($data_set_template->name());
-			$data_set->setComponent($data_set_template->componentURI());
-			$data_set->setComponentSettings($data_set_template->componentSettings());
-			$entry_model->addDataSet($data_set);
+		if ($this->template instanceof DataStreamTemplate) {
+			foreach ($this->template->dataSetTemplates() as $data_set_template) {
+				$data_set = \App::make('Monal\Data\Models\DataSet');
+				$data_set->setName($data_set_template->name());
+				$data_set->setComponent($data_set_template->componentURI());
+				$data_set->setComponentSettings($data_set_template->componentSettings());
+				$entry_model->addDataSet($data_set);
+			}
 		}
 		return $entry_model;
 	}

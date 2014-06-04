@@ -214,6 +214,20 @@ class MonalDataSetTemplate implements DataSetTemplate
 	}
 
 	/**
+	 * Generate a new data set model based on this data set template.
+	 *
+	 * @return	Monal\Pages\Models\MonalPage
+	 */
+	public function newDataSetFromTemplate()
+	{
+		$data_set = \App::make('Monal\Data\Models\DataSet');
+		$data_set->setTemplateID($this->ID());
+		$data_set->setComponent($this->componentURI());
+		$data_set->setComponentSettings($this->componentSettings());
+		return $data_set;
+	}
+
+	/**
 	 * Check the Data Set Template validates against a set of given
 	 * rules.
 	 *
