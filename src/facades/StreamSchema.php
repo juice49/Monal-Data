@@ -10,5 +10,5 @@ class StreamSchema extends Facade
 	 *
 	 * @return	String
 	 */
-	protected static function getFacadeAccessor() { return 'monalstreamschema'; }
+	protected static function getFacadeAccessor() { return 'streamschema'; }
 }

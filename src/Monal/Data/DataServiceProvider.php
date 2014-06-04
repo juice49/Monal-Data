@@ -105,25 +105,25 @@ class DataServiceProvider extends ServiceProvider
 				return new \Monal\Data\Models\MonalDataStreamTemplate;
 			}
 		);
-		$this->app->bind(
+		$this->app->singleton(
 			'Monal\Data\Repositories\DataSetsRepository',
 			function () {
 				return new \Monal\Data\Repositories\MonalDataSetsRepository;
 			}
 		);
-		$this->app->bind(
+		$this->app->singleton(
 			'Monal\Data\Repositories\DataSetTemplatesRepository',
 			function () {
 				return new \Monal\Data\Repositories\MonalDataSetTemplatesRepository;
 			}
 		);
-		$this->app->bind(
+		$this->app->singleton(
 			'Monal\Data\Repositories\DataStreamsRepository',
 			function () {
 				return new \Monal\Data\Repositories\MonalDataStreamsRepository;
 			}
 		);
-		$this->app->bind(
+		$this->app->singleton(
 			'Monal\Data\Repositories\DataStreamTemplatesRepository',
 			function () {
 				return new \Monal\Data\Repositories\MonalDataStreamTemplatesRepository;
@@ -153,9 +153,9 @@ class DataServiceProvider extends ServiceProvider
 			$loader->alias('DataSetTemplatesHelper', 'Monal\Data\Facades\DataSetTemplatesHelper');
 		});
 
-		$this->app['monalstreamschema'] = $this->app->share(
+		$this->app['streamschema'] = $this->app->share(
 			function ($app) {
-				return new \Monal\Data\Libraries\MonalStreamSchema;
+				return new \Monal\Data\Libraries\StreamSchema;
 			}
 		);
 		$this->app->booting(

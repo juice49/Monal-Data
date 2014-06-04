@@ -12,7 +12,7 @@ namespace Monal\Data\Libraries;
 use Monal\Data\Models\DataStreamTemplate;
 use Monal\Data\Models\DataStreamEntry;
 
-class MonalStreamSchema
+class StreamSchema
 {
 	/**
 	 * Create a new table from a Data Stream Template, which will then be
