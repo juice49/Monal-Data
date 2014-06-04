@@ -215,7 +215,7 @@ class MonalStreamSchema
 	 *
 	 * @param	Monal\Data\Models\DataStreamTemplate
 	 * @param	Monal\Data\Models\DataStreamEntry
-	 * @param	Integer
+	 * @return	Boolean
 	 */
 	public function updateEntry(DataStreamTemplate $data_stream_template, DataStreamEntry $entry) {
 		$repository_name = \Text::snakeCaseString($data_stream_template->tablePrefix());

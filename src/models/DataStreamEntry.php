@@ -18,6 +18,14 @@ use Monal\Data\Models\DataSet;
 interface DataStreamEntry
 {
 	/**
+	 * Return an array that summarises each Data Set that makes up the
+	 * entry.
+	 *
+	 * @return	Array
+	 */
+	public function summariseDataSets();
+
+	/**
 	 * Return the model's Data Sets.
 	 *
 	 * @return	Array
