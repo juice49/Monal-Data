@@ -12,8 +12,6 @@
 
 use Monal\GatewayInterface;
 use Monal\Data\Libraries\ComponentsInterface;
-use Monal\Data\Repositories\DataSetsRepository;
-use Monal\Data\Repositories\DataSetTemplatesRepository;
 
 class DataSetsController extends AdminController
 {
@@ -25,34 +23,13 @@ class DataSetsController extends AdminController
 	protected $components;
 
 	/**
-	 * An instance the of the Data Sets Repository.
-	 *
-	 * @var		 Monal\Data\Repositories\DataSetsRepository
-	 */
-	protected $data_sets_repo;
-
-	/**
-	 * An instance the of the Data Set Templates Repository.
-	 *
-	 * @var		 Monal\Data\Repositories\DataSetTemplatesRepository
-	 */
-	protected $data_set_templates_repo;
-
-	/**
 	 * Constructor.
 	 *
 	 * @return	Void
 	 */
-	public function __construct(
-		GatewayInterface $system_gateway,
-		ComponentsInterface $components,
-		DataSetsRepository $data_sets_repo,
-		DataSetTemplatesRepository $data_set_templates_repo
-		) {
+	public function __construct(GatewayInterface $system_gateway, ComponentsInterface $components) {
 		parent::__construct($system_gateway);
 		$this->components = $components;
-		$this->data_sets_repo = $data_sets_repo;
-		$this->data_set_templates_repo = $data_set_templates_repo;
 		$this->system->dashboard->addScript('packages/monal/data/js/components.js');
 	}
 
@@ -67,7 +44,7 @@ class DataSetsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_sets')) {
 			return Redirect::route('admin.dashboard');
 		}
-		$data_sets = $this->data_sets_repo->retrieve();
+		$data_sets = DataSetsRepository::retrieve();
 		$messages = $this->system->messages->get();
 		return View::make('data::data_sets.data_sets', compact('messages', 'data_sets'));
 	}
@@ -100,7 +77,7 @@ class DataSetsController extends AdminController
 			$this->system->messages->add($validation->messages()->toArray());
 		}
 		$data_set_templates = array();
-		foreach ($this->data_set_templates_repo->retrieve() as $data_set_template) {
+		foreach (DataSetTemplatesRepository::retrieve() as $data_set_template) {
 			$data_set_templates[$data_set_template->ID()] = $data_set_template->name();
 		}
 		$data_set_templates = array(0 => 'Choose template...') + $data_set_templates;
@@ -123,7 +100,7 @@ class DataSetsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_sets', 'create_data_set')) {
 			return Redirect::route('admin.data-sets');
 		}
-		if ($data_set_template = $this->data_set_templates_repo->retrieve($id)) {
+		if ($data_set_template = DataSetTemplatesRepository::retrieve($id)) {
 			$data_set = $data_set_template->newDataSetFromTemplate();
 			foreach ($data_set->componentCSS() as $css) {
 				$this->system->dashboard->addCSS($css);
@@ -135,7 +112,7 @@ class DataSetsController extends AdminController
 				$data_set_values = \DataSetsHelper::extractDataSetValuesFromInput($this->input)->first();
 				$data_set->setName($data_set_values['name']);
 				$data_set->setComponentValues($data_set_values['component_values']);
-				if ($this->data_sets_repo->write($data_set)) {
+				if (DataSetsRepository::write($data_set)) {
 					$this->system->messages->add(
 						array(
 							'success' => array(
@@ -145,7 +122,7 @@ class DataSetsController extends AdminController
 					)->flash();
 					return Redirect::route('admin.data-sets');
 				}
-				$this->system->messages->add($this->data_sets_repo->messages()->toArray());
+				$this->system->messages->add(DataSetsRepository::messages()->toArray());
 			}
 			$messages = $this->system->messages->get();
 			return View::make(
@@ -168,7 +145,7 @@ class DataSetsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_sets', 'edit_data_set')) {
 			return Redirect::route('admin.data-sets');
 		}
-		if ($data_set = $this->data_sets_repo->retrieve($id)) {
+		if ($data_set = DataSetsRepository::retrieve($id)) {
 			if (!$data_set->hasComponent()) {
 				$this->system->messages->add(
 					array(
@@ -182,7 +159,7 @@ class DataSetsController extends AdminController
 					$data_set_values = \DataSetsHelper::extractDataSetValuesFromInput($this->input)->first();
 					$data_set->setName($data_set_values['name']);
 					$data_set->setComponentValues($data_set_values['component_values']);
-					if ($this->data_sets_repo->write($data_set)) {
+					if (DataSetsRepository::write($data_set)) {
 						$this->system->messages->add(
 							array(
 								'success' => array(
@@ -192,7 +169,7 @@ class DataSetsController extends AdminController
 						)->flash();
 						return Redirect::route('admin.data-sets');
 					}
-					$this->system->messages->add($this->data_sets_repo->messages()->toArray());
+					$this->system->messages->add(DataSetsRepository::messages()->toArray());
 				}
 				foreach ($data_set->componentCSS() as $css) {
 					$this->system->dashboard->addCSS($css);
@@ -221,7 +198,7 @@ class DataSetsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_set_templates')) {
 			return Redirect::route('admin.dashboard');
 		}
-		$data_set_templates = $this->data_set_templates_repo->retrieve();
+		$data_set_templates = DataSetTemplatesRepository::retrieve();
 		$messages = $this->system->messages->get();
 		return View::make(
 			'data::data_set_templates.data_set_templates',
@@ -242,7 +219,7 @@ class DataSetsController extends AdminController
 		}
 		if ($this->input) {
 			$data_set_template = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input)->first();
-			if ($this->data_set_templates_repo->write($data_set_template)) {
+			if (DataSetTemplatesRepository::write($data_set_template)) {
 				$this->system->messages->add(
 					array(
 						'success' => array(
@@ -252,9 +229,9 @@ class DataSetsController extends AdminController
 				)->flash();
 				return Redirect::route('admin.data-set-templates');
 			}
-			$this->system->messages->add($this->data_set_templates_repo->messages()->toArray());
+			$this->system->messages->add(DataSetTemplatesRepository::messages()->toArray());
 		} else {
-			$data_set_template = $this->data_set_templates_repo->newModel();
+			$data_set_template = DataSetTemplatesRepository::newModel();
 		}
 		$messages = $this->system->messages->get();
 		return View::make(
@@ -275,11 +252,11 @@ class DataSetsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_set_templates', 'edit_data_set_template')) {
 			return Redirect::route('admin.data-set-templates');
 		}
-		if ($data_set_template = $this->data_set_templates_repo->retrieve($id)) {
+		if ($data_set_template = DataSetTemplatesRepository::retrieve($id)) {
 			if ($this->input) {
 				$data_set_template = \DataSetTemplatesHelper::extractDataSetTemplatesFromInput($this->input)->first();
 				$data_set_template->setID($id);
-				if ($this->data_set_templates_repo->write($data_set_template)) {
+				if (DataSetTemplatesRepository::write($data_set_template)) {
 					$this->system->messages->add(
 						array(
 							'success' => array(
@@ -289,7 +266,7 @@ class DataSetsController extends AdminController
 					)->flash();
 					return Redirect::route('admin.data-set-templates');
 				}
-				$this->system->messages->add($this->data_set_templates_repo->messages()->toArray());
+				$this->system->messages->add(DataSetTemplatesRepository::messages()->toArray());
 			}
 			$messages = $this->system->messages->get();
 			return View::make(

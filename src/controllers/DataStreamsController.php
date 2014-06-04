@@ -11,38 +11,16 @@
  */
 
 use Monal\GatewayInterface;
-use Monal\Data\Repositories\DataStreamsRepository;
-use Monal\Data\Repositories\DataStreamTemplatesRepository;
 
 class DataStreamsController extends AdminController
 {
-	/**
-	 * An instance the of the Data Streams Repository.
-	 *
-	 * @var		 Monal\Data\Repositories\DataStreamsRepository
-	 */
-	protected $data_streams_repo;
-
-	/**
-	 * An instance the of the Data Stream Templates Repository.
-	 *
-	 * @var		 Monal\Data\Repositories\DataStreamTemplatesRepository
-	 */
-	protected $data_stream_templates_repo;
-
 	/**
 	 * Constructor.
 	 *
 	 * @return	Void
 	 */
-	public function __construct(
-		GatewayInterface $system_gateway,
-		DataStreamsRepository $data_streams_repo,
-		DataStreamTemplatesRepository $data_stream_templates_repo
-		) {
+	public function __construct(GatewayInterface $system_gateway) {
 		parent::__construct($system_gateway);
-		$this->data_streams_repo = $data_streams_repo;
-		$this->data_stream_templates_repo = $data_stream_templates_repo;
 	}
 
 	/**
@@ -56,7 +34,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_streams')) {
 			return Redirect::route('admin.dashboard');
 		}
-		$data_streams = $this->data_streams_repo->retrieve();
+		$data_streams = DataStreamsRepository::retrieve();
 		$messages = $this->system->messages->get();
 		return View::make('data::data_streams.data_streams', compact('messages', 'data_streams'));
 	}
@@ -89,7 +67,7 @@ class DataStreamsController extends AdminController
 			$this->system->messages->add($validation->messages()->toArray());
 		}
 		$data_stream_templates = array(0 => 'Choose template...');
-		foreach ($this->data_stream_templates_repo->retrieve() as $data_stream_template) {
+		foreach (DataStreamTemplatesRepository::retrieve() as $data_stream_template) {
 			$data_stream_templates[$data_stream_template->ID()] = $data_stream_template->name();
 		}
 		$messages = $this->system->messages->get();
@@ -108,8 +86,8 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_streams', 'create_data_stream')) {
 			return Redirect::route('admin.data-streams');
 		}
-		$data_stream = $this->data_streams_repo->newModel();
-		if ($data_stream_template = $this->data_stream_templates_repo->retrieve($id)) {
+		$data_stream = DataStreamsRepository::newModel();
+		if ($data_stream_template = DataStreamTemplatesRepository::retrieve($id)) {
 			$data_stream->setTemplate($data_stream_template);
 			if ($this->input) {
 				$data_stream->setName(isset($this->input['name']) ? $this->input['name'] : null);
@@ -118,7 +96,7 @@ class DataStreamsController extends AdminController
 						$data_stream->addPreviewColumn($value);
 					}
 				}
-				if ($this->data_streams_repo->write($data_stream)) {
+				if (DataStreamsRepository::write($data_stream)) {
 					$this->system->messages->add(
 						array(
 							'success' => array(
@@ -146,7 +124,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_streams', 'edit_data_stream')) {
 			return Redirect::route('admin.data-streams');
 		}
-		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
+		if ($data_stream = DataStreamsRepository::retrieve($id)) {
 			if ($this->input) {
 				$data_stream->setName(isset($this->input['name']) ? $this->input['name'] : null);
 				$data_stream->discardPreviewColumns();
@@ -155,7 +133,7 @@ class DataStreamsController extends AdminController
 						$data_stream->addPreviewColumn($value);
 					}
 				}
-				if ($this->data_streams_repo->write($data_stream)) {
+				if (DataStreamsRepository::write($data_stream)) {
 					$this->system->messages->add(
 						array(
 							'success' => array(
@@ -183,7 +161,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_streams')) {
 			return Redirect::route('admin');
 		}
-		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
+		if ($data_stream = DataStreamsRepository::retrieve($id)) {
 			$messages = $this->system->messages->get();
 			return View::make(
 				'data::data_streams.view_entries',
@@ -205,7 +183,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_streams', 'create_stream_entry')) {
 			return Redirect::route('admin.data-streams');
 		}
-		if ($data_stream = $this->data_streams_repo->retrieve($id)) {
+		if ($data_stream = DataStreamsRepository::retrieve($id)) {
 			$stream_entry = $data_stream->newEntryModel();
 			if ($this->input) {
 				foreach (\DataSetsHelper::extractDataSetValuesFromInput($this->input) as $key => $data_set_values) {
@@ -243,7 +221,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_stream_templates')) {
 			return Redirect::route('admin.dashboard');
 		}
-		$data_stream_templates = $this->data_stream_templates_repo->retrieve();
+		$data_stream_templates = DataStreamTemplatesRepository::retrieve();
 		$messages = $this->system->messages->get();
 		return View::make('data::data_stream_templates.data_stream_templates', compact('messages', 'data_stream_templates'));
 	}
@@ -259,7 +237,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_stream_templates', 'create_data_stream_template')) {
 			return Redirect::route('admin.data-stream-templates');
 		}
-		$data_stream_template = $this->data_stream_templates_repo->newModel();
+		$data_stream_template = DataStreamTemplatesRepository::newModel();
 		$data_stream_template->setTablePrefix('stream__');
 		if ($this->input) {
 			$data_stream_template->setName(isset($this->input['name']) ? $this->input['name'] : null);
@@ -268,9 +246,9 @@ class DataStreamsController extends AdminController
 			foreach ($data_set_templates as $data_set_template) {
 				$data_stream_template->addDataSetTemplate($data_set_template);
 			}
-			if ($this->data_stream_templates_repo->validatesForStorage($data_stream_template)) {
+			if (DataStreamTemplatesRepository::validatesForStorage($data_stream_template)) {
 				if (\StreamSchema::build($data_stream_template)) {
-					$this->data_stream_templates_repo->write($data_stream_template);
+					DataStreamTemplatesRepository::write($data_stream_template);
 					$this->system->messages->add(
 						array(
 							'success' => array(
@@ -281,7 +259,7 @@ class DataStreamsController extends AdminController
 					return Redirect::route('admin.data-stream-templates');
 				}
 			}
-			$this->system->messages->add($this->data_stream_templates_repo->messages()->toArray());
+			$this->system->messages->add(DataStreamTemplatesRepository::messages()->toArray());
 		}
 		$messages = $this->system->messages->get();
 		$this->system->dashboard->addScript('packages/monal/data/js/datasets.js');
@@ -300,7 +278,7 @@ class DataStreamsController extends AdminController
 		if (!$this->system->user->hasAdminPermissions('data_stream_templates', 'edit_data_stream_template')) {
 			return Redirect::route('admin.data-stream-templates');
 		}
-		if ($data_stream_template = $this->data_stream_templates_repo->retrieve($id)) {
+		if ($data_stream_template = DataStreamTemplatesRepository::retrieve($id)) {
 			if ($this->input) {
 				$from = clone $data_stream_template;
 				$data_stream_template->setName($this->input['name']);
@@ -310,9 +288,9 @@ class DataStreamsController extends AdminController
 				foreach ($data_set_templates as $data_set_template) {
 					$data_stream_template->addDataSetTemplate($data_set_template);
 				}
-				if ($this->data_stream_templates_repo->validatesForStorage($data_stream_template)) {
+				if (DataStreamTemplatesRepository::validatesForStorage($data_stream_template)) {
 					if (\StreamSchema::update($from, $data_stream_template)) {
-						$this->data_stream_templates_repo->write($data_stream_template);
+						DataStreamTemplatesRepository::write($data_stream_template);
 						$this->system->messages->add(
 							array(
 								'success' => array(
@@ -330,7 +308,7 @@ class DataStreamsController extends AdminController
 						)
 					);
 				} else {
-					$this->system->messages->add($this->data_stream_templates_repo->messages()->toArray());
+					$this->system->messages->add(DataStreamTemplatesRepository::messages()->toArray());
 				}
 			}
 			$messages = $this->system->messages->get();

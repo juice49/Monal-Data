@@ -163,5 +163,49 @@ class DataServiceProvider extends ServiceProvider
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
 			$loader->alias('StreamSchema', 'Monal\Data\Facades\StreamSchema');
 		});
+
+		$this->app['datasetsrepository'] = $this->app->share(
+			function ($app) {
+				return \App::make('Monal\Data\Repositories\DataSetsRepository');
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('DataSetsRepository', 'Monal\Data\Facades\DataSetsRepository');
+		});
+
+		$this->app['datasettemplatesrepository'] = $this->app->share(
+			function ($app) {
+				return \App::make('Monal\Data\Repositories\DataSetTemplatesRepository');
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('DataSetTemplatesRepository', 'Monal\Data\Facades\DataSetTemplatesRepository');
+		});
+
+		$this->app['datastreamsrepository'] = $this->app->share(
+			function ($app) {
+				return \App::make('Monal\Data\Repositories\DataStreamsRepository');
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('DataStreamsRepository', 'Monal\Data\Facades\DataStreamsRepository');
+		});
+
+		$this->app['datastreamtemplatesrepository'] = $this->app->share(
+			function ($app) {
+				return \App::make('Monal\Data\Repositories\DataStreamTemplatesRepository');
+			}
+		);
+		$this->app->booting(
+			function () {
+			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader->alias('DataStreamTemplatesRepository', 'Monal\Data\Facades\DataStreamTemplatesRepository');
+		});
 	}
 }
