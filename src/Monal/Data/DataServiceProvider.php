@@ -30,7 +30,9 @@ class DataServiceProvider extends ServiceProvider
 		\View::addNamespace('components', __DIR__ . '/../../components');
 
 		\Monal::registerMenuOption('Data', 'Data Sets', 'data-sets', 'data_sets');
+		\Monal::registerMenuOption('Data', 'Data Set Templates', 'data-set-templates', 'data_set_templates');
 		\Monal::registerMenuOption('Data', 'Data Streams', 'data-streams', 'data_streams');
+		\Monal::registerMenuOption('Data', 'Data Stream Templates', 'data-stream-templates', 'data_stream_templates');
 		\Monal::registerPermissionSet(
 			'Data',
 			'data_sets',
