@@ -30,7 +30,7 @@
 				</div>
 			@else
 				<div class="message_box message_box--tomato">
-					<span class="message_box__title">>Great Scott!</span>
+					<span class="message_box__title">Great Scott!</span>
 					<ul>
 						@foreach($messages->all() as $message)
 							<li>{{ $message }}</li>

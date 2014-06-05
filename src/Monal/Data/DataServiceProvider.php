@@ -2,8 +2,10 @@
 namespace Monal\Data;
 
 use Illuminate\Support\ServiceProvider;
+use Monal\MonalPackageServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 
-class DataServiceProvider extends ServiceProvider
+class DataServiceProvider extends ServiceProvider implements MonalPackageServiceProvider
 {
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -11,6 +13,80 @@ class DataServiceProvider extends ServiceProvider
 	 * @var		Boolean
 	 */
 	protected $defer = false;
+
+	/**
+	 * Return the package's name.
+	 *
+	 * @return	String
+	 */
+	public function packageName()
+	{
+		return 'Data';
+	}
+
+	/**
+	 * Return the package's details.
+	 *
+	 * @return	Array
+	 */
+	public function packageDetails()
+	{
+		return array(
+			'name' => 'Data',
+			'author' => 'Arran Jacques',
+			'version' => '0.9.0',
+		);
+	}
+
+	/**
+	 * Install the package.
+	 *
+	 * @return	Boolean
+	 */
+	public function install()
+	{
+		\Schema::create(
+			'data_sets',
+			function(Blueprint $table) {
+				$table->increments('id');
+				$table->string('name', 255)->nullable();
+				$table->integer('template')->nullable();
+				$table->text('content')->nullable();
+				$table->timestamps();
+			}
+		);
+		\Schema::create(
+			'data_set_templates',
+			function(Blueprint $table) {
+				$table->increments('id');
+				$table->string('name', 255)->nullable();
+				$table->string('component')->nullable();
+				$table->text('component_settings')->nullable();
+				$table->timestamps();
+			}
+		);
+		\Schema::create(
+			'data_streams',
+			function(Blueprint $table) {
+				$table->increments('id');
+				$table->string('name', 255)->nullable();
+				$table->integer('template')->nullable();
+				$table->string('preview_columns', 255)->nullable();
+				$table->timestamps();
+			}
+		);
+		\Schema::create(
+			'data_stream_templates',
+			function(Blueprint $table) {
+				$table->increments('id');
+				$table->string('name', 255)->nullable();
+				$table->string('table_prefix', 255)->nullable();
+				$table->text('data_set_templates')->nullable();
+				$table->timestamps();
+			}
+		);
+		return true;
+	}
 
 	/**
 	 * Bootstrap the application events.
