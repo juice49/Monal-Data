@@ -15,13 +15,13 @@ class DataServiceProvider extends ServiceProvider implements MonalPackageService
 	protected $defer = false;
 
 	/**
-	 * Return the package's name.
+	 * Return the package's namespace.
 	 *
 	 * @return	String
 	 */
-	public function packageName()
+	public function packageNamespace()
 	{
-		return 'Data';
+		return 'monal/data';
 	}
 
 	/**
