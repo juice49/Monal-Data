@@ -45,6 +45,7 @@ class DataServiceProvider extends ServiceProvider implements MonalPackageService
 	 */
 	public function install()
 	{
+		\Packages::publishAssets('monal', 'data', __DIR__ . '/../../../public');
 		\Schema::create(
 			'data_sets',
 			function(Blueprint $table) {
